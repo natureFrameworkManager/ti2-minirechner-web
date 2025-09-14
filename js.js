@@ -1,3 +1,9 @@
+// TODO: Expansion Card (F0-F3)
+// TODO: UART (FA-FB)
+// TODO: EVT1, EVT2
+// TODO: Interrupts
+// TODO: Full Controls
+
 // Connection to the memory broadcast channel
 const memBC = new BroadcastChannel("memory-channel"); 
 
