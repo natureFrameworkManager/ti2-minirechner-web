@@ -18,6 +18,7 @@ let CF = false;
 let ZF = false;
 let NF = false;
 
+let currentAddr = 0;
 let nAddr = 0;
 let mAddrCtr = 0;
 
@@ -29,7 +30,7 @@ MPRAM[0] = "0000000110000000010101010"; // Example Instruction
 
 // Data RAM (00-EF)
 let DPRAM = new Array(0xEF +1).fill("00000000"); // 0x00 - 0xEF
-let inputs = {"ff": 0b00000000, "fe": 0b00000000, "fd": 0b00000000, "fc": 0b00000000}; // 4 Inputs
+let inputs = {"ff": 0b00000000, "fe": 0b00000000, "fd": 3, "fc": 7}; // 4 Inputs
 let outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs
 
 memBC.onmessage = (ev) => {
@@ -37,6 +38,30 @@ memBC.onmessage = (ev) => {
         memBC.postMessage({msg: "state", data: DPRAM});
     }
 }
+
+function parseCodeInput() {
+    let codeInput = document.querySelector("#code-input").value;
+    codeInput = codeInput.trim().split('\n');
+    codeInput = codeInput.map(line => line.trim().split('#')[0].trim()).filter(line => line.length > 0);
+    codeInput = codeInput.map(line => line.replace(/[^(0,1,:)]/g,""));
+    codeInput = codeInput.map(line => line.split(':'));
+
+    let addr = new Array(32).fill(false);
+    for (let line of codeInput) {
+        if (line.length == 2) {
+            addr[parseInt(line[0], 2)] = line[1];
+        } else if (line.length == 1) {
+            addr[addr.indexOf(false)] = line[0];
+        } else {
+            console.error("Invalid line in code input:", line);
+        }
+    }
+    addr = addr.map(line => line ? line.replace(/ /g, '') : "0000000000000000000000000");
+    MPRAM = addr;
+}
+
+
+parseCodeInput();
 
 function setNAddr(value) {
     nAddr = value & 0b11111;
@@ -67,7 +92,8 @@ function setFlags() {
 }
 
 function parseNextInstr() {
-    const instr = MPRAM[nAddr].split('');
+    currentAddr = getNextAddr();
+    const instr = MPRAM[getNextAddr()].split('');
 
     setmAddrCtr(parseInt(instr.slice(0, 2).join(''), 2)); // 2-bit microprogram counter
     setNAddr(parseInt(instr.slice(2, 7).join(''), 2)); // 5-bit next address
@@ -111,7 +137,7 @@ function getBValue() {
 }
 function getAluA() {
     if (mAluIA) {
-        return 0; // MEMDI
+        return getMemBus();
     } else {
         return getRegA();
     }
@@ -129,7 +155,7 @@ function getMemBus() {
             return DPRAM[getMemAddr()];
         }
         if (getMemAddr() >= 0xFC && getMemAddr() <= 0xFF) {
-            return inputs[["ff", "fe", "fd", "fc"][getMemAddr() - 0xFC]];
+            return inputs[getMemAddr().toString(16)];
         }
     } else {
         return 0b00000000;
@@ -309,7 +335,7 @@ function displayCtrl() {
     }
     for (let bit = 0; bit < 5; bit++) {
         document.querySelectorAll(`svg .na${bit}`).forEach(el => el.setAttribute("fill", ((nAddr & (1 << bit)) !== 0 ? "yellow" : "slategray")));
-        document.querySelectorAll(`svg .addr${bit}`).forEach(el => el.setAttribute("fill", ((nAddr & (1 << bit)) !== 0 ? "yellow" : "slategray")));
+        document.querySelectorAll(`svg .addr${bit}`).forEach(el => el.setAttribute("fill", ((currentAddr & (1 << bit)) !== 0 ? "yellow" : "slategray")));
     }
     for (let bit = 0; bit < 2; bit++) {
         document.querySelectorAll(`svg .mac${bit}`).forEach(el => el.setAttribute("fill", ((mAddrCtr & (1 << bit)) !== 0 ? "yellow" : "slategray")));
@@ -337,11 +363,4 @@ function displayBin8bit(value) {
     return (value >>> 0).toString(2).padStart(8, '0').slice(0, 8);
 }
 
-// setMrgAddrB(0b1010)
-// setAluS(0b1110);
-// mAluIB = true
-// setMrgAddrA(0b1)
-// mrgWE = true
-
 setInterval(display, 10);
-setInterval(clk, 50);
