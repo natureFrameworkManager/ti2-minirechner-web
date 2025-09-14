@@ -9,28 +9,351 @@
         <title>Minirechner</title>
     </head>
     <body>
-        <div style="display: none;" id="a-con">
+        <div style="display: block;" id="a-con">
             <svg viewBox="0,0 522,772" width="522" height="772" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 64px; left: 64px; z-index: 10; border: 1px solid black">
-                <polyline points="32,15 143,15" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="32,26 75,26" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="66,34 75,34" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="32,44 100,44" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="32,56 75,56" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="66,64 75,64" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="32,79 191,79" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="32,95 87,95" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="32,113 56,113" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="32,121 56,121" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="32,129 56,129" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="32,137 56,137" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="32,154 64,154" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="32,161 74,161" stroke="green" stroke-width="1" fill="none" />
-                <polyline points="32,170 106,170" stroke="green" stroke-width="1" fill="none" />
+                <!-- Traces -->
+                
+                <g>
+                    <polyline points="32,15 143,15" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="32,26 75,26" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="66,34 75,34" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="32,44 100,44" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="32,56 75,56" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="66,64 75,64" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="32,79 191,79" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="32,95 87,95" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="32,113 56,113" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="32,121 56,121" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="32,129 56,129" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="32,137 56,137" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="32,154 64,154" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="32,161 74,161" stroke="green" stroke-width="1" fill="none" />
+                    <polyline points="32,170 106,170" stroke="green" stroke-width="1" fill="none" />
+                </g>
+
+                <!-- Steuerwerk -->
+                
+                <circle cx="46" cy="27" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mac0" />
+                <circle cx="46" cy="55" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mac1" />
+                <circle cx="46" cy="80" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mac2" />
+                <circle cx="46" cy="96" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op10" />
+                <circle cx="46" cy="122" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="cf" />
+                <circle cx="46" cy="130" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="zf" />
+                <circle cx="46" cy="137" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="nf" />
+                <circle cx="46" cy="154" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op01" />
+                <circle cx="46" cy="161" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op00" />
+                <circle cx="46" cy="202" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mac1" />
+                <circle cx="46" cy="210" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mac0" />
+                <circle cx="46" cy="218" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na0" />
+                <circle cx="46" cy="234" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="clk" />
+                <circle cx="46" cy="242" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="wait" />
+                <circle cx="46" cy="250" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reset" />
+                <circle cx="46" cy="258" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="inte" />
+                
+                <circle cx="137" cy="29" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="bl1" />
+                <circle cx="137" cy="55" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="bl3" />
+                <circle cx="139" cy="122" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="al1" />
+                <circle cx="139" cy="130" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="cf" />
+                <circle cx="139" cy="138" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="co" />
+                <circle cx="139" cy="146" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="zo" />
+                <circle cx="139" cy="154" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="no" />
+                <circle cx="139" cy="162" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="el2" />
+                
+                <circle cx="222" cy="60" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op11" />
+                <circle cx="222" cy="71" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op10" />
+                <circle cx="222" cy="87" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op01" />
+                <circle cx="222" cy="98" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op00" />
+
+                <circle cx="292" cy="42" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na8" />
+                <circle cx="300" cy="42" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na7" />
+                <circle cx="308" cy="42" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na6" />
+                <circle cx="316" cy="42" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na5" />
+                <circle cx="316" cy="63" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na4" />
+                <circle cx="316" cy="73" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na3" />
+                <circle cx="316" cy="84" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na2" />
+                <circle cx="284" cy="108" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na1" />
+                <circle cx="284" cy="119" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op11" />
+                <circle cx="316" cy="114" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="am4" />
+                <circle cx="284" cy="134" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="am1" />
+                <circle cx="284" cy="145" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op10" />
+                <circle cx="316" cy="139" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="am3" />
+                
+                <circle cx="297" cy="242" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="il4" />
+                <circle cx="332" cy="208" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="iff1" />
+                
+                <circle cx="428" cy="138" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="busen" />
+                <circle cx="428" cy="164" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="buswr" />
+                <circle cx="487" cy="138" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="ce" />
+                <circle cx="487" cy="151" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="oe" />
+                <circle cx="487" cy="165" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="we" />
+
+                <!-- Datenpfad -->
+                
+                <circle cx="46" cy="287" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa0" />
+                <circle cx="46" cy="296" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op00" />
+                <circle cx="46" cy="308" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa1" />
+                <circle cx="46" cy="317" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op01" />
+                <circle cx="46" cy="330" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa2" />
+                <circle cx="104" cy="352" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa3" />
+                <circle cx="46" cy="375" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgwe" />
+                <circle cx="46" cy="383" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgws" />
+                <circle cx="46" cy="399" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mchflg" />
+                <circle cx="46" cy="506" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op11" />
+                <circle cx="46" cy="527" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op10" />
+                <circle cx="46" cy="539" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab3" />
+                <circle cx="46" cy="547" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab2" />
+                <circle cx="46" cy="555" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab1" />
+                <circle cx="46" cy="563" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab0" />
+                
+                <circle cx="150" cy="338" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa2" />
+                <circle cx="169" cy="338" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa1" />
+                <circle cx="188" cy="338" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa0" />
+                <circle cx="150" cy="476" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab2" />
+                <circle cx="169" cy="476" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab1" />
+                <circle cx="188" cy="476" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab0" />
+
+                <g class="reg">
+                    <circle cx="152" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg07" />
+                    <circle cx="157" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg06" />
+                    <circle cx="162" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg05" />
+                    <circle cx="167" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg04" />
+                    <circle cx="176" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg03" />
+                    <circle cx="181" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg02" />
+                    <circle cx="186" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg01" />
+                    <circle cx="191" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg00" />
+                    <circle cx="152" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg17" />
+                    <circle cx="157" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg16" />
+                    <circle cx="162" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg15" />
+                    <circle cx="167" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg14" />
+                    <circle cx="176" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg13" />
+                    <circle cx="181" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg12" />
+                    <circle cx="186" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg11" />
+                    <circle cx="191" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg10" />
+                    <circle cx="152" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg27" />
+                    <circle cx="157" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg26" />
+                    <circle cx="162" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg25" />
+                    <circle cx="167" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg24" />
+                    <circle cx="176" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg23" />
+                    <circle cx="181" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg22" />
+                    <circle cx="186" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg21" />
+                    <circle cx="191" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg20" />
+                    <circle cx="152" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg37" />
+                    <circle cx="157" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg36" />
+                    <circle cx="162" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg35" />
+                    <circle cx="167" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg34" />
+                    <circle cx="176" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg33" />
+                    <circle cx="181" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg32" />
+                    <circle cx="186" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg31" />
+                    <circle cx="191" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg30" />
+                    <circle cx="152" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg47" />
+                    <circle cx="157" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg46" />
+                    <circle cx="162" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg45" />
+                    <circle cx="167" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg44" />
+                    <circle cx="176" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg43" />
+                    <circle cx="181" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg42" />
+                    <circle cx="186" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg41" />
+                    <circle cx="191" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg40" />
+                    <circle cx="152" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg57" />
+                    <circle cx="157" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg56" />
+                    <circle cx="162" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg55" />
+                    <circle cx="167" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg54" />
+                    <circle cx="176" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg53" />
+                    <circle cx="181" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg52" />
+                    <circle cx="186" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg51" />
+                    <circle cx="191" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg50" />
+                    <circle cx="152" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg67" />
+                    <circle cx="157" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg66" />
+                    <circle cx="162" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg65" />
+                    <circle cx="167" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg64" />
+                    <circle cx="176" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg63" />
+                    <circle cx="181" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg62" />
+                    <circle cx="186" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg61" />
+                    <circle cx="191" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg60" />
+                    <circle cx="152" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg77" />
+                    <circle cx="157" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg76" />
+                    <circle cx="162" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg75" />
+                    <circle cx="167" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg74" />
+                    <circle cx="176" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg73" />
+                    <circle cx="181" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg72" />
+                    <circle cx="186" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg71" />
+                    <circle cx="191" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg70" />
+                </g>
+                
+                <circle cx="276" cy="415" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="maluia" />
+                <circle cx="276" cy="477" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="maluib" />
+
+                <g class="abf">
+                    <circle cx="297" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a7" />
+                    <circle cx="302" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a6" />
+                    <circle cx="307" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a5" />
+                    <circle cx="312" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a4" />
+                    <circle cx="321" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a3" />
+                    <circle cx="326" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a2" />
+                    <circle cx="331" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a1" />
+                    <circle cx="336" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a0" />
+                    <circle cx="297" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b7" />
+                    <circle cx="302" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b6" />
+                    <circle cx="307" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b5" />
+                    <circle cx="312" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b4" />
+                    <circle cx="321" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b3" />
+                    <circle cx="326" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b2" />
+                    <circle cx="331" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b1" />
+                    <circle cx="336" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b0" />
+                    <circle cx="297" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f7" />
+                    <circle cx="302" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f6" />
+                    <circle cx="307" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f5" />
+                    <circle cx="312" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f4" />
+                    <circle cx="321" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f3" />
+                    <circle cx="326" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f2" />
+                    <circle cx="331" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f1" />
+                    <circle cx="336" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f0" />
+                </g>
+
+                <circle cx="356" cy="494" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="malus3" />
+                <circle cx="370" cy="494" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="malus2" />
+                <circle cx="383" cy="494" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="malus1" />
+                <circle cx="397" cy="494" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="malus0" />
+                                
+                <circle cx="493" cy="331" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="cf" />
+                <circle cx="493" cy="339" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="zf" />
+                <circle cx="493" cy="347" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="nf" />
+                <circle cx="493" cy="355" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="ief" />
+
+                <circle cx="493" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="co" />
+                <circle cx="493" cy="385" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="zo" />
+                <circle cx="493" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="no" />
+
+                <g class="memio">
+                    <circle cx="437" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema7" />
+                    <circle cx="442" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema6" />
+                    <circle cx="447" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema5" />
+                    <circle cx="452" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema4" />
+                    <circle cx="461" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema3" />
+                    <circle cx="466" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema2" />
+                    <circle cx="471" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema1" />
+                    <circle cx="476" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema0" />
+                    <circle cx="437" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi7" />
+                    <circle cx="442" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi6" />
+                    <circle cx="447" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi5" />
+                    <circle cx="452" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi4" />
+                    <circle cx="461" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi3" />
+                    <circle cx="466" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi2" />
+                    <circle cx="471" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi1" />
+                    <circle cx="476" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi0" />
+                </g>
+
+                <!-- UART -->
+
+                <circle cx="493" cy="486" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="cts" />
+                <circle cx="468" cy="500" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="tx" />
+                <circle cx="493" cy="500" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="txd" />
+                
+                <circle cx="493" cy="526" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="rxd" />
+                <circle cx="468" cy="526" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="rx" />
+                <circle cx="493" cy="539" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="rts" />
+
+                <!-- I/O -->
+                <g class="bf">
+                    <circle cx="142" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mac3" />
+                    <circle cx="149" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mac2" />
+                    <circle cx="156" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mac1" />
+                    <circle cx="163" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mac0" />
+                    <circle cx="180" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="na4" />
+                    <circle cx="187" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="na3" />
+                    <circle cx="193.5" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="na2" />
+                    <circle cx="200" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="na1" />
+                    <circle cx="209.5" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="na0" />
+                    <circle cx="216" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="buswr" />
+                    <circle cx="223" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="busen" />
+                    <circle cx="230" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa3" />
+                    <circle cx="247" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa2" />
+                    <circle cx="254" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa1" />
+                    <circle cx="260" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa0" />
+                    <circle cx="267" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab3" />
+                    <circle cx="277" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab2" />
+                    <circle cx="283" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab1" />
+                    <circle cx="290" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab0" />
+                    <circle cx="297" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgws" />
+                    <circle cx="313" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgwe" />
+                    <circle cx="320" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="maluia" />
+                    <circle cx="327" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="maluib" />
+                    <circle cx="333" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="malus3" />
+                    <circle cx="342" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="malus2" />
+                    <circle cx="349" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="malus1" />
+                    <circle cx="356" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="malus0" />
+                    <circle cx="363" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mchflg" />
+                </g>
+
+                <g class="addr">
+                    <circle cx="453" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr8" />
+                    <circle cx="466" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr7" />
+                    <circle cx="473" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr6" />
+                    <circle cx="480" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr5" />
+                    <circle cx="487" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr4" />
+                    <circle cx="496" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr3" />
+                    <circle cx="502" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr2" />
+                    <circle cx="509" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr1" />
+                    <circle cx="516" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr0" />
+                </g>
+
+                <g class="input">
+                    <circle cx="113" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff7" />
+                    <circle cx="120" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff6" />
+                    <circle cx="127" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff5" />
+                    <circle cx="134" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff4" />
+                    <circle cx="142" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff3" />
+                    <circle cx="149" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff2" />
+                    <circle cx="156" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff1" />
+                    <circle cx="163" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff0" />
+                    <circle cx="180" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe7" />
+                    <circle cx="187" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe6" />
+                    <circle cx="193.5" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe5" />
+                    <circle cx="200" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe4" />
+                    <circle cx="209.5" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe3" />
+                    <circle cx="216" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe2" />
+                    <circle cx="223" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe1" />
+                    <circle cx="230" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe0" />
+                    <circle cx="247" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd7" />
+                    <circle cx="254" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd6" />
+                    <circle cx="260" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd5" />
+                    <circle cx="267" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd4" />
+                    <circle cx="277" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd3" />
+                    <circle cx="283" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd2" />
+                    <circle cx="290" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd1" />
+                    <circle cx="297" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd0" />
+                    <circle cx="313" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc7" />
+                    <circle cx="320" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc6" />
+                    <circle cx="327" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc5" />
+                    <circle cx="333" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc4" />
+                    <circle cx="342" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc3" />
+                    <circle cx="349" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc2" />
+                    <circle cx="356" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc1" />
+                    <circle cx="363" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc0" />
+                </g>
+
+                <g class="output">
+                    <circle cx="403" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff7" />
+                    <circle cx="410" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff6" />
+                    <circle cx="417" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff5" />
+                    <circle cx="423" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff4" />
+                    <circle cx="432" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff3" />
+                    <circle cx="439" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff2" />
+                    <circle cx="446" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff1" />
+                    <circle cx="453" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff0" />
+                    <circle cx="466" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe7" />
+                    <circle cx="473" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe6" />
+                    <circle cx="480" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe5" />
+                    <circle cx="487" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe4" />
+                    <circle cx="496" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe3" />
+                    <circle cx="502" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe2" />
+                    <circle cx="509" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe1" />
+                    <circle cx="516" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe0" />
+                </g>
 
             </svg>
             <img src="2a.jpg" alt="" srcset="" style="position: absolute; width:650px; height: 920px; top: 0; left: 0; border: 1px solid black;">
         </div>
-        <div style="display: block;" id="i-con">
+        <div style="display: none;" id="i-con">
             <svg viewBox="0,0 522,772" width="522" height="772" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 64px; left: 64px; z-index: 10; border: 1px solid black">
                 <!-- Steuerwerk -->
                 
