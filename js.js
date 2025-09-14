@@ -179,8 +179,8 @@ function setMemBus() {
     }
 }
 function alu() {
-    // AI Genereted Code not fully checked, might contain errors
     // 8-Bit Signed Integer ALU
+    // Always mask F to 8-Bit
     const a = getAluA() << 24 >> 24; // signed 8-bit
     const b = getAluB() << 24 >> 24; // signed 8-bit
     let res = 0;
@@ -218,19 +218,19 @@ function alu() {
             CO = !carry;
             break;
         case 0b0110: // ADC: F = A + B + Cin, C = Ca
-            res = a + b + (CF ? 1 : 0);
+            res = a + b + (CO ? 1 : 0);
             carry = (res > 127 || res < -128);
             F = res & 0xFF;
             CO = carry;
             break;
         case 0b0111: // ADCS: F = A + B + !Cin, C = !Ca
-            res = a + b + (CF ? 0 : 1);
+            res = a + b + (CO ? 0 : 1);
             carry = (res > 127 || res < -128);
             F = res & 0xFF;
             CO = !carry;
             break;
         case 0b1000: // LSR: F(n) = A(n+1), F(7)=0, C = A(0)
-            F = (a >>> 1) & 0x7F;
+            F = (a >>> 1) & 0b01111111;
             CO = (a & 0x01) !== 0;
             break;
         case 0b1001: // RR: F(n) = A(n+1), F(7)=A(0), C = A(0)
@@ -242,7 +242,7 @@ function alu() {
             CO = (a & 0x01) !== 0;
             break;
         case 0b1011: // ASR: F(n) = A(n+1), F(7)=A(7), C = A(0)
-            F = ((a >> 1) | (a & 0x80)) & 0xFF;
+            F = ((a >>> 1) | (a & 0b10000000)) & 0xFF;
             CO = (a & 0x01) !== 0;
             break;
         case 0b1100: // B: F = B, C = 0
@@ -255,11 +255,11 @@ function alu() {
             break;
         case 0b1110: // BH: F = B, C = Cin
             F = b & 0xFF;
-            CO = CF;
+            CO = CO;
             break;
         case 0b1111: // INVC: F = B, C = !Cin
             F = b & 0xFF;
-            CO = !CF;
+            CO = !CO;
             break;
     }
 
