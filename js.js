@@ -28,10 +28,10 @@ let busWr = false;
 let MPRAM = new Array(32).fill(new Array(25).fill(0).join('')); // 32 x 25 Bit
 MPRAM[0] = "0000000110000000010101010"; // Example Instruction
 
-// Data RAM (00-EF)
-let DPRAM = new Array(0xEF +1).fill("00000000"); // 0x00 - 0xEF
-let inputs = {"ff": 0b00000000, "fe": 0b00000000, "fd": 3, "fc": 7}; // 4 Inputs
-let outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs
+let DPRAM = new Array(0xEF +1).fill("00000000"); // Data RAM (00-EF)
+
+let inputs = {"ff": 0b00000000, "fe": 0b00000000, "fd": 3, "fc": 7}; // 4 Inputs (FC-FF)
+let outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs (FE-FF)
 
 memBC.onmessage = (ev) => {
     if (ev.data.msg === "request-state") {
