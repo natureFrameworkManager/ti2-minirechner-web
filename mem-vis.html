@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>RAM Visualizer</title>
+    </head>
+    <body>
+        <h1>RAM Visualizer</h1>
+        <p>This visualizer shows the contents of the RAM in real-time.</p>
+        <p>It connects to the memory broadcast channel to receive updates.</p>
+        <div id="memory-contents"></div>
+        <script>
+            const memBC = new BroadcastChannel("memory-channel");
+            const memoryContentsDiv = document.getElementById("memory-contents");
+
+            function updateMemoryDisplay(data) {
+                let html = "<table border='1'><tr><th>Address</th><th>Value (Hex)</th><th>Value (Binary)</th></tr>";
+                for (let i = 0; i < data.length; i++) {
+                    html += `<tr><td>${i.toString(16).toUpperCase().padStart(2, '0')}</td><td>${data[i].toString(16).toUpperCase().padStart(2, '0')}</td><td>${data[i].toString(2).padStart(8, '0')}</td></tr>`;
+                }
+                html += "</table>";
+                memoryContentsDiv.innerHTML = html;
+            }
+
+            memBC.onmessage = (ev) => {
+                if (ev.data.msg === "update") {
+                    updateMemoryDisplay(ev.data.data);
+                }
+            };
+
+            // Request initial state
+            memBC.postMessage({msg: "request-state"});
+        </script>
+    </body>
+</html>
