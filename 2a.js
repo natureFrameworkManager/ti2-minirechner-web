@@ -582,7 +582,7 @@ function setCTRL() {
     CTRL.busWr = (instr[9] === '1'); // 1-bit bus write
     CTRL.busEn = (instr[10] === '1'); // 1-bit bus enable
     CTRL.mrgAA = parseInt(instr.slice(11, 15).join(''), 2); // 4-bit register A address 
-    CTRL.mrgAA = parseInt(instr.slice(15, 19).join(''), 2); // 4-bit register B address / immediate value
+    CTRL.mrgAB = parseInt(instr.slice(15, 19).join(''), 2); // 4-bit register B address / immediate value
     CTRL.mrgWS = (instr[19] === '1'); // 1-bit register write select
     CTRL.mrgWE = (instr[20] === '1'); // 1-bit register write enable
     CTRL.mAluIA = (instr[21] === '1'); // 1-bit ALU input A select
