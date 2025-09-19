@@ -341,6 +341,12 @@ function fillMicrocode() {
 fillMicrocode();
 
 let DPRAM = new Array(0xEF +1).fill("00000000"); // Data RAM (00-EF)
+DPRAM[0x00] = 0xFB;
+DPRAM[0x01] = 0xFF;
+DPRAM[0x02] = 0x10;
+DPRAM[0x03] = 0xF0;
+DPRAM[0x04] = 0x1F;
+DPRAM[0x05] = 0xA1;
 
 let inputs = {"ff": 0b00000000, "fe": 0b00000000, "fd": 3, "fc": 7}; // 4 Inputs (FC-FF)
 let outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs (FE-FF)
