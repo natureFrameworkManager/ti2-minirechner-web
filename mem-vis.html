@@ -24,13 +24,14 @@
             }
 
             memBC.onmessage = (ev) => {
-                if (ev.data.msg === "update") {
+                if (ev.data.msg === "update" || ev.data.msg == "state") {
                     updateMemoryDisplay(ev.data.data);
                 }
             };
 
-            // Request initial state
-            memBC.postMessage({msg: "request-state"});
+            setInterval(() => {
+                memBC.postMessage({msg: "request-state"});
+            }, 1000);
         </script>
     </body>
 </html>

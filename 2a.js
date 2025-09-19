@@ -7,6 +7,9 @@
 // TODO: Clock Flow
 // TODO: Full Controls
 
+// Connection to the memory broadcast channel
+const memBC = new BroadcastChannel("memory-channel"); 
+
 let regs = [
     0b00000000, // R0
     0b00000000, // R1
@@ -341,6 +344,12 @@ let DPRAM = new Array(0xEF +1).fill("00000000"); // Data RAM (00-EF)
 
 let inputs = {"ff": 0b00000000, "fe": 0b00000000, "fd": 3, "fc": 7}; // 4 Inputs (FC-FF)
 let outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs (FE-FF)
+
+memBC.onmessage = (ev) => {
+    if (ev.data.msg === "request-state") {
+        memBC.postMessage({msg: "state", data: DPRAM});
+    }
+}
 
 function getCF() {
     return (regs[4] & 0b00000001); 
