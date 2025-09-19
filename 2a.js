@@ -555,14 +555,14 @@ function setReg() {
 }
 function setMemBus() {
     if (CTRL.busEn) {
-        if (getMemAddr() > 0x00 && getMemAddr() <= 0xEF) {
+        if (getRegA() > 0x00 && getRegA() <= 0xEF) {
             if (CTRL.busWr) {
-                DPRAM[getMemAddr()] = (F & 0xFF);
+                DPRAM[getRegA()] = (F & 0xFF);
             }
         }
-        if (getMemAddr() >= 0xFE && getMemAddr() <= 0xFF) {
+        if (getRegA() >= 0xFE && getRegA() <= 0xFF) {
             if (CTRL.busWr) {
-                outputs[getMemAddr().toString(16)] = (F & 0xFF);
+                outputs[getRegA().toString(16)] = (F & 0xFF);
             }
         }
     }
