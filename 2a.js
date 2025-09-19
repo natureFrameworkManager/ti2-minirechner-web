@@ -522,11 +522,11 @@ function getAM1() {
     }
 }
 function getNextAddr() {
-    var na8to5 = (BR & 0b11110000);
+    var na8to5 = (BR & 0b11110000) << 1;
     var na4to2 = (CTRL.nextAddr & 0b11100);
     var na1 = ((CTRL.mAC & 0b100) === 0 ? (CTRL.nextAddr & 0b00010) : (BR & 0b00001000) >> 2);
 
-    var na0 = ((CTRL.mAC & 0b100) !== 0 ? getAM1() : (BR & 0b00000100) >> 2);
+    var na0 = ((CTRL.mAC & 0b100) === 0 ? getAM1() : (BR & 0b00000100) >> 2);
     return na8to5 | na4to2 | na1 | na0;
 }
 function getINTL() {
