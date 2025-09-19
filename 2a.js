@@ -387,7 +387,7 @@ function getAluA() {
 }
 function getAluB() {
     if (CTRL.mAluIB) {
-        return (mrgAddrB & 0b1111) | (((mrgAddrB & 0b1000) >> 3) ? 0b11111000 : 0);
+        return (CTRL.mrgAB & 0b1111) | (((CTRL.mrgAB & 0b1000) >> 3) ? 0b11111000 : 0);
     } else {
         if (((CTRL.mrgAB & 0b1000) >> 3) !== 0) {
             return regs[(BR & 0b00001100) >> 2];
