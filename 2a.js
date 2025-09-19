@@ -1,5 +1,3 @@
-// TODO: Microcode
-// TODO: Parser
 // TODO: Asembler
 // TODO: Expansion Card (F0-F3)
 // TODO: UART (FA-FB)
