@@ -569,6 +569,23 @@ function setMemBus() {
     }
 }
 // Steuerwerk
+function setCTRL() {
+    currentAddr = getNextAddr();
+    const instr = MPRAM[getNextAddr()].split('');
+
+    CTRL.mAC = parseInt(instr.slice(0, 4).join(''), 2); // 4-bit microprogram counter
+    CTRL.nextAddr = parseInt(instr.slice(4, 9).join(''), 2); // 5-bit next address
+    CTRL.busWr = (instr[9] === '1'); // 1-bit bus write
+    CTRL.busEn = (instr[10] === '1'); // 1-bit bus enable
+    CTRL.mrgAA = parseInt(instr.slice(11, 15).join(''), 2); // 4-bit register A address 
+    CTRL.mrgAA = parseInt(instr.slice(15, 19).join(''), 2); // 4-bit register B address / immediate value
+    CTRL.mrgWS = (instr[19] === '1'); // 1-bit register write select
+    CTRL.mrgWE = (instr[20] === '1'); // 1-bit register write enable
+    CTRL.mAluIA = (instr[21] === '1'); // 1-bit ALU input A select
+    CTRL.mAluIB = (instr[22] === '1'); // 1-bit ALU input B select
+    CTRL.mAluS = parseInt(instr.slice(23, 27).join(''), 2); // 4-bit ALU select
+    CTRL.mChFlg = (instr[28] === '1'); // 1-bit change flags
+}
 function setBR() {
     if ((CTRL.mAC & 0b0001) && ((CTRL.mAC & 0b0100) >> 2)) {
         BR = getMemBusData();
