@@ -559,12 +559,12 @@ function setMemBus() {
     if (CTRL.busEn) {
         if (getRegA() > 0x00 && getRegA() <= 0xEF) {
             if (CTRL.busWr) {
-                DPRAM[getRegA()] = (F & 0xFF);
+                DPRAM[getRegA()] = (getALU().f & 0xFF);
             }
         }
         if (getRegA() >= 0xFE && getRegA() <= 0xFF) {
             if (CTRL.busWr) {
-                outputs[getRegA().toString(16)] = (F & 0xFF);
+                outputs[getRegA().toString(16)] = (getALU().f & 0xFF);
             }
         }
     }
