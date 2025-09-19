@@ -545,6 +545,23 @@ function setReg() {
         regs[4] = 0b00000000 | (regs[4] & 0b00001000) | (ALUresult.co << 2) | (ALUresult.zo << 1) || (ALUresult << 0)
     }
 }
+function setMemBus() {
+    if (CTRL.busEn) {
+        if (getMemAddr() > 0x00 && getMemAddr() <= 0xEF) {
+            if (CTRL.busWr) {
+                DPRAM[getMemAddr()] = (F & 0xFF);
+            }
+        }
+        if (getMemAddr() >= 0xFE && getMemAddr() <= 0xFF) {
+            if (CTRL.busWr) {
+                outputs[getMemAddr().toString(16)] = (F & 0xFF);
+            }
+        }
+    }
+    if (CTRL.busEn && CTRL.busWr) {
+        memBC.postMessage({msg: "update", data: DPRAM});
+    }
+}
 // Steuerwerk
 function setBR() {
     if ((CTRL.mAC & 0b0001) && ((CTRL.mAC & 0b0100) >> 2)) {
@@ -662,6 +679,7 @@ function display() {
 }
 function clk() {
     setReg();
+    setMemBus();
     setCTRL();
     setBR();
     resetBR();
