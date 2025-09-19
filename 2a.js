@@ -341,6 +341,8 @@ function fillMicrocode() {
 fillMicrocode();
 
 let DPRAM = new Array(0xEF +1).fill("00000000"); // Data RAM (00-EF)
+
+// Load 0xFF to R0, Store R0 to (0xA1)
 DPRAM[0x00] = 0xFB;
 DPRAM[0x01] = 0xFF;
 DPRAM[0x02] = 0x10;
