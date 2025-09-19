@@ -38,6 +38,8 @@ let BR = 0b00000000; // Befehlsregister: NextAddress8...5, OpCode4...0
 let IFF2 = false; // Interrupt Flip-Flop
 let IFF1 = false; // Interrupt Flip-Flop
 
+let currentAddr = 0;
+
 let MPRAM = new Array(512).fill(new Array(28).fill(0).join('')); // 512 x 28 Bit
 function fillMicrocode() {
     // Addressed in 16x 32 Bit Blocks
@@ -701,6 +703,10 @@ function display() {
     document.querySelectorAll(`svg .il2`).forEach(el => el.setAttribute("fill", ((getIEF() & (getINTL() | IFF1)) ? "yellow" : "slategray")));
     document.querySelectorAll(`svg .iff1`).forEach(el => el.setAttribute("fill", (IFF1 ? "yellow" : "slategray")));
     document.querySelectorAll(`svg .iff2`).forEach(el => el.setAttribute("fill", (IFF2 ? "yellow" : "slategray")));
+
+    for (let bit = 0; bit < 9; bit++) {
+        document.querySelectorAll(`svg .addr${bit}`).forEach(el => el.setAttribute("fill", ((currentAddr & (1 << bit)) !== 0 ? "yellow" : "slategray")));
+    }
 }
 function clk() {
     setReg();
