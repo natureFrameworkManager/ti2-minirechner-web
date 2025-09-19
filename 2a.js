@@ -398,7 +398,7 @@ function getAluB() {
 }
 function getMemBusData() {
     if (CTRL.busEn) {
-        if (getRegA() > 0x00 && getRegA() <= 0xEF) {
+        if (getRegA() >= 0x00 && getRegA() <= 0xEF) {
             return DPRAM[getRegA()];
         }
         if (getRegA() >= 0xFC && getRegA() <= 0xFF) {

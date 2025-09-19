@@ -157,7 +157,7 @@ function getAluB() {
 }
 function getMemBus() {
     if (busEn) {
-        if (getMemAddr() > 0x00 && getMemAddr() <= 0xEF) {
+        if (getMemAddr() >= 0x00 && getMemAddr() <= 0xEF) {
             return DPRAM[getMemAddr()];
         }
         if (getMemAddr() >= 0xFC && getMemAddr() <= 0xFF) {
