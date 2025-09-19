@@ -506,7 +506,7 @@ function getAM1() {
         case 0b001:
             return 1;
         case 0b010:
-            return (BR & 0b00000100) >> 2 | getAM2();
+            return (BR & 0b00000100) >> 2 ^ getAM2();
         case 0b011:
             return getCF();
         case 0b100:
@@ -697,7 +697,7 @@ function display() {
         document.querySelectorAll(`svg .op${bit.toString(2).padStart(2, "0")}`).forEach(el => el.setAttribute("fill", (((BR & 0b00001111) & (1 << bit)) !== 0 ? "yellow" : "slategray")));
     }
 
-    document.querySelectorAll(`svg .al1`).forEach(el => el.setAttribute("fill", (((BR & 0b00000100) >> 2 | getAM2()) ? "yellow" : "slategray")));
+    document.querySelectorAll(`svg .al1`).forEach(el => el.setAttribute("fill", (((BR & 0b00000100) >> 2 ^ getAM2()) ? "yellow" : "slategray")));
     document.querySelectorAll(`svg .il2`).forEach(el => el.setAttribute("fill", ((getIEF() & (getINTL() | IFF1)) ? "yellow" : "slategray")));
     document.querySelectorAll(`svg .iff1`).forEach(el => el.setAttribute("fill", (IFF1 ? "yellow" : "slategray")));
     document.querySelectorAll(`svg .iff2`).forEach(el => el.setAttribute("fill", (IFF2 ? "yellow" : "slategray")));
