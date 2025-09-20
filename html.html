@@ -9,8 +9,30 @@
         <title>Minirechner</title>
     </head>
     <body>
+        <div style="display: block;" id="expansion">
+            <svg viewBox="0,0 333,705" width="333" height="705" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 100px; left: 0; z-index: 10; border: 1px solid black">
+                <rect width="50" height="50" x="190" y="185" fill="white" stroke="black" stroke-width="1" />
+                <text x="194" y="210">CPLD</text>
+
+                <circle cx="300" cy="42" r="5" stroke="black" stroke-width="0.5" fill="yellow" class="INT" />
+                <circle cx="300" cy="57" r="5" stroke="black" stroke-width="0.5" fill="yellow" class="RD" />
+                <circle cx="300" cy="72" r="5" stroke="black" stroke-width="0.5" fill="yellow" class="FAN" />
+                <circle cx="300" cy="87" r="5" stroke="black" stroke-width="0.5" fill="yellow" class="W2" />
+                <circle cx="300" cy="102" r="5" stroke="black" stroke-width="0.5" fill="yellow" class="W1" />
+                
+                <circle cx="80" cy="677" r="5" stroke="black" stroke-width="0.5" fill="blue" class="AI1" />
+
+                <circle cx="275" cy="677" r="5" stroke="black" stroke-width="0.5" fill="yellow" class="AO1" />
+                <circle cx="240" cy="677" r="5" stroke="black" stroke-width="0.5" fill="yellow" class="AO2" />
+                <circle cx="200" cy="677" r="5" stroke="black" stroke-width="0.5" fill="yellow" class="CP1" />
+                <circle cx="160" cy="677" r="5" stroke="black" stroke-width="0.5" fill="yellow" class="CP2" />
+                <circle cx="120" cy="677" r="5" stroke="black" stroke-width="0.5" fill="red" class="temp" />
+                <circle cx="80" cy="677" r="5" stroke="black" stroke-width="0.5" fill="yellow" class="AI2" />
+            </svg>
+            <img src="expansion.png" alt="" srcset="" style="position: absolute; top: 100px; left: 0; border: 1px solid black;">
+        </div>
         <div style="display: block;" id="a-con">
-            <svg viewBox="0,0 522,772" width="522" height="772" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 64px; left: 64px; z-index: 10; border: 1px solid black">
+            <svg viewBox="0,0 522,772" width="522" height="772" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 64px; left: 464px; z-index: 10; border: 1px solid black">
                 <!-- Traces -->
                 
                 <g>
@@ -351,7 +373,7 @@
                 </g>
 
             </svg>
-            <img src="2a.jpg" alt="" srcset="" style="position: absolute; width:650px; height: 920px; top: 0; left: 0; border: 1px solid black;">
+            <img src="2a.jpg" alt="" srcset="" style="position: absolute; width:650px; height: 920px; top: 0; left: 400px; border: 1px solid black;">
             <script src="2a.js"></script>
         </div>
         <div style="display: none;" id="i-con">
