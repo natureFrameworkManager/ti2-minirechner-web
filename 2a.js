@@ -340,7 +340,7 @@ function fillMicrocode() {
 }
 fillMicrocode();
 
-let DPRAM = new Array(0xEF +1).fill("00000000"); // Data RAM (00-EF)
+let DPRAM = new Array(0xEF +1).fill(0); // Data RAM (00-EF)
 
 // Load 0xFF to R0, Store R0 to (0xA1)
 DPRAM[0x00] = 0xFB;
@@ -1190,6 +1190,13 @@ function parseASMTarget(string) {
 }
 
 console.log(parseASM(document.querySelector("#a-con #code-input").textContent))
+var tram = parseASM(document.querySelector("#a-con #code-input").textContent);
+for (let index = 0; index < 0xEF +1; index++) {
+    if (tram[index] === undefined) {
+        tram[index] = 0;
+    }
+}
+DPRAM = tram;
 
 function getCF() {
     return (regs[4] & 0b00000001); 
