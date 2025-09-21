@@ -493,50 +493,15 @@ function parseASM(asm) {
                     output[addr++] = 0b00000100 | (parseInt(split[1][1]));
                     break;
                 case "ADD":
-                    if (split.length != 3) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
-                        console.error("No register as parameters")
-                        continue;
-                    }
-                    output[addr++] = 0b01100000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
-                    break;
                 case "ADC":
-                    if (split.length != 3) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
-                        console.error("No register as parameters")
-                        continue;
-                    }
-                    output[addr++] = 0b01110000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
-                    break;
                 case "SUB":
-                    if (split.length != 3) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
-                        console.error("No register as parameters")
-                        continue;
-                    }
-                    output[addr++] = 0b10000000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
-                    break;
                 case "MUL":
-                    if (split.length != 3) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
-                        console.error("No register as parameters")
-                        continue;
-                    }
-                    output[addr++] = 0b10110000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
-                    break;
                 case "DIV":
+                case "AND":
+                case "OR":
+                case "XOR":
+                case "LSL":
+                case "RLC":
                     if (split.length != 3) {
                         console.error("No parameter match")
                         continue;
@@ -545,7 +510,38 @@ function parseASM(asm) {
                         console.error("No register as parameters")
                         continue;
                     }
-                    output[addr++] = 0b11000000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                    switch (split[0]) {
+                        case "ADD":
+                            output[addr++] = 0b01100000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                            break;
+                        case "ADC":
+                            output[addr++] = 0b01110000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                            break;
+                        case "SUB":
+                            output[addr++] = 0b10000000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                            break;
+                        case "MUL":
+                            output[addr++] = 0b10110000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                            break;
+                        case "DIV":
+                            output[addr++] = 0b11000000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                            break;
+                        case "AND":
+                            output[addr++] = 0b10010000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                            break;
+                        case "OR":
+                            output[addr++] = 0b10100000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                            break;
+                        case "XOR":
+                            output[addr++] = 0b11010000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                            break;
+                        case "LSL":
+                            output[addr++] = 0b01100000 | (parseInt(split[1][1]) << 2) | (parseInt(split[1][1]));
+                            break;
+                        case "RLC":
+                            output[addr++] = 0b01110000 | (parseInt(split[1][1]) << 2) | (parseInt(split[1][1]));
+                            break;
+                    }
                     break;
                 case "INC":
                     if (split.length != 2) {
@@ -581,39 +577,6 @@ function parseASM(asm) {
                     }
                     output[addr++] = 0b00110100 | (parseInt(split[1][1]));
                     break;
-                case "AND":
-                    if (split.length != 3) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
-                        console.error("No register as parameters")
-                        continue;
-                    }
-                    output[addr++] = 0b10010000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
-                    break;
-                case "OR":
-                    if (split.length != 3) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
-                        console.error("No register as parameters")
-                        continue;
-                    }
-                    output[addr++] = 0b10100000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
-                    break;
-                case "XOR":
-                    if (split.length != 3) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
-                        console.error("No register as parameters")
-                        continue;
-                    }
-                    output[addr++] = 0b11010000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
-                    break;
                 case "COM":
                     if (split.length != 2) {
                         console.error("No parameter match")
@@ -647,17 +610,6 @@ function parseASM(asm) {
                     }
                     output[addr++] = 0b00111100 | (parseInt(split[1][1]));
                     break;
-                case "LSL":
-                    if (split.length != 2) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
-                        continue;
-                    }
-                    output[addr++] = 0b01100000 | (parseInt(split[1][1]) << 2) | (parseInt(split[1][1]));
-                    break;
                 case "RRC":
                     if (split.length != 2) {
                         console.error("No parameter match")
@@ -668,17 +620,6 @@ function parseASM(asm) {
                         continue;
                     }
                     output[addr++] = 0b01000000 | (parseInt(split[1][1]));
-                    break;
-                case "RLC":
-                    if (split.length != 2) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
-                        continue;
-                    }
-                    output[addr++] = 0b01110000 | (parseInt(split[1][1]) << 2) | (parseInt(split[1][1]));
                     break;
                 case "TST":
                     if (split.length != 2) {
@@ -883,20 +824,6 @@ function parseASM(asm) {
                     }
                     output[addr++] = 0b00010100 | (parseInt(split[1][1]));
                     break;
-                case "PUSHF":
-                    if (split.length != 1) {
-                        console.error("No parameter allowed")
-                        continue;
-                    }
-                    output[addr++] = 0b00011000;
-                    break;
-                case "POPF":
-                    if (split.length != 1) {
-                        console.error("No parameter allowed")
-                        continue;
-                    }
-                    output[addr++] = 0b00011100;                    
-                    break;
                 case "JCS":
                     if (split.length != 2) {
                         console.error("No parameter match")
@@ -965,47 +892,37 @@ function parseASM(asm) {
                         output[addr++] = split[1];
                     }
                     break;
+                case "PUSHF":
+                case "POPF":
                 case "RET":
-                    if (split.length != 1) {
-                        console.error("No parameter allowed")
-                        continue;
-                    }
-                    output[addr++] = 0b00010111;
-                    break;
                 case "RETI":
-                    if (split.length != 1) {
-                        console.error("No parameter allowed")
-                        continue;
-                    }
-                    output[addr++] = 0b00101100;
-                    break;
                 case "STOP":
-                    if (split.length != 1) {
-                        console.error("No parameter allowed")
-                        continue;
-                    }
-                    output[addr++] = 0b00000001;
-                    break;
                 case "NOP":
-                    if (split.length != 1) {
-                        console.error("No parameter allowed")
-                        continue;
-                    }
-                    output[addr++] = 0b00000010;
-                    break;
                 case "EI":
-                    if (split.length != 1) {
-                        console.error("No parameter allowed")
-                        continue;
-                    }
-                    output[addr++] = 0b00001000;
-                    break;
                 case "DI":
                     if (split.length != 1) {
                         console.error("No parameter allowed")
                         continue;
                     }
-                    output[addr++] = 0b00001100;
+                    switch (split[0]) {
+                        case "PUSHF":
+                            output[addr++] = 0b00011000;
+                        case "POPF":
+                            output[addr++] = 0b00011100; 
+                        case "RET":
+                            output[addr++] = 0b00010111;
+                        case "RETI":
+                            output[addr++] = 0b00101100;
+                        case "STOP":
+                            output[addr++] = 0b00000001;
+                        case "NOP":
+                            output[addr++] = 0b00000010;
+                        case "EI":
+                            output[addr++] = 0b00001000;
+                        case "DI":
+                            output[addr++] = 0b00001100;
+                            break;
+                    }
                     break;
             
                 default:
