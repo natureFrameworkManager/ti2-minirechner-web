@@ -376,9 +376,43 @@ function parseASM(asm) {
     lines = lines.map(line => line.toUpperCase()) // ignore lower or upper case
     lines = lines.slice(1).map(line => line.trim()).filter((line) => (!(line == "" || line.startsWith(";")))); // Filter empty and comment lines and remove all spaces and tabs
     lines = lines.map(line => line.split(";")[0].trim()) // remove everything behind semicolon as it is a comment
+    // Find all labels
     for (const line of lines) {
         if (/\s+\,|\s+\:/.test(line)) {
-            console.log("Error", line);
+            console.error("Error with line: ", line);
+            continue;
+        }
+        var split = line.split(/\,\s+|\,|\s+/g)
+        if (line.startsWith(".")) {
+            // Assembler control relevant for genereted code
+            if (split[0].slice(1) == "EQU") {
+                if (split.length != 3) {
+                    console.error("No parameter match")
+                    continue;
+                }
+                if (split[0].startsWith("R") || split[0].startsWith("PC")) {
+                    console.error("Invalid label name");
+                    continue;
+                }
+                labels[split[1]] = parseASMNumber(split[2]);
+            }
+        } else if (split[0].endsWith(":")) {
+            // Label
+            if (split[0].startsWith("R") || split[0].startsWith("PC")) {
+                console.error("Invalid label name");
+                continue;
+            }
+            if (split.length != 1) {
+                console.error("No parameter allowed")
+                continue;
+            }
+            labels[split[0].slice(0, split[0].length-1)] = null;
+        }
+    }
+    // Parse code
+    for (const line of lines) {
+        if (/\s+\,|\s+\:/.test(line)) {
+            console.error("Error with line: ", line);
             continue;
         }
         var split = line.split(/\,\s+|\,|\s+/g)
@@ -430,7 +464,6 @@ function parseASM(asm) {
                         console.error("Invalid label name");
                         continue;
                     }
-                    console.log("Set label ", split[1], parseASMNumber(split[2]).toString(16))
                     labels[split[1]] = parseASMNumber(split[2]);
                     break;
             }
@@ -1135,17 +1168,12 @@ function parseASM(asm) {
             }
         }
     }
+    // Replace labels
     for (let index = 0; index < output.length; index++) {
         const exec = output[index];
         if (typeof exec == "string") {
             if (Object.keys(labels).includes(exec)) {
                 output[index] = labels[exec];
-            } else if (/^[0-9]+$/.test(exec)) {
-                output[index] = parseInt(exec);
-            } else if (/^0X([0-9]|[A-F])+$/.test(exec)) {
-                output[index] = parseInt(exec.slice(2), 16);
-            } else if (/^0B[0-1]+$/.test(exec)) {
-                output[index] = parseInt(exec.slice(2), 2);
             } else {
                 console.error("Unknown label or const");
                 continue;
