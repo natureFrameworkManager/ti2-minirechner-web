@@ -728,10 +728,10 @@ function parseASM(asm) {
                     }
                     if (!(
                         /^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[1]) || // Rn, (Rn), (Rn+), ((Rn+))
-                        (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1].replaceAll(/[\(\)]/g, "")) && split[1].startsWith("(") && split[1].endsWith("(")) || // (addr) and no const as src
+                        (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1].replaceAll(/[\(\)]/g, "")) && split[1].startsWith("(") && split[1].endsWith(")")) || // (addr) and no const as src
                         Object.keys(labels).includes(split[1].replaceAll(/[\(\)]/g, "")) // label
                     )) {
-                        console.error("No register, const, addr or valid label as parameter for sourc", line)
+                        console.error("No register, const, addr or valid label as parameter for source", line)
                         continue;
                     }
                     // dst
