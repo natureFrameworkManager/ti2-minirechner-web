@@ -696,6 +696,8 @@ function parseASM(asm) {
                 case "CMP":
                 case "BITT":
                 case "MOV":
+                case "LD":
+                case "ST":
                     if (split[0] == "BITS") {
                         var srcAddr = 0b01010000;
                     }
@@ -708,10 +710,10 @@ function parseASM(asm) {
                     if (split[0] == "BITT") {
                         var srcAddr = 0b00110000;
                     }
-                    if (split[0] == "MOV") {
+                    if (split[0] == "MOV" || split[0] == "LD" || split[0] == "ST") {
                         var srcAddr = 0b00010000;
                     }
-                    
+
                     if (split.length != 3) {
                         console.error("No parameter match")
                         continue;
@@ -858,54 +860,6 @@ function parseASM(asm) {
                         }
                     }
                     output[addr++] = 0b00010011;
-                    break;
-                case "LD":
-                    if (split.length != 3) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as first parameter")
-                        continue;
-                    }
-                    if (split[2].startsWith("(") && split[2].endsWith(")")) {
-                        output[addr++] = 0b11111111;
-                        if (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[2].replaceAll(/[\(\)]/g, ""))) {
-                            output[addr++] = parseASMNumber(split[2].replaceAll(/[\(\)]/g, ""));
-                        } else {
-                            output[addr++] = split[2].replaceAll(/[\(\)]/g, "");
-                        }
-                    } else {
-                        output[addr++] = 0b11111011;
-                        if (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[2])) {
-                            output[addr++] = parseASMNumber(split[2]);
-                        } else {
-                            output[addr++] = split[2];
-                        }
-                    }
-                    output[addr++] = 0b00010000 | (parseInt(split[1][1]));
-                    break;
-                case "ST":
-                    if (split.length != 3) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    if (!(/^R[0-2]$/.test(split[2]))) {
-                        console.error("No register as second parameter")
-                        continue;
-                    }
-                    if (!(split[1].startsWith("(") && split[1].endsWith(")"))) {
-                        console.error("No address as first parameter")
-                        continue;
-                    }
-                    output[addr++] = 0b11110000 | (parseInt(split[2][1]));
-                    output[addr++] = 0b00011111;
-                    console.log(split[1], split[1].replaceAll(/[\(\)]/g, ""), parseASMNumber(split[1].replaceAll(/[\(\)]/g, "")), /^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1].replaceAll(/[\(\)]/g, "")))
-                    if (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1].replaceAll(/[\(\)]/g, ""))) {
-                        output[addr++] = parseASMNumber(split[1].replaceAll(/[\(\)]/g, ""));
-                    } else {
-                        output[addr++] = split[1].replaceAll(/[\(\)]/g, "");
-                    }
                     break;
                 case "PUSH":
                     if (split.length != 2) {
