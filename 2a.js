@@ -1161,11 +1161,11 @@ function parseASM(asm) {
  * @returns 
  */
 function parseASMNumber(string) {
-    if (string.startsWith("0B")) {
+    if (/^0B[0-1]+$/.test(string)) {
         return parseInt(string.slice(2), 2);
-    } else if (string.startsWith("0X")) {
+    } else if (/^0X([0-9]|[A-F])+$/.test(string)) {
         return parseInt(string.slice(2), 16);
-    } else {
+    } else if (/^[0-9]+$/.test(string)) {
         return parseInt(string);
     }
 }
