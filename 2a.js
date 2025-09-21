@@ -359,6 +359,838 @@ memBC.onmessage = (ev) => {
     }
 }
 
+/**
+ * 
+ * @param {String} asm 
+ * @returns 
+ */
+function parseASM(asm) {
+    let addr = 0;
+    let output = [];
+    let labels = {};
+
+    var lines = asm.split("\n");
+    if (lines[0] != "#! mrasm") { // Check for asm identifier
+        return false;
+    }
+    lines = lines.map(line => line.toUpperCase()) // ignore lower or upper case
+    lines = lines.slice(1).map(line => line.trim()).filter((line) => (!(line == "" || line.startsWith(";")))); // Filter empty and comment lines and remove all spaces and tabs
+    lines = lines.map(line => line.split(";")[0].trim()) // remove everything behind semicolon as it is a comment
+    for (const line of lines) {
+        if (/\s+\,|\s+\:/.test(line)) {
+            console.log("Error", line);
+            continue;
+        }
+        var split = line.split(/\,\s+|\,|\s+/g)
+        if (line.startsWith("*")) {
+            // Assembler control not for genereted code relevant
+        } else if (line.startsWith(".")) {
+            // Assembler control relevant for genereted code
+            switch (split[0].slice(1)) {
+                case "ORG":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    console.log("Set addr to", parseASMNumber(split[1]))
+                    addr = parseASMNumber(split[1]);
+                    break;
+                case "BYTE":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    console.log("Reserve bytes ", parseASMNumber(split[1]))
+                    addr += parseASMNumber(split[1]);
+                    break;
+                case "DB":
+                    if (!(split.length >= 2)) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    for (const byte of split.slice(1)) {
+                        console.log("Write byte ", (parseASMNumber(byte) & 0xFF).toString(16), "to ", addr)
+                        output[addr++] = (parseASMNumber(byte) & 0xFF);
+                    }
+                    break;
+                case "DW":
+                    if (!(split.length >= 2)) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    for (const byte of split.slice(1)) {
+                        console.log("Write word ", parseASMNumber(byte).toString(16), "to ", addr, "and ", addr+1)
+                        output[addr] = ((0xFF00 & parseASMNumber(byte)) >> 8);
+                        output[addr+1] = (0xFF & parseASMNumber(byte));
+                        addr += 2;
+                    }
+                    break;
+                case "EQU":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (split[0].startsWith("R") || split[0].startsWith("PC")) {
+                        console.error("Invalid label name");
+                        continue;
+                    }
+                    console.log("Set label ", split[1], parseASMNumber(split[2]).toString(16))
+                    labels[split[1]] = parseASMNumber(split[2]);
+                    break;
+            }
+        } else if (split[0].endsWith(":")) {
+            // Label
+            if (split[0].startsWith("R") || split[0].startsWith("PC")) {
+                console.error("Invalid label name");
+                continue;
+            }
+            if (split.length != 1) {
+                console.error("No parameter allowed")
+                continue;
+            }
+            labels[split[0].slice(0, split[0].length-1)] = addr;
+        } else {
+            // machine code or error
+            switch (split[0]) {
+                case "CLR":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b00000100 | (parseInt(split[1][1]));
+                    break;
+                case "ADD":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
+                        console.error("No register as parameters")
+                        continue;
+                    }
+                    output[addr++] = 0b01100000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                    break;
+                case "ADC":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
+                        console.error("No register as parameters")
+                        continue;
+                    }
+                    output[addr++] = 0b01110000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                    break;
+                case "SUB":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
+                        console.error("No register as parameters")
+                        continue;
+                    }
+                    output[addr++] = 0b10000000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                    break;
+                case "MUL":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
+                        console.error("No register as parameters")
+                        continue;
+                    }
+                    output[addr++] = 0b10110000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                    break;
+                case "DIV":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
+                        console.error("No register as parameters")
+                        continue;
+                    }
+                    output[addr++] = 0b11000000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                    break;
+                case "INC":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b01000100 | (parseInt(split[1][1]));
+                    break;
+                case "DEC":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (/^R[0-2]$/.test(split[1])) {
+                        output[addr++] = 0b01010000 | (parseInt(split[1][1]));
+                    } else {
+                        output[addr++] = 0b01011111;
+                        output[addr++] = split[1];
+                    } // TODO: handle not addr or label
+                    break;
+                case "NEG":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b00110100 | (parseInt(split[1][1]));
+                    break;
+                case "AND":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
+                        console.error("No register as parameters")
+                        continue;
+                    }
+                    output[addr++] = 0b10010000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                    break;
+                case "OR":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
+                        console.error("No register as parameters")
+                        continue;
+                    }
+                    output[addr++] = 0b10100000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                    break;
+                case "XOR":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
+                        console.error("No register as parameters")
+                        continue;
+                    }
+                    output[addr++] = 0b11010000 | (parseInt(split[2][1]) << 2) | (parseInt(split[1][1]));
+                    break;
+                case "COM":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b00110000 | (parseInt(split[1][1]));
+                    break;
+                case "BITS":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (/^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[2])) {
+                        // Rn, (Rn), (Rn+), ((Rn+))
+                        if (/^R[0-2]$/.test(split[2])) {
+                            output[addr++] = 0b11110000 | (parseInt(split[2][1]));
+                        } else if (/^\(R[0-2]\)$/.test(split[2])) {
+                            output[addr++] = 0b11110100 | (parseInt(split[2][1]));
+                        } else if (/^\(R[0-2]\+\)$/.test(split[2])) {
+                            output[addr++] = 0b11111000 | (parseInt(split[2][1]));
+                        } else if (/^\(\(R[0-2]\+\)\)$/.test(split[2])) {
+                            output[addr++] = 0b11111100 | (parseInt(split[2][1]));
+                        }
+                    } else if (split[2].startsWith("(") && split[2].endsWith(")")) {
+                        // addr
+                        output[addr++] = 0b11111111; // ((PC+)) = ((R3+))
+                        output[addr++] = split[2].slice(1, split[2].length-1);
+                    } else {
+                        // const
+                        output[addr++] = 0b11111011; // (PC+) = (R3+)
+                        output[addr++] = split[2];
+                    }
+                    if (/^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[1])) {
+                        // Rn, (Rn), (Rn+), ((Rn+))
+                        if (/^R[0-2]$/.test(split[1])) {
+                            output[addr++] = 0b01010000 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\)$/.test(split[1])) {
+                            output[addr++] = 0b01010100 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\+\)$/.test(split[1])) {
+                            output[addr++] = 0b01011000 | (parseInt(split[1][1]));
+                        } else if (/^\(\(R[0-2]\+\)\)$/.test(split[1])) {
+                            output[addr++] = 0b01011100 | (parseInt(split[1][1]));
+                        }
+                    } else if (split[1].startsWith("(") && split[1].endsWith(")")) {
+                        // (addr)
+                        output[addr++] = 0b01011111; // (PC+) = (R3+)
+                        output[addr++] = split[1].slice(1, split[1].length-1);
+                    } else {
+                        console.error("No register or address as first parameter")
+                        continue;
+                    }
+                    break;
+                case "BITC":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (/^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[2])) {
+                        // Rn, (Rn), (Rn+), ((Rn+))
+                        if (/^R[0-2]$/.test(split[2])) {
+                            output[addr++] = 0b11110000 | (parseInt(split[2][1]));
+                        } else if (/^\(R[0-2]\)$/.test(split[2])) {
+                            output[addr++] = 0b11110100 | (parseInt(split[2][1]));
+                        } else if (/^\(R[0-2]\+\)$/.test(split[2])) {
+                            output[addr++] = 0b11111000 | (parseInt(split[2][1]));
+                        } else if (/^\(\(R[0-2]\+\)\)$/.test(split[2])) {
+                            output[addr++] = 0b11111100 | (parseInt(split[2][1]));
+                        }
+                    } else if (split[2].startsWith("(") && split[2].endsWith(")")) {
+                        // addr
+                        output[addr++] = 0b11111111; // ((PC+)) = ((R3+))
+                        output[addr++] = split[2].slice(1, split[2].length-1);
+                    } else {
+                        // const
+                        output[addr++] = 0b11111011; // (PC+) = (R3+)
+                        output[addr++] = split[2];
+                    }
+                    if (/^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[1])) {
+                        // Rn, (Rn), (Rn+), ((Rn+))
+                        if (/^R[0-2]$/.test(split[1])) {
+                            output[addr++] = 0b01100000 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\)$/.test(split[1])) {
+                            output[addr++] = 0b01100100 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\+\)$/.test(split[1])) {
+                            output[addr++] = 0b01101000 | (parseInt(split[1][1]));
+                        } else if (/^\(\(R[0-2]\+\)\)$/.test(split[1])) {
+                            output[addr++] = 0b01101100 | (parseInt(split[1][1]));
+                        }
+                    } else if (split[1].startsWith("(") && split[1].endsWith(")")) {
+                        // (addr)
+                        output[addr++] = 0b01101111; // (PC+) = (R3+)
+                        output[addr++] = split[1].slice(1, split[1].length-1);
+                    } else {
+                        console.error("No register or address as first parameter")
+                        continue;
+                    }
+                    break;
+                case "TST":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b01001000 | (parseInt(split[1][1]));
+                    break;
+                case "CMP":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (/^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[2])) {
+                        // Rn, (Rn), (Rn+), ((Rn+))
+                        if (/^R[0-2]$/.test(split[2])) {
+                            output[addr++] = 0b11110000 | (parseInt(split[2][1]));
+                        } else if (/^\(R[0-2]\)$/.test(split[2])) {
+                            output[addr++] = 0b11110100 | (parseInt(split[2][1]));
+                        } else if (/^\(R[0-2]\+\)$/.test(split[2])) {
+                            output[addr++] = 0b11111000 | (parseInt(split[2][1]));
+                        } else if (/^\(\(R[0-2]\+\)\)$/.test(split[2])) {
+                            output[addr++] = 0b11111100 | (parseInt(split[2][1]));
+                        }
+                    } else if (split[2].startsWith("(") && split[2].endsWith(")")) {
+                        // addr
+                        output[addr++] = 0b11111111; // ((PC+)) = ((R3+))
+                        output[addr++] = split[2].slice(1, split[2].length-1);
+                    } else {
+                        // const
+                        output[addr++] = 0b11111011; // (PC+) = (R3+)
+                        output[addr++] = split[2];
+                    }
+                    if (/^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[1])) {
+                        // Rn, (Rn), (Rn+), ((Rn+))
+                        if (/^R[0-2]$/.test(split[1])) {
+                            output[addr++] = 0b00100000 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\)$/.test(split[1])) {
+                            output[addr++] = 0b00100100 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\+\)$/.test(split[1])) {
+                            output[addr++] = 0b00101000 | (parseInt(split[1][1]));
+                        } else if (/^\(\(R[0-2]\+\)\)$/.test(split[1])) {
+                            output[addr++] = 0b00101100 | (parseInt(split[1][1]));
+                        }
+                    } else if (split[1].startsWith("(") && split[1].endsWith(")")) {
+                        // (addr)
+                        output[addr++] = 0b00101111; // (PC+) = (R3+)
+                        output[addr++] = split[1].slice(1, split[1].length-1);
+                    } else {
+                        console.error("No register or address as first parameter")
+                        continue;
+                    }
+                    break;
+                case "BITT":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (/^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[2])) {
+                        // Rn, (Rn), (Rn+), ((Rn+))
+                        if (/^R[0-2]$/.test(split[2])) {
+                            output[addr++] = 0b11110000 | (parseInt(split[2][1]));
+                        } else if (/^\(R[0-2]\)$/.test(split[2])) {
+                            output[addr++] = 0b11110100 | (parseInt(split[2][1]));
+                        } else if (/^\(R[0-2]\+\)$/.test(split[2])) {
+                            output[addr++] = 0b11111000 | (parseInt(split[2][1]));
+                        } else if (/^\(\(R[0-2]\+\)\)$/.test(split[2])) {
+                            output[addr++] = 0b11111100 | (parseInt(split[2][1]));
+                        }
+                    } else if (split[2].startsWith("(") && split[2].endsWith(")")) {
+                        // addr
+                        output[addr++] = 0b11111111; // ((PC+)) = ((R3+))
+                        output[addr++] = split[2].slice(1, split[2].length-1);
+                    } else {
+                        // const
+                        output[addr++] = 0b11111011; // (PC+) = (R3+)
+                        output[addr++] = split[2];
+                    }
+                    if (/^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[1])) {
+                        // Rn, (Rn), (Rn+), ((Rn+))
+                        if (/^R[0-2]$/.test(split[1])) {
+                            output[addr++] = 0b00110000 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\)$/.test(split[1])) {
+                            output[addr++] = 0b00010100 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\+\)$/.test(split[1])) {
+                            output[addr++] = 0b00111000 | (parseInt(split[1][1]));
+                        } else if (/^\(\(R[0-2]\+\)\)$/.test(split[1])) {
+                            output[addr++] = 0b00111100 | (parseInt(split[1][1]));
+                        }
+                    } else if (split[1].startsWith("(") && split[1].endsWith(")")) {
+                        // (addr)
+                        output[addr++] = 0b00111111; // (PC+) = (R3+)
+                        output[addr++] = split[1].slice(1, split[1].length-1);
+                    } else {
+                        console.error("No register or address as first parameter")
+                        continue;
+                    }
+                    break;
+                case "LSR":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b00111000 | (parseInt(split[1][1]));
+                    break;
+                case "ASR":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b00111100 | (parseInt(split[1][1]));
+                    break;
+                case "LSL":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b01100000 | (parseInt(split[1][1]) << 2) | (parseInt(split[1][1]));
+                    break;
+                case "RRC":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b01000000 | (parseInt(split[1][1]));
+                    break;
+                case "RLC":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b01110000 | (parseInt(split[1][1]) << 2) | (parseInt(split[1][1]));
+                    break;
+                case "MOV":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (/^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[2])) {
+                        // Rn, (Rn), (Rn+), ((Rn+))
+                        if (/^R[0-2]$/.test(split[2])) {
+                            output[addr++] = 0b11110000 | (parseInt(split[2][1]));
+                        } else if (/^\(R[0-2]\)$/.test(split[2])) {
+                            output[addr++] = 0b11110100 | (parseInt(split[2][1]));
+                        } else if (/^\(R[0-2]\+\)$/.test(split[2])) {
+                            output[addr++] = 0b11111000 | (parseInt(split[2][1]));
+                        } else if (/^\(\(R[0-2]\+\)\)$/.test(split[2])) {
+                            output[addr++] = 0b11111100 | (parseInt(split[2][1]));
+                        }
+                    } else if (split[2].startsWith("(") && split[2].endsWith(")")) {
+                        // addr
+                        output[addr++] = 0b11111111; // ((PC+)) = ((R3+))
+                        output[addr++] = split[2].slice(1, split[2].length-1);
+                    } else {
+                        // const
+                        output[addr++] = 0b11111011; // (PC+) = (R3+)
+                        output[addr++] = split[2];
+                    }
+                    if (/^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[1])) {
+                        // Rn, (Rn), (Rn+), ((Rn+))
+                        if (/^R[0-2]$/.test(split[1])) {
+                            output[addr++] = 0b00010000 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\)$/.test(split[1])) {
+                            output[addr++] = 0b00010100 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\+\)$/.test(split[1])) {
+                            output[addr++] = 0b00011000 | (parseInt(split[1][1]));
+                        } else if (/^\(\(R[0-2]\+\)\)$/.test(split[1])) {
+                            output[addr++] = 0b00011100 | (parseInt(split[1][1]));
+                        }
+                    } else if (split[1].startsWith("(") && split[1].endsWith(")")) {
+                        // (addr)
+                        output[addr++] = 0b00011111; // (PC+) = (R3+)
+                        output[addr++] = split[1].slice(1, split[1].length-1);
+                    } else {
+                        console.error("No register or address as first parameter")
+                        continue;
+                    }
+                    break;
+                case "LD":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as first parameter")
+                        continue;
+                    }
+                    if (split[2].startsWith("(") && split[2].endsWith(")")) {
+                        output[addr++] = 0b11111111;
+                        output[addr++] = split[2].slice(1, split[2].length-1);
+                    } else {
+                        output[addr++] = 0b11111011;
+                        output[addr++] = split[2];
+                    }
+                    output[addr++] = 0b00010000 | (parseInt(split[1][1]));
+                    break;
+                case "ST":
+                    if (split.length != 3) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[2]))) {
+                        console.error("No register as second parameter")
+                        continue;
+                    }
+                    if (!(split[1].startsWith("(") && split[1].endsWith(")"))) {
+                        console.error("No address as first parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b11110000 | (parseInt(split[2][1]));
+                    output[addr++] = 0b00011111;
+                    output[addr++] = split[1].slice(1, split[1].length-1);
+                    break;
+                case "PUSH":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b00010000 | (parseInt(split[1][1]));
+                    break;
+                case "POP":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error("No register as parameter")
+                        continue;
+                    }
+                    output[addr++] = 0b00010100 | (parseInt(split[1][1]));
+                    break;
+                case "PUSHF":
+                    if (split.length != 1) {
+                        console.error("No parameter allowed")
+                        continue;
+                    }
+                    output[addr++] = 0b00011000;
+                    break;
+                case "POPF":
+                    if (split.length != 1) {
+                        console.error("No parameter allowed")
+                        continue;
+                    }
+                    output[addr++] = 0b00011100;                    
+                    break;
+                case "LDSP":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (/^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[1])) {
+                        // Rn, (Rn), (Rn+), ((Rn+))
+                        if (/^R[0-2]$/.test(split[1])) {
+                            output[addr++] = 0b11110000 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\)$/.test(split[1])) {
+                            output[addr++] = 0b11110100 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\+\)$/.test(split[1])) {
+                            output[addr++] = 0b11111000 | (parseInt(split[1][1]));
+                        } else if (/^\(\(R[0-2]\+\)\)$/.test(split[1])) {
+                            output[addr++] = 0b11111100 | (parseInt(split[1][1]));
+                        }
+                    } else if (split[1].startsWith("(") && split[1].endsWith(")")) {
+                        // addr
+                        output[addr++] = 0b11111111; // ((PC+)) = ((R3+))
+                        output[addr++] = split[1].slice(1, split[1].length-1);
+                    } else {
+                        // const
+                        output[addr++] = 0b11111011; // (PC+) = (R3+)
+                        output[addr++] = split[1];
+                    }
+                    output[addr++] = 0b01000000;
+                    break;
+                case "LDFR":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (/^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[1])) {
+                        // Rn, (Rn), (Rn+), ((Rn+))
+                        if (/^R[0-2]$/.test(split[1])) {
+                            output[addr++] = 0b11110000 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\)$/.test(split[1])) {
+                            output[addr++] = 0b11110100 | (parseInt(split[1][1]));
+                        } else if (/^\(R[0-2]\+\)$/.test(split[1])) {
+                            output[addr++] = 0b11111000 | (parseInt(split[1][1]));
+                        } else if (/^\(\(R[0-2]\+\)\)$/.test(split[1])) {
+                            output[addr++] = 0b11111100 | (parseInt(split[1][1]));
+                        }
+                    } else if (split[1].startsWith("(") && split[1].endsWith(")")) {
+                        // addr
+                        output[addr++] = 0b11111111; // ((PC+)) = ((R3+))
+                        output[addr++] = split[1].slice(1, split[1].length-1);
+                    } else {
+                        // const
+                        output[addr++] = 0b11111011; // (PC+) = (R3+)
+                        output[addr++] = split[1];
+                    }
+                    output[addr++] = 0b01000100;
+                    break;
+                case "JMP":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    if (split[1].startsWith("(") && split[1].endsWith(")")) {
+                        output[addr++] = 0b11111111;
+                        output[addr++] = split[2].slice(1, split[1].length-1);
+                    } else {
+                        output[addr++] = 0b11111011;
+                        output[addr++] = split[1];
+                    }
+                    output[addr++] = 0b00010011;
+                    break;
+                case "JCS":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    output[addr++] = 0b00100000 | 0b001; // Condition
+                    output[addr++] = split[1];
+                    break;
+                case "JCC":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    output[addr++] = 0b00100000 | 0b101; // Condition
+                    output[addr++] = split[1];
+                    break;
+                case "JZS":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    output[addr++] = 0b00100000 | 0b010; // Condition
+                    output[addr++] = split[1];
+                    break;
+                case "JZC":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    output[addr++] = 0b00100000 | 0b110; // Condition
+                    output[addr++] = split[1];
+                    break;
+                case "JNS":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    output[addr++] = 0b00100000 | 0b011; // Condition
+                    output[addr++] = split[1];
+                    break;
+                case "JNC":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    output[addr++] = 0b00100000 | 0b111; // Condition
+                    output[addr++] = split[1];
+                    break;
+                case "JR":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    output[addr++] = 0b00100000 | 0b000; // Condition
+                    output[addr++] = split[1];
+                    break;
+                case "CALL":
+                    if (split.length != 2) {
+                        console.error("No parameter match")
+                        continue;
+                    }
+                    output[addr++] = 0b00101000;
+                    output[addr++] = split[1];
+                    break;
+                case "RET":
+                    if (split.length != 1) {
+                        console.error("No parameter allowed")
+                        continue;
+                    }
+                    output[addr++] = 0b00010111;
+                    break;
+                case "RETI":
+                    if (split.length != 1) {
+                        console.error("No parameter allowed")
+                        continue;
+                    }
+                    output[addr++] = 0b00101100;
+                    break;
+                case "STOP":
+                    if (split.length != 1) {
+                        console.error("No parameter allowed")
+                        continue;
+                    }
+                    output[addr++] = 0b00000001;
+                    break;
+                case "NOP":
+                    if (split.length != 1) {
+                        console.error("No parameter allowed")
+                        continue;
+                    }
+                    output[addr++] = 0b00000010;
+                    break;
+                case "EI":
+                    if (split.length != 1) {
+                        console.error("No parameter allowed")
+                        continue;
+                    }
+                    output[addr++] = 0b00001000;
+                    break;
+                case "DI":
+                    if (split.length != 1) {
+                        console.error("No parameter allowed")
+                        continue;
+                    }
+                    output[addr++] = 0b00001100;
+                    break;
+            
+                default:
+                    console.error("CMD not known")
+                    continue;
+            }
+        }
+    }
+    for (let index = 0; index < output.length; index++) {
+        const exec = output[index];
+        if (typeof exec == "string") {
+            if (Object.keys(labels).includes(exec)) {
+                output[index] = labels[exec];
+            } else if (/^[0-9]+$/.test(exec)) {
+                output[index] = parseInt(exec);
+            } else if (/^0X([0-9]|[A-F])+$/.test(exec)) {
+                output[index] = parseInt(exec.slice(2), 16);
+            } else if (/^0B[0-1]+$/.test(exec)) {
+                output[index] = parseInt(exec.slice(2), 2);
+            } else {
+                console.error("Unknown label or const");
+                continue;
+            }
+        }
+    }
+    return output.map(el => el);
+}
+
+/**
+ * 
+ * @param {String} string 
+ * @returns 
+ */
+function parseASMNumber(string) {
+    if (string.startsWith("0B")) {
+        return parseInt(string.slice(2), 2);
+    } else if (string.startsWith("0X")) {
+        return parseInt(string.slice(2), 16);
+    } else {
+        return parseInt(string);
+    }
+}
+
+/**
+ * 
+ * @param {String} string Rn, (Rn), (Rn+), ((Rs+)), const, (addr)
+ * @returns 
+ */
+function parseASMTarget(string) {
+    if (string.startsWith("0B")) {
+        return parseInt(string.slice(2), 2);
+    } else if (string.startsWith("0X")) {
+        return parseInt(string.slice(2), 16);
+    } else {
+        return parseInt(string);
+    }
+}
+
+console.log(parseASM(document.querySelector("#a-con #code-input").textContent))
+
 function getCF() {
     return (regs[4] & 0b00000001); 
 }
