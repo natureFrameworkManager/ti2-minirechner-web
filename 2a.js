@@ -399,7 +399,7 @@ function parseASM(asm) {
                         console.error("No parameter match")
                         continue;
                     }
-                    console.log("Reserve bytes ", parseASMNumber(split[1]))
+                    addr += parseASMNumber(split[1]);
                     break;
                 case "DB":
                     if (!(split.length >= 2)) {
