@@ -392,7 +392,6 @@ function parseASM(asm) {
                         console.error("No parameter match")
                         continue;
                     }
-                    console.log("Set addr to", parseASMNumber(split[1]))
                     addr = parseASMNumber(split[1]);
                     break;
                 case "BYTE":
@@ -401,7 +400,6 @@ function parseASM(asm) {
                         continue;
                     }
                     console.log("Reserve bytes ", parseASMNumber(split[1]))
-                    addr += parseASMNumber(split[1]);
                     break;
                 case "DB":
                     if (!(split.length >= 2)) {
@@ -409,7 +407,6 @@ function parseASM(asm) {
                         continue;
                     }
                     for (const byte of split.slice(1)) {
-                        console.log("Write byte ", (parseASMNumber(byte) & 0xFF).toString(16), "to ", addr)
                         output[addr++] = (parseASMNumber(byte) & 0xFF);
                     }
                     break;
@@ -419,7 +416,6 @@ function parseASM(asm) {
                         continue;
                     }
                     for (const byte of split.slice(1)) {
-                        console.log("Write word ", parseASMNumber(byte).toString(16), "to ", addr, "and ", addr+1)
                         output[addr] = ((0xFF00 & parseASMNumber(byte)) >> 8);
                         output[addr+1] = (0xFF & parseASMNumber(byte));
                         addr += 2;
