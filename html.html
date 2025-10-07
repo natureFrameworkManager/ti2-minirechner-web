@@ -8,7 +8,7 @@
 
         <title>Minirechner</title>
     </head>
-    <body>
+    <body class="bg-[#121212]">
         <div style="display: block;" id="expansion">
             <svg viewBox="0,0 333,705" width="333" height="705" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 100px; left: 0; z-index: 10; border: 1px solid black">
                 <rect width="50" height="50" x="190" y="185" fill="white" stroke="black" stroke-width="1" />
@@ -374,8 +374,8 @@
                 </g>
 
             </svg>
-            <img src="2a.jpg" alt="" srcset="" style="position: absolute; width:650px; height: 920px; top: 0; left: 400px; border: 1px solid black;">
-            <textarea id="code-input" cols="50" rows="32" style="position: absolute; right: 100px; z-index: 20;">#! mrasm
+            <img class="hidden" src="2a.jpg" alt="" srcset="" style="position: absolute; width:650px; height: 920px; top: 0; left: 400px; border: 1px solid black;">
+            <textarea id="code-input" cols="50" rows="32" style="position: absolute; right: 100px; z-index: 20; display: none;">#! mrasm
 
 LOOP:
     CLR R0
@@ -756,5 +756,12 @@ MY_SUBROUTINE:
             </div>
             <!-- <script src="2i.js"></script> -->
         </div>
+        <script>
+            for (const element of document.querySelectorAll("svg")) {
+                element.addEventListener("click", (event) => {
+                    console.log(event.offsetX + "," + event.offsetY);
+                })
+            }
+        </script>
     </body>
 </html>
