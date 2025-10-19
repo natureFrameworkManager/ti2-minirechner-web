@@ -37,7 +37,7 @@
                 <!-- Traces -->
                 
                 <g>
-                    <polyline points="32,15 143,15" stroke="black" stroke-width="1" fill="none" />
+                    <polyline points="42,15 143,15" stroke="black" stroke-width="1" fill="none" marker-start="url(#arrow-front)" />
                     <polyline points="36,26 75,26" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
                     <polyline points="66,64 66,33 75,33" stroke="black" stroke-width="1" fill="none" />
                     <polyline points="36,43 100,43 100,51 111,51" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
@@ -109,9 +109,9 @@
                     <polyline points="401,106 480,106" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-big)" />
                     <polyline points="401,137 441,137" stroke="black" stroke-width="1" fill="none" />
                     <polyline points="401,146 421,146 421,164 441,164" stroke="black" stroke-width="1" fill="none" />
-                    <polyline points="480,138 502,138" stroke="black" stroke-width="1" fill="none" />
-                    <polyline points="480,151 502,151" stroke="black" stroke-width="1" fill="none" />
-                    <polyline points="480,165 502,165" stroke="black" stroke-width="1" fill="none" />
+                    <polyline points="480,138 493,138" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+                    <polyline points="480,151 493,151" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+                    <polyline points="480,165 493,165" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
                     <polyline points="480,196 500,196" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
                     <polyline points="364,196 441,196" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
                     <polyline points="390,185 390,169" stroke="black" stroke-width="1" fill="none" />
@@ -161,8 +161,8 @@
                     <polyline points="327,331 327,372 347,372" stroke="black" stroke-width="1" fill="none" />
                     <polyline points="215,387 268,387" stroke="black" stroke-width="1" fill="none" />
                     <polyline points="215,449 268,449" stroke="black" stroke-width="1" fill="none" />
-                    <polyline points="224,387 224,299 496,299" stroke="black" stroke-width="1" fill="none" />
-                    <polyline points="496,312 258,312 258,403 268,403" stroke="black" stroke-width="1" fill="none" />
+                    <polyline points="224,387 224,299 485,299" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+                    <polyline points="486,312 258,312 258,403 268,403" stroke="black" stroke-width="1" fill="none" marker-start="url(#arrow-rev)" />
                     <polyline points="276,407 276,420" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
                     <polyline points="276,469 276,482" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
                     <polyline points="284,395 347,395" stroke="black" stroke-width="1" fill="none" />
@@ -177,7 +177,7 @@
                     <polyline points="434,376 434,589 92,589 92,409 122,409" stroke="black" stroke-width="1" fill="none" />
                     <polyline points="429,385 429,585 97,585 97,417 122,417" stroke="black" stroke-width="1" fill="none" />
                     <polyline points="424,395 424,580 102,580 102,425 122,425" stroke="black" stroke-width="1" fill="none" />
-                    <polyline points="405,426 493,426" stroke="black" stroke-width="1" fill="none" />
+                    <polyline points="405,426 482,426" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
                     <polyline points="416,426 416,572 109,572 109,439 122,439" stroke="black" stroke-width="1" fill="none" />
                     <polyline points="480,486 501,486" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron-rev)" />
                     <polyline points="469,495 469,486 480,486" stroke="black" stroke-width="1" fill="none" />
@@ -561,8 +561,19 @@
                         <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" fill="black" stroke="none" transform="scale(2)" />
                         <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" fill="black" stroke="none" transform="scale(2)" />
                     </marker>
+                    <marker id="arrow" markerWidth="10" markerHeight="8" refX="0" refY="4">
+                        <polygon points="2,0 10,4 2,7" fill="none" stroke="black" stroke-width="1" />
+                        <polyline points="0,4 2,4" fill="none" stroke="black" stroke-width="1" />
+                    </marker>
+                    <marker id="arrow-front" markerWidth="10" markerHeight="8" refX="10" refY="4">
+                        <polygon points="2,0 10,4 2,7" fill="none" stroke="black" stroke-width="1" />
+                        <polyline points="0,4 2,4" fill="none" stroke="black" stroke-width="1" />
+                    </marker>
+                    <marker id="arrow-rev" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="180">
+                        <polygon points="2,0 10,4 2,7" fill="none" stroke="black" stroke-width="1" />
+                        <polyline points="0,4 2,4" fill="none" stroke="black" stroke-width="1" />
+                    </marker>
                 </defs>
-
             </svg>
             <img class="" src="2a.jpg" alt="" srcset="" style="position: absolute; width:650px; height: 920px; top: 0; left: 400px; border: 1px solid black;">
             <textarea id="code-input" cols="50" rows="32" style="position: absolute; right: 100px; z-index: 20; display: none;">#! mrasm
