@@ -1,1 +1,54 @@
 @import "tailwindcss";
+
+/* Credit: https://tailwindflex.com/@nickgirga/material-3-switches-light */
+/* Base Switch Style (Applied to Checkbox) */
+.switch {
+    @apply appearance-none relative w-14 h-8 cursor-pointer;
+}
+
+/* Switch Track */
+.switch::before {
+    @apply block w-14 h-8 transition duration-200 rounded-full border-2 border-[#938F99] bg-[#36343B];
+    content: "";
+}
+
+/* Switch Handle */
+.switch::after {
+    @apply block absolute top-2 ml-2 w-4 h-4 transition duration-200 bg-[#938F99] rounded-full;
+    content: "";
+}
+
+/* Switch Track when Flipped On */
+.switch:checked::before {
+    @apply bg-[#D0BCFF] border-0;
+}
+
+/* Switch Handle when Flipped On */
+.switch:checked::after {
+    @apply translate-x-6 scale-[125%] bg-[#381E72];
+}
+
+/* Switch Handle when Hovering (Off) */
+.switch:not(:disabled):hover::after {
+    filter: drop-shadow(0 0px 8px #CAC4D0);
+}
+
+/* Switch Handle when Hovering (On) */
+.switch:not(:disabled):hover:checked::after {
+    filter: drop-shadow(0 0px 8px #4F378B);
+}
+
+/* Switch Disabled Style */
+.switch:disabled {
+    @apply cursor-not-allowed;
+}
+
+/* Switch Disabled (Off) Track Style */
+.switch:disabled::before {
+    @apply border-[#E6E0E9] bg-[#36343B];
+}
+
+/* Switch Disabled (On) Track Style */
+.switch:disabled:checked::before {
+    @apply bg-[#E6E0E9];
+}
