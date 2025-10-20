@@ -11,8 +11,8 @@
     </head>
     <body class="bg-[#121212] text-white montserrat">
         <nav class="bg-[#121212] h-[56px] flex justify-between gap-x-1 px-1 py-1 z-10 absolute w-full">
-            <div class="material-icons-round text-[24px] !flex items-center justify-center cursor-pointer w-[48px] h-[48px]">developer_board</div>
-                <div class="h-full py-1 flex justify-center items-center text-[22px] leading-normal">Minirechner Emulator</div>
+            <div class="material-icons-round text-[24px] !flex items-center justify-center cursor-pointer w-[48px] h-[48px]" id="board-select">developer_board</div>
+            <div class="h-full py-1 flex justify-center items-center text-[22px] leading-normal">Minirechner Emulator</div>
             <div class="material-icons-round text-[24px] !flex items-center justify-center cursor-pointer w-[48px] h-[48px]" onclick="document.querySelector('#settings-overlay').style.display = ''">settings</div>
         </nav>
         <main class="flex flex-col px-4 h-[calc(100vh-56px-8px-58px-64px-8px)] w-full mt-[64px] pt-2 pb-4 gap-y-4 absolute top-0 left-0">
@@ -1938,8 +1938,14 @@
                 </div>
             </div>
         </footer>
-        <div class="z-20 absolute w-full h-full top-0 left-0 bg-black" style="display: none;" id="code-editor-overlay">
-            <textarea id="code-input" cols="50" rows="32" class="w-full h-full">#! mrasm
+        <div class="z-20 absolute w-full h-full top-0 left-0 bg-black flex flex-col" style="display: none;" id="code-editor-overlay">
+            <div class="bg-[#141218] h-[56px] flex justify-between gap-x-1 px-1 py-1 z-10 fixed top-0 w-full">
+                <div class="w-[48px] h-[48px]"></div>
+                <div class="h-full py-1 flex justify-center items-center text-[22px] leading-normal">Editor</div>
+                <div class="material-icons-round text-[24px] !flex items-center justify-center cursor-pointer w-[48px] h-[48px]" onclick="document.querySelector('#code-editor-overlay').style.display = 'none'">expand_more</div>
+            </div>
+            <div class="absolute top-[56px] bottom-0 left-0 right-0 ps-4 pb-2">
+                <textarea id="code-input" cols="50" rows="32" class="w-full h-full" style="font-family: monospace;">#! mrasm
 
 LOOP:
     CLR R0
@@ -2007,9 +2013,10 @@ NEXT:
 
 MY_SUBROUTINE:
     RET
-            </textarea>
+                </textarea>
+            </div>
         </div>
-        <div class="z-20 fixed w-full h-full top-0 left-0 bg-[#141218]" style="display: block;" id="settings-overlay">
+        <div class="z-20 fixed w-full h-full top-0 left-0 bg-[#141218]" style="display: none;" id="settings-overlay">
             <div class="bg-[#141218] h-[56px] flex justify-between gap-x-1 px-1 py-1 z-10 fixed top-0 w-full">
                 <div class="material-icons-round text-[24px] !flex items-center justify-center cursor-pointer w-[48px] h-[48px]" onclick="document.querySelector('#settings-overlay').style.display = 'none'">arrow_back</div>
                 <div class="h-full py-1 flex justify-center items-center text-[22px] leading-normal">Settings</div>
