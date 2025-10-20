@@ -2009,7 +2009,7 @@ MY_SUBROUTINE:
     RET
             </textarea>
         </div>
-        <div class="z-20 fixed w-full h-full top-0 left-0 bg-[#141218]" style="display: none;" id="settings-overlay">
+        <div class="z-20 fixed w-full h-full top-0 left-0 bg-[#141218]" style="display: block;" id="settings-overlay">
             <div class="bg-[#141218] h-[56px] flex justify-between gap-x-1 px-1 py-1 z-10 fixed top-0 w-full">
                 <div class="material-icons-round text-[24px] !flex items-center justify-center cursor-pointer w-[48px] h-[48px]" onclick="document.querySelector('#settings-overlay').style.display = 'none'">arrow_back</div>
                 <div class="h-full py-1 flex justify-center items-center text-[22px] leading-normal">Settings</div>
@@ -2023,6 +2023,29 @@ MY_SUBROUTINE:
                 <div class="flex justify-between items-center px-4 py-2 gap-x-4 text-[16px] leading-normal">
                     <span>Show memory viewer</span>
                     <input type="checkbox" class="switch" />
+                </div>
+                <div class="flex justify-between items-center px-4 py-2 gap-x-4 text-[16px] leading-normal">
+                    <span>Control style</span>
+                    <select class="w-[140px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option selected>Realistic</option>
+                        <option>Simple</option>
+                    </select>
+                </div>
+                <div class="flex justify-between items-center px-4 py-2 gap-x-4 text-[16px] leading-normal">
+                    <span>Data display style</span>
+                    <select class="w-[140px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option selected>LED</option>
+                        <option>Binary</option>
+                        <option>Hexadecimal</option>
+                        <option>Decimal</option>
+                    </select>
+                </div>
+                <div class="flex justify-between items-center px-4 py-2 gap-x-4 text-[16px] leading-normal">
+                    <span>Command display style</span>
+                    <select class="w-[140px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option selected>LED</option>
+                        <option>Parsed</option>
+                    </select>
                 </div>
             </div>
         </div>
