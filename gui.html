@@ -141,14 +141,46 @@
                         <text text-anchor="middle" x="468" y="476">UART</text>
                     </g>
                     <g>
-                        <text text-anchor="start" x="147" y="15">D</text>
-                        <text text-anchor="end" x="166" y="15">Q</text>
-                        <text text-anchor="start" font-size="5px">
-                            <tspan x="149" y="21">Befehls-</tspan>
-                            <tspan x="149" y="26">Register</tspan>
-                        </text>
-                        <text text-anchor="begin" x="147" y="32">EN</text>
-                        <text text-anchor="middle" x="157" y="43">CLR</text>
+                        <g>
+                            <text text-anchor="start" x="147" y="15">D</text>
+                            <text text-anchor="end" x="166" y="15">Q</text>
+                            <text text-anchor="start" font-size="5px">
+                                <tspan x="149" y="21">Befehls-</tspan>
+                                <tspan x="149" y="26">Register</tspan>
+                            </text>
+                            <text text-anchor="begin" x="147" y="32">EN</text>
+                            <text text-anchor="middle" x="157" y="43">CLR</text>
+                        </g>
+                        <g>
+                            <text text-anchor="middle" x="368" y="30">Mikroprogramm-Memory</text>
+                            <text text-anchor="middle" x="350" y="37" font-size="5px">MPRAM</text>
+                            <text text-anchor="middle" x="390" y="37" font-size="5px">MPFF</text>
+                            <text text-anchor="begin" x="336" y="44">A8...A5</text>
+                            <text text-anchor="begin" x="336" y="65">A4</text>
+                            <text text-anchor="begin" x="336" y="76">A3</text>
+                            <text text-anchor="begin" x="336" y="87">A2</text>
+                            <text text-anchor="begin" x="380" y="77">D</text>
+                            <text text-anchor="end" x="399" y="77">Q</text>
+                            <text text-anchor="middle">
+                                <tspan x="351" y="98">512 x 28 Bit</tspan>
+                                <tspan x="351" y="105">RAM</tspan>
+                            </text>
+                            <text text-anchor="middle">
+                                <tspan x="389.5" y="98">28 D-</tspan>
+                                <tspan x="389.5" y="105">Flipflops</tspan>
+                            </text>
+                            <text text-anchor="begin" x="336" y="116">A1</text>
+                            <text text-anchor="begin" x="336" y="141">A0</text>
+                            <text text-anchor="middle" x="389" y="166">CLR</text>
+                        </g>
+                        <g>
+                            <text text-anchor="begin" x="445" y="140">EN</text>
+                            <text text-anchor="begin" x="445" y="165">WR</text>
+                            <text text-anchor="middle">
+                                <tspan x="462" y="178">Memory-</tspan>
+                                <tspan x="462" y="185">Controller</tspan>
+                            </text>
+                        </g>
                         <g font-size="10px">
                             <text text-anchor="middle" x="85" y="33">&</text>
                             <text text-anchor="middle" x="85" y="62">&</text>
@@ -158,6 +190,71 @@
                             <text text-anchor="middle" x="90" y="185">&ge;1</text>
                             <text text-anchor="middle" x="202" y="212">&</text>
                             <text text-anchor="middle" x="274" y="245">&ge;1</text>
+                        </g>
+                        <g>
+                            <text text-anchor="middle" x="150" y="355">AA2</text>
+                            <text text-anchor="middle" x="169" y="355">AA1</text>
+                            <text text-anchor="middle" x="188" y="355">AA0</text>
+                            <text text-anchor="middle" x="170" y="367" font-size="9px">Register</text>
+                            <text text-anchor="middle" x="131" y="378">WE</text>
+                            <text text-anchor="middle" x="131" y="386">WS</text>
+                            <text text-anchor="middle" x="131" y="402">FWE</text>
+                            <text text-anchor="middle" x="131" y="412">F0I</text>
+                            <text text-anchor="middle" x="131" y="420">F1I</text>
+                            <text text-anchor="middle" x="131" y="428">F2I</text>
+                            <text text-anchor="middle" x="131" y="441">DI</text>
+                            <text text-anchor="middle" x="131" y="462">CLR</text>
+                            <text text-anchor="middle" x="205" y="389">DOA</text>
+                            <text text-anchor="middle" x="205" y="412">F0O</text>
+                            <text text-anchor="middle" x="205" y="420">F1O</text>
+                            <text text-anchor="middle" x="205" y="428">F2O</text>
+                            <text text-anchor="middle" x="205" y="436">F3O</text>
+                            <text text-anchor="middle" x="205" y="451">DOB</text>
+                            <text text-anchor="middle" x="150" y="464">AB2</text>
+                            <text text-anchor="middle" x="169" y="464">AB1</text>
+                            <text text-anchor="middle" x="188" y="464">AB0</text>
+
+                            <text text-anchor="end" x="148" y="379">0:</text>
+                            <text text-anchor="end" x="148" y="390">1:</text>
+                            <text text-anchor="end" x="148" y="400">2:</text>
+                            <text text-anchor="end" x="148" y="411">3:</text>
+                            <text text-anchor="end" x="148" y="421">p3:</text>
+                            <text text-anchor="end" x="148" y="432">5:</text>
+                            <text text-anchor="end" x="148" y="443">6:</text>
+                            <text text-anchor="end" x="148" y="454">7:</text>
+                        </g>
+                        <g>
+                            <text text-anchor="start" x="351" y="373">CI</text>
+                            <text text-anchor="start" x="351" y="380" font-size="5px">Carry in</text>
+                            <text text-anchor="start" x="351" y="397">A</text>
+                            <text text-anchor="middle" x="376" y="424" font-size="8px">ALU</text>
+                            <text text-anchor="start" x="351" y="458">B</text>
+                            <text text-anchor="middle" x="356" y="472">S3</text>
+                            <text text-anchor="middle" x="370" y="472">S2</text>
+                            <text text-anchor="middle" x="383" y="472">S1</text>
+                            <text text-anchor="middle" x="396" y="472">S0</text>
+                            <text text-anchor="end" x="391" y="378" font-size="5px">Carry</text>
+                            <text text-anchor="end" x="403" y="378">CO</text>
+                            <text text-anchor="end" x="391" y="387" font-size="5px">Zero</text>
+                            <text text-anchor="end" x="403" y="387">ZO</text>
+                            <text text-anchor="end" x="391" y="397" font-size="5px">Negative</text>
+                            <text text-anchor="end" x="403" y="397">NO</text>
+                            <text text-anchor="end" x="403" y="428">F</text>
+                        </g>
+                        <g>
+                            <text text-anchor="start" x="226" y="211">D</text>
+                            <text text-anchor="end" x="242" y="211">Q</text>
+                        </g>
+                        <g>
+                            <text text-anchor="start" x="304" y="211">D</text>
+                            <text text-anchor="end" x="318" y="211">Q</text>
+                            <text text-anchor="middle" x="311" y="232">CLR</text>
+                        </g>
+                        <g>
+                            <text text-anchor="start" x="503" y="488">CTS</text>
+                            <text text-anchor="start" x="503" y="502">TxD</text>
+                            <text text-anchor="start" x="503" y="529">RxD</text>
+                            <text text-anchor="start" x="503" y="541">RTS</text>
                         </g>
 
                         <g>
@@ -946,14 +1043,46 @@
                         <text text-anchor="middle" x="468" y="476">UART</text>
                     </g>
                     <g>
-                        <text text-anchor="start" x="147" y="15">D</text>
-                        <text text-anchor="end" x="166" y="15">Q</text>
-                        <text text-anchor="start" font-size="5px">
-                            <tspan x="149" y="21">Befehls-</tspan>
-                            <tspan x="149" y="26">Register</tspan>
-                        </text>
-                        <text text-anchor="begin" x="147" y="32">EN</text>
-                        <text text-anchor="middle" x="157" y="43">CLR</text>
+                        <g>
+                            <text text-anchor="start" x="147" y="15">D</text>
+                            <text text-anchor="end" x="166" y="15">Q</text>
+                            <text text-anchor="start" font-size="5px">
+                                <tspan x="149" y="21">Befehls-</tspan>
+                                <tspan x="149" y="26">Register</tspan>
+                            </text>
+                            <text text-anchor="begin" x="147" y="32">EN</text>
+                            <text text-anchor="middle" x="157" y="43">CLR</text>
+                        </g>
+                        <g>
+                            <text text-anchor="middle" x="368" y="30">Mikroprogramm-Memory</text>
+                            <text text-anchor="middle" x="350" y="37" font-size="5px">MPRAM</text>
+                            <text text-anchor="middle" x="390" y="37" font-size="5px">MPFF</text>
+                            <text text-anchor="begin" x="336" y="44">A8...A5</text>
+                            <text text-anchor="begin" x="336" y="65">A4</text>
+                            <text text-anchor="begin" x="336" y="76">A3</text>
+                            <text text-anchor="begin" x="336" y="87">A2</text>
+                            <text text-anchor="begin" x="380" y="77">D</text>
+                            <text text-anchor="end" x="399" y="77">Q</text>
+                            <text text-anchor="middle">
+                                <tspan x="351" y="98">512 x 28 Bit</tspan>
+                                <tspan x="351" y="105">RAM</tspan>
+                            </text>
+                            <text text-anchor="middle">
+                                <tspan x="389.5" y="98">28 D-</tspan>
+                                <tspan x="389.5" y="105">Flipflops</tspan>
+                            </text>
+                            <text text-anchor="begin" x="336" y="116">A1</text>
+                            <text text-anchor="begin" x="336" y="141">A0</text>
+                            <text text-anchor="middle" x="389" y="166">CLR</text>
+                        </g>
+                        <g>
+                            <text text-anchor="begin" x="445" y="140">EN</text>
+                            <text text-anchor="begin" x="445" y="165">WR</text>
+                            <text text-anchor="middle">
+                                <tspan x="462" y="178">Memory-</tspan>
+                                <tspan x="462" y="185">Controller</tspan>
+                            </text>
+                        </g>
                         <g font-size="10px">
                             <text text-anchor="middle" x="85" y="33">&</text>
                             <text text-anchor="middle" x="85" y="62">&</text>
@@ -963,6 +1092,71 @@
                             <text text-anchor="middle" x="90" y="185">&ge;1</text>
                             <text text-anchor="middle" x="202" y="212">&</text>
                             <text text-anchor="middle" x="274" y="245">&ge;1</text>
+                        </g>
+                        <g>
+                            <text text-anchor="middle" x="150" y="355">AA2</text>
+                            <text text-anchor="middle" x="169" y="355">AA1</text>
+                            <text text-anchor="middle" x="188" y="355">AA0</text>
+                            <text text-anchor="middle" x="170" y="367" font-size="9px">Register</text>
+                            <text text-anchor="middle" x="131" y="378">WE</text>
+                            <text text-anchor="middle" x="131" y="386">WS</text>
+                            <text text-anchor="middle" x="131" y="402">FWE</text>
+                            <text text-anchor="middle" x="131" y="412">F0I</text>
+                            <text text-anchor="middle" x="131" y="420">F1I</text>
+                            <text text-anchor="middle" x="131" y="428">F2I</text>
+                            <text text-anchor="middle" x="131" y="441">DI</text>
+                            <text text-anchor="middle" x="131" y="462">CLR</text>
+                            <text text-anchor="middle" x="205" y="389">DOA</text>
+                            <text text-anchor="middle" x="205" y="412">F0O</text>
+                            <text text-anchor="middle" x="205" y="420">F1O</text>
+                            <text text-anchor="middle" x="205" y="428">F2O</text>
+                            <text text-anchor="middle" x="205" y="436">F3O</text>
+                            <text text-anchor="middle" x="205" y="451">DOB</text>
+                            <text text-anchor="middle" x="150" y="464">AB2</text>
+                            <text text-anchor="middle" x="169" y="464">AB1</text>
+                            <text text-anchor="middle" x="188" y="464">AB0</text>
+
+                            <text text-anchor="end" x="148" y="379">0:</text>
+                            <text text-anchor="end" x="148" y="390">1:</text>
+                            <text text-anchor="end" x="148" y="400">2:</text>
+                            <text text-anchor="end" x="148" y="411">3:</text>
+                            <text text-anchor="end" x="148" y="421">p3:</text>
+                            <text text-anchor="end" x="148" y="432">5:</text>
+                            <text text-anchor="end" x="148" y="443">6:</text>
+                            <text text-anchor="end" x="148" y="454">7:</text>
+                        </g>
+                        <g>
+                            <text text-anchor="start" x="351" y="373">CI</text>
+                            <text text-anchor="start" x="351" y="380" font-size="5px">Carry in</text>
+                            <text text-anchor="start" x="351" y="397">A</text>
+                            <text text-anchor="middle" x="376" y="424" font-size="8px">ALU</text>
+                            <text text-anchor="start" x="351" y="458">B</text>
+                            <text text-anchor="middle" x="356" y="472">S3</text>
+                            <text text-anchor="middle" x="370" y="472">S2</text>
+                            <text text-anchor="middle" x="383" y="472">S1</text>
+                            <text text-anchor="middle" x="396" y="472">S0</text>
+                            <text text-anchor="end" x="391" y="378" font-size="5px">Carry</text>
+                            <text text-anchor="end" x="403" y="378">CO</text>
+                            <text text-anchor="end" x="391" y="387" font-size="5px">Zero</text>
+                            <text text-anchor="end" x="403" y="387">ZO</text>
+                            <text text-anchor="end" x="391" y="397" font-size="5px">Negative</text>
+                            <text text-anchor="end" x="403" y="397">NO</text>
+                            <text text-anchor="end" x="403" y="428">F</text>
+                        </g>
+                        <g>
+                            <text text-anchor="start" x="226" y="211">D</text>
+                            <text text-anchor="end" x="242" y="211">Q</text>
+                        </g>
+                        <g>
+                            <text text-anchor="start" x="304" y="211">D</text>
+                            <text text-anchor="end" x="318" y="211">Q</text>
+                            <text text-anchor="middle" x="311" y="232">CLR</text>
+                        </g>
+                        <g>
+                            <text text-anchor="start" x="503" y="488">CTS</text>
+                            <text text-anchor="start" x="503" y="502">TxD</text>
+                            <text text-anchor="start" x="503" y="529">RxD</text>
+                            <text text-anchor="start" x="503" y="541">RTS</text>
                         </g>
 
                         <g>
@@ -1755,14 +1949,46 @@
                             <text text-anchor="middle" x="468" y="476">UART</text>
                         </g>
                         <g>
-                            <text text-anchor="start" x="147" y="15">D</text>
-                            <text text-anchor="end" x="166" y="15">Q</text>
-                            <text text-anchor="start" font-size="5px">
-                                <tspan x="149" y="21">Befehls-</tspan>
-                                <tspan x="149" y="26">Register</tspan>
-                            </text>
-                            <text text-anchor="begin" x="147" y="32">EN</text>
-                            <text text-anchor="middle" x="157" y="43">CLR</text>
+                            <g>
+                                <text text-anchor="start" x="147" y="15">D</text>
+                                <text text-anchor="end" x="166" y="15">Q</text>
+                                <text text-anchor="start" font-size="5px">
+                                    <tspan x="149" y="21">Befehls-</tspan>
+                                    <tspan x="149" y="26">Register</tspan>
+                                </text>
+                                <text text-anchor="begin" x="147" y="32">EN</text>
+                                <text text-anchor="middle" x="157" y="43">CLR</text>
+                            </g>
+                            <g>
+                                <text text-anchor="middle" x="368" y="30">Mikroprogramm-Memory</text>
+                                <text text-anchor="middle" x="350" y="37" font-size="5px">MPRAM</text>
+                                <text text-anchor="middle" x="390" y="37" font-size="5px">MPFF</text>
+                                <text text-anchor="begin" x="336" y="44">A8...A5</text>
+                                <text text-anchor="begin" x="336" y="65">A4</text>
+                                <text text-anchor="begin" x="336" y="76">A3</text>
+                                <text text-anchor="begin" x="336" y="87">A2</text>
+                                <text text-anchor="begin" x="380" y="77">D</text>
+                                <text text-anchor="end" x="399" y="77">Q</text>
+                                <text text-anchor="middle">
+                                    <tspan x="351" y="98">512 x 28 Bit</tspan>
+                                    <tspan x="351" y="105">RAM</tspan>
+                                </text>
+                                <text text-anchor="middle">
+                                    <tspan x="389.5" y="98">28 D-</tspan>
+                                    <tspan x="389.5" y="105">Flipflops</tspan>
+                                </text>
+                                <text text-anchor="begin" x="336" y="116">A1</text>
+                                <text text-anchor="begin" x="336" y="141">A0</text>
+                                <text text-anchor="middle" x="389" y="166">CLR</text>
+                            </g>
+                            <g>
+                                <text text-anchor="begin" x="445" y="140">EN</text>
+                                <text text-anchor="begin" x="445" y="165">WR</text>
+                                <text text-anchor="middle">
+                                    <tspan x="462" y="178">Memory-</tspan>
+                                    <tspan x="462" y="185">Controller</tspan>
+                                </text>
+                            </g>
                             <g font-size="10px">
                                 <text text-anchor="middle" x="85" y="33">&</text>
                                 <text text-anchor="middle" x="85" y="62">&</text>
@@ -1772,6 +1998,71 @@
                                 <text text-anchor="middle" x="90" y="185">&ge;1</text>
                                 <text text-anchor="middle" x="202" y="212">&</text>
                                 <text text-anchor="middle" x="274" y="245">&ge;1</text>
+                            </g>
+                            <g>
+                                <text text-anchor="middle" x="150" y="355">AA2</text>
+                                <text text-anchor="middle" x="169" y="355">AA1</text>
+                                <text text-anchor="middle" x="188" y="355">AA0</text>
+                                <text text-anchor="middle" x="170" y="367" font-size="9px">Register</text>
+                                <text text-anchor="middle" x="131" y="378">WE</text>
+                                <text text-anchor="middle" x="131" y="386">WS</text>
+                                <text text-anchor="middle" x="131" y="402">FWE</text>
+                                <text text-anchor="middle" x="131" y="412">F0I</text>
+                                <text text-anchor="middle" x="131" y="420">F1I</text>
+                                <text text-anchor="middle" x="131" y="428">F2I</text>
+                                <text text-anchor="middle" x="131" y="441">DI</text>
+                                <text text-anchor="middle" x="131" y="462">CLR</text>
+                                <text text-anchor="middle" x="205" y="389">DOA</text>
+                                <text text-anchor="middle" x="205" y="412">F0O</text>
+                                <text text-anchor="middle" x="205" y="420">F1O</text>
+                                <text text-anchor="middle" x="205" y="428">F2O</text>
+                                <text text-anchor="middle" x="205" y="436">F3O</text>
+                                <text text-anchor="middle" x="205" y="451">DOB</text>
+                                <text text-anchor="middle" x="150" y="464">AB2</text>
+                                <text text-anchor="middle" x="169" y="464">AB1</text>
+                                <text text-anchor="middle" x="188" y="464">AB0</text>
+
+                                <text text-anchor="end" x="148" y="379">0:</text>
+                                <text text-anchor="end" x="148" y="390">1:</text>
+                                <text text-anchor="end" x="148" y="400">2:</text>
+                                <text text-anchor="end" x="148" y="411">3:</text>
+                                <text text-anchor="end" x="148" y="421">p3:</text>
+                                <text text-anchor="end" x="148" y="432">5:</text>
+                                <text text-anchor="end" x="148" y="443">6:</text>
+                                <text text-anchor="end" x="148" y="454">7:</text>
+                            </g>
+                            <g>
+                                <text text-anchor="start" x="351" y="373">CI</text>
+                                <text text-anchor="start" x="351" y="380" font-size="5px">Carry in</text>
+                                <text text-anchor="start" x="351" y="397">A</text>
+                                <text text-anchor="middle" x="376" y="424" font-size="8px">ALU</text>
+                                <text text-anchor="start" x="351" y="458">B</text>
+                                <text text-anchor="middle" x="356" y="472">S3</text>
+                                <text text-anchor="middle" x="370" y="472">S2</text>
+                                <text text-anchor="middle" x="383" y="472">S1</text>
+                                <text text-anchor="middle" x="396" y="472">S0</text>
+                                <text text-anchor="end" x="391" y="378" font-size="5px">Carry</text>
+                                <text text-anchor="end" x="403" y="378">CO</text>
+                                <text text-anchor="end" x="391" y="387" font-size="5px">Zero</text>
+                                <text text-anchor="end" x="403" y="387">ZO</text>
+                                <text text-anchor="end" x="391" y="397" font-size="5px">Negative</text>
+                                <text text-anchor="end" x="403" y="397">NO</text>
+                                <text text-anchor="end" x="403" y="428">F</text>
+                            </g>
+                            <g>
+                                <text text-anchor="start" x="226" y="211">D</text>
+                                <text text-anchor="end" x="242" y="211">Q</text>
+                            </g>
+                            <g>
+                                <text text-anchor="start" x="304" y="211">D</text>
+                                <text text-anchor="end" x="318" y="211">Q</text>
+                                <text text-anchor="middle" x="311" y="232">CLR</text>
+                            </g>
+                            <g>
+                                <text text-anchor="start" x="503" y="488">CTS</text>
+                                <text text-anchor="start" x="503" y="502">TxD</text>
+                                <text text-anchor="start" x="503" y="529">RxD</text>
+                                <text text-anchor="start" x="503" y="541">RTS</text>
                             </g>
 
                             <g>
@@ -2560,14 +2851,46 @@
                             <text text-anchor="middle" x="468" y="476">UART</text>
                         </g>
                         <g>
-                            <text text-anchor="start" x="147" y="15">D</text>
-                            <text text-anchor="end" x="166" y="15">Q</text>
-                            <text text-anchor="start" font-size="5px">
-                                <tspan x="149" y="21">Befehls-</tspan>
-                                <tspan x="149" y="26">Register</tspan>
-                            </text>
-                            <text text-anchor="begin" x="147" y="32">EN</text>
-                            <text text-anchor="middle" x="157" y="43">CLR</text>
+                            <g>
+                                <text text-anchor="start" x="147" y="15">D</text>
+                                <text text-anchor="end" x="166" y="15">Q</text>
+                                <text text-anchor="start" font-size="5px">
+                                    <tspan x="149" y="21">Befehls-</tspan>
+                                    <tspan x="149" y="26">Register</tspan>
+                                </text>
+                                <text text-anchor="begin" x="147" y="32">EN</text>
+                                <text text-anchor="middle" x="157" y="43">CLR</text>
+                            </g>
+                            <g>
+                                <text text-anchor="middle" x="368" y="30">Mikroprogramm-Memory</text>
+                                <text text-anchor="middle" x="350" y="37" font-size="5px">MPRAM</text>
+                                <text text-anchor="middle" x="390" y="37" font-size="5px">MPFF</text>
+                                <text text-anchor="begin" x="336" y="44">A8...A5</text>
+                                <text text-anchor="begin" x="336" y="65">A4</text>
+                                <text text-anchor="begin" x="336" y="76">A3</text>
+                                <text text-anchor="begin" x="336" y="87">A2</text>
+                                <text text-anchor="begin" x="380" y="77">D</text>
+                                <text text-anchor="end" x="399" y="77">Q</text>
+                                <text text-anchor="middle">
+                                    <tspan x="351" y="98">512 x 28 Bit</tspan>
+                                    <tspan x="351" y="105">RAM</tspan>
+                                </text>
+                                <text text-anchor="middle">
+                                    <tspan x="389.5" y="98">28 D-</tspan>
+                                    <tspan x="389.5" y="105">Flipflops</tspan>
+                                </text>
+                                <text text-anchor="begin" x="336" y="116">A1</text>
+                                <text text-anchor="begin" x="336" y="141">A0</text>
+                                <text text-anchor="middle" x="389" y="166">CLR</text>
+                            </g>
+                            <g>
+                                <text text-anchor="begin" x="445" y="140">EN</text>
+                                <text text-anchor="begin" x="445" y="165">WR</text>
+                                <text text-anchor="middle">
+                                    <tspan x="462" y="178">Memory-</tspan>
+                                    <tspan x="462" y="185">Controller</tspan>
+                                </text>
+                            </g>
                             <g font-size="10px">
                                 <text text-anchor="middle" x="85" y="33">&</text>
                                 <text text-anchor="middle" x="85" y="62">&</text>
@@ -2578,41 +2901,106 @@
                                 <text text-anchor="middle" x="202" y="212">&</text>
                                 <text text-anchor="middle" x="274" y="245">&ge;1</text>
                             </g>
-                        </g>
+                            <g>
+                                <text text-anchor="middle" x="150" y="355">AA2</text>
+                                <text text-anchor="middle" x="169" y="355">AA1</text>
+                                <text text-anchor="middle" x="188" y="355">AA0</text>
+                                <text text-anchor="middle" x="170" y="367" font-size="9px">Register</text>
+                                <text text-anchor="middle" x="131" y="378">WE</text>
+                                <text text-anchor="middle" x="131" y="386">WS</text>
+                                <text text-anchor="middle" x="131" y="402">FWE</text>
+                                <text text-anchor="middle" x="131" y="412">F0I</text>
+                                <text text-anchor="middle" x="131" y="420">F1I</text>
+                                <text text-anchor="middle" x="131" y="428">F2I</text>
+                                <text text-anchor="middle" x="131" y="441">DI</text>
+                                <text text-anchor="middle" x="131" y="462">CLR</text>
+                                <text text-anchor="middle" x="205" y="389">DOA</text>
+                                <text text-anchor="middle" x="205" y="412">F0O</text>
+                                <text text-anchor="middle" x="205" y="420">F1O</text>
+                                <text text-anchor="middle" x="205" y="428">F2O</text>
+                                <text text-anchor="middle" x="205" y="436">F3O</text>
+                                <text text-anchor="middle" x="205" y="451">DOB</text>
+                                <text text-anchor="middle" x="150" y="464">AB2</text>
+                                <text text-anchor="middle" x="169" y="464">AB1</text>
+                                <text text-anchor="middle" x="188" y="464">AB0</text>
 
-                        <g>
-                            <text text-anchor="start" x="59" y="115">00</text>
-                            <text text-anchor="start" x="59" y="123">01</text>
-                            <text text-anchor="start" x="59" y="131">10</text>
-                            <text text-anchor="start" x="59" y="139">11</text>
-                            <text text-anchor="start" x="151" y="108">000</text>
-                            <text text-anchor="start" x="151" y="115">001</text>
-                            <text text-anchor="start" x="151" y="123">010</text>
-                            <text text-anchor="start" x="151" y="131">011</text>
-                            <text text-anchor="start" x="151" y="139">100</text>
-                            <text text-anchor="start" x="151" y="148">101</text>
-                            <text text-anchor="start" x="151" y="156">110</text>
-                            <text text-anchor="start" x="151" y="164">111</text>
-                            <text text-anchor="start" x="293" y="110">0</text>
-                            <text text-anchor="start" x="293" y="120">1</text>
-                            <text text-anchor="start" x="293" y="135">0</text>
-                            <text text-anchor="start" x="293" y="146">1</text>
-                            <text text-anchor="start" x="100" y="290">0</text>
-                            <text text-anchor="start" x="100" y="297">1</text>
-                            <text text-anchor="start" x="100" y="312">0</text>
-                            <text text-anchor="start" x="100" y="319">1</text>
-                            <text text-anchor="start" x="100" y="334">0</text>
-                            <text text-anchor="start" x="100" y="341">1</text>
-                            <text text-anchor="start" x="76" y="479">0</text>
-                            <text text-anchor="start" x="76" y="486">1</text>
-                            <text text-anchor="start" x="76" y="500">0</text>
-                            <text text-anchor="start" x="76" y="507">1</text>
-                            <text text-anchor="start" x="76" y="522">0</text>
-                            <text text-anchor="start" x="76" y="529">1</text>
-                            <text text-anchor="start" x="270" y="390">0</text>
-                            <text text-anchor="start" x="270" y="406">1</text>
-                            <text text-anchor="start" x="270" y="451">0</text>
-                            <text text-anchor="start" x="270" y="467">1</text>
+                                <text text-anchor="end" x="148" y="379">0:</text>
+                                <text text-anchor="end" x="148" y="390">1:</text>
+                                <text text-anchor="end" x="148" y="400">2:</text>
+                                <text text-anchor="end" x="148" y="411">3:</text>
+                                <text text-anchor="end" x="148" y="421">p3:</text>
+                                <text text-anchor="end" x="148" y="432">5:</text>
+                                <text text-anchor="end" x="148" y="443">6:</text>
+                                <text text-anchor="end" x="148" y="454">7:</text>
+                            </g>
+                            <g>
+                                <text text-anchor="start" x="351" y="373">CI</text>
+                                <text text-anchor="start" x="351" y="380" font-size="5px">Carry in</text>
+                                <text text-anchor="start" x="351" y="397">A</text>
+                                <text text-anchor="middle" x="376" y="424" font-size="8px">ALU</text>
+                                <text text-anchor="start" x="351" y="458">B</text>
+                                <text text-anchor="middle" x="356" y="472">S3</text>
+                                <text text-anchor="middle" x="370" y="472">S2</text>
+                                <text text-anchor="middle" x="383" y="472">S1</text>
+                                <text text-anchor="middle" x="396" y="472">S0</text>
+                                <text text-anchor="end" x="391" y="378" font-size="5px">Carry</text>
+                                <text text-anchor="end" x="403" y="378">CO</text>
+                                <text text-anchor="end" x="391" y="387" font-size="5px">Zero</text>
+                                <text text-anchor="end" x="403" y="387">ZO</text>
+                                <text text-anchor="end" x="391" y="397" font-size="5px">Negative</text>
+                                <text text-anchor="end" x="403" y="397">NO</text>
+                                <text text-anchor="end" x="403" y="428">F</text>
+                            </g>
+                            <g>
+                                <text text-anchor="start" x="226" y="211">D</text>
+                                <text text-anchor="end" x="242" y="211">Q</text>
+                            </g>
+                            <g>
+                                <text text-anchor="start" x="304" y="211">D</text>
+                                <text text-anchor="end" x="318" y="211">Q</text>
+                                <text text-anchor="middle" x="311" y="232">CLR</text>
+                            </g>
+                            <g>
+                                <text text-anchor="start" x="503" y="488">CTS</text>
+                                <text text-anchor="start" x="503" y="502">TxD</text>
+                                <text text-anchor="start" x="503" y="529">RxD</text>
+                                <text text-anchor="start" x="503" y="541">RTS</text>
+                            </g>
+
+                            <g>
+                                <text text-anchor="start" x="59" y="115">00</text>
+                                <text text-anchor="start" x="59" y="123">01</text>
+                                <text text-anchor="start" x="59" y="131">10</text>
+                                <text text-anchor="start" x="59" y="139">11</text>
+                                <text text-anchor="start" x="151" y="108">000</text>
+                                <text text-anchor="start" x="151" y="115">001</text>
+                                <text text-anchor="start" x="151" y="123">010</text>
+                                <text text-anchor="start" x="151" y="131">011</text>
+                                <text text-anchor="start" x="151" y="139">100</text>
+                                <text text-anchor="start" x="151" y="148">101</text>
+                                <text text-anchor="start" x="151" y="156">110</text>
+                                <text text-anchor="start" x="151" y="164">111</text>
+                                <text text-anchor="start" x="293" y="110">0</text>
+                                <text text-anchor="start" x="293" y="120">1</text>
+                                <text text-anchor="start" x="293" y="135">0</text>
+                                <text text-anchor="start" x="293" y="146">1</text>
+                                <text text-anchor="start" x="100" y="290">0</text>
+                                <text text-anchor="start" x="100" y="297">1</text>
+                                <text text-anchor="start" x="100" y="312">0</text>
+                                <text text-anchor="start" x="100" y="319">1</text>
+                                <text text-anchor="start" x="100" y="334">0</text>
+                                <text text-anchor="start" x="100" y="341">1</text>
+                                <text text-anchor="start" x="76" y="479">0</text>
+                                <text text-anchor="start" x="76" y="486">1</text>
+                                <text text-anchor="start" x="76" y="500">0</text>
+                                <text text-anchor="start" x="76" y="507">1</text>
+                                <text text-anchor="start" x="76" y="522">0</text>
+                                <text text-anchor="start" x="76" y="529">1</text>
+                                <text text-anchor="start" x="270" y="390">0</text>
+                                <text text-anchor="start" x="270" y="406">1</text>
+                                <text text-anchor="start" x="270" y="451">0</text>
+                                <text text-anchor="start" x="270" y="467">1</text>
+                            </g>
                         </g>
                     </g>
 
