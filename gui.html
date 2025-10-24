@@ -10,12 +10,12 @@
         <title>Minirechner</title>
     </head>
     <body class="bg-[#121212] text-white montserrat" id="a-con">
-        <nav class="bg-[#121212] h-[56px] flex justify-between gap-x-1 px-1 py-1 z-10 absolute w-full">
-            <div class="material-icons-round text-[24px] !flex items-center justify-center cursor-pointer w-[48px] h-[48px]" id="board-select">developer_board</div>
+        <nav class="bg-[#121212] h-14 flex justify-between gap-x-1 px-1 py-1 z-10 absolute w-full">
+            <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12" id="board-select">developer_board</div>
             <div class="h-full py-1 flex justify-center items-center text-[22px] leading-normal">Minirechner Emulator</div>
-            <div class="material-icons-round text-[24px] !flex items-center justify-center cursor-pointer w-[48px] h-[48px]" onclick="document.querySelector('#settings-overlay').style.display = ''">settings</div>
+            <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12" onclick="document.querySelector('#settings-overlay').style.display = ''">settings</div>
         </nav>
-        <main class="flex flex-col px-4 h-[calc(100vh-56px-8px-58px-136px-8px)] w-full mt-[64px] pt-2 pb-4 gap-y-4 absolute top-0 left-0">
+        <main class="flex flex-col px-4 h-[calc(100vh-56px-8px-58px-136px-8px)] w-full mt-16 pt-2 pb-4 gap-y-4 absolute top-0 left-0">
             <svg viewBox="0,-10 522,278" xmlns="http://www.w3.org/2000/svg" class="">
                 <!-- Text annotations -->
 
@@ -1560,7 +1560,7 @@
         </main>
         <footer class="bg-[#211F26] rounded-t-lg z-10 absolute bottom-0 w-full">
             <div class="px-4 py-2 flex flex-col justify-center">
-                <svg viewBox="74,592 522,74" xmlns="http://www.w3.org/2000/svg" class="h-[48px]">
+                <svg viewBox="74,592 522,74" xmlns="http://www.w3.org/2000/svg" class="h-12">
                     <!-- Text annotations -->
 
                     <g class="text-[6px] fill-white">
@@ -3110,19 +3110,19 @@
                         <span class="text-[12px]">Line:</span>
                         <span class="text-[16px]"><span>5</span> / <span>25</span></span>
                     </div>
-                    <div class="material-icons-round text-[24px] !flex items-center justify-center cursor-pointer" onclick="document.querySelector('#code-editor-overlay').style.display = ''">
+                    <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer" onclick="document.querySelector('#code-editor-overlay').style.display = ''">
                         expand_less
                     </div>
                 </div>
             </div>
         </footer>
         <div class="z-20 absolute w-full h-full top-0 left-0 bg-black flex flex-col" style="display: none;" id="code-editor-overlay">
-            <div class="bg-[#141218] h-[56px] flex justify-between gap-x-1 px-1 py-1 z-10 fixed top-0 w-full">
-                <div class="w-[48px] h-[48px]"></div>
+            <div class="bg-[#141218] h-14 flex justify-between gap-x-1 px-1 py-1 z-10 fixed top-0 w-full">
+                <div class="w-12 h-12"></div>
                 <div class="h-full py-1 flex justify-center items-center text-[22px] leading-normal">Editor</div>
-                <div class="material-icons-round text-[24px] !flex items-center justify-center cursor-pointer w-[48px] h-[48px]" onclick="document.querySelector('#code-editor-overlay').style.display = 'none'">expand_more</div>
+                <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12" onclick="document.querySelector('#code-editor-overlay').style.display = 'none'">expand_more</div>
             </div>
-            <div class="absolute top-[56px] bottom-0 left-0 right-0 ps-4 pb-2">
+            <div class="absolute top-14 bottom-0 left-0 right-0 ps-4 pb-2">
                 <textarea id="code-input" cols="50" rows="32" class="w-full h-full" style="font-family: monospace;">#! mrasm
 
 LOOP:
@@ -3195,12 +3195,12 @@ MY_SUBROUTINE:
             </div>
         </div>
         <div class="z-20 fixed w-full h-full top-0 left-0 bg-[#141218]" style="display: none;" id="settings-overlay">
-            <div class="bg-[#141218] h-[56px] flex justify-between gap-x-1 px-1 py-1 z-10 fixed top-0 w-full">
-                <div class="material-icons-round text-[24px] !flex items-center justify-center cursor-pointer w-[48px] h-[48px]" onclick="document.querySelector('#settings-overlay').style.display = 'none'">arrow_back</div>
+            <div class="bg-[#141218] h-14 flex justify-between gap-x-1 px-1 py-1 z-10 fixed top-0 w-full">
+                <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12" onclick="document.querySelector('#settings-overlay').style.display = 'none'">arrow_back</div>
                 <div class="h-full py-1 flex justify-center items-center text-[22px] leading-normal">Settings</div>
-                <div class="w-[48px] h-[48px]"></div>
+                <div class="w-12 h-12"></div>
             </div>
-            <div class="mt-[64px]">
+            <div class="mt-16">
                 <div class="flex justify-between items-center px-4 py-2 gap-x-4 text-[16px] leading-normal">
                     <span>Show file control</span>
                     <input type="checkbox" class="switch" checked />
