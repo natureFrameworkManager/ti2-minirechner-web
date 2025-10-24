@@ -380,6 +380,16 @@
       --tw-ring-color: var(--color-blue-500);
     }
   }
+  .md\:h-28 {
+    @media (width >= 48rem) {
+      height: calc(var(--spacing) * 28);
+    }
+  }
+  .md\:h-30 {
+    @media (width >= 48rem) {
+      height: calc(var(--spacing) * 30);
+    }
+  }
   .md\:flex-row {
     @media (width >= 48rem) {
       flex-direction: row;
