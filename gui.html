@@ -9,13 +9,13 @@
 
         <title>Minirechner</title>
     </head>
-    <body class="bg-[#121212] text-white montserrat" id="a-con">
-        <nav class="bg-[#121212] h-14 flex justify-between gap-x-1 px-1 py-1 z-10 absolute w-full">
-            <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12" id="board-select">developer_board</div>
-            <div class="h-full py-1 flex justify-center items-center text-[22px] leading-normal">Minirechner Emulator</div>
-            <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12" onclick="document.querySelector('#settings-overlay').style.display = ''">settings</div>
-        </nav>
-        <main class="flex flex-col md:flex-row md:justify-center px-4 h-[calc(100vh-56px-8px-58px-136px-8px)] w-full mt-16 pt-2 pb-4 gap-y-4 absolute top-0 left-0">
+    <body id="a-con">
+        <div class="bg-[#121212] top-bar">
+            <div class="material-icons-round" id="board-select">developer_board</div>
+            <div class="title">Minirechner Emulator</div>
+            <div class="material-icons-round" onclick="document.querySelector('#settings-overlay').style.display = ''">settings</div>
+        </div>
+        <div class="circuit-con">
             <svg viewBox="0,-10 522,278" xmlns="http://www.w3.org/2000/svg" class="">
                 <!-- Text annotations -->
 
@@ -1907,9 +1907,9 @@
                 <rect x="0" y="0" width="522" height="267" fill="#121212" stroke="none" />
                 <rect x="0" y="590" width="522" height="1000" fill="#121212" stroke="none" />
             </svg>
-        </main>
-        <footer class="bg-[#211F26] rounded-t-lg z-10 absolute bottom-0 w-full">
-            <div class="px-4 py-2 flex flex-col md:flex-row justify-center items-center">
+        </div>
+        <div class="bg-[#211F26] rounded-t-lg z-10 absolute bottom-0 w-full">
+            <div class="controls-con">
                 <svg viewBox="74,592 448,74" xmlns="http://www.w3.org/2000/svg" class="h-12 md:h-28 w-fit">
                     <!-- Text annotations -->
 
@@ -3815,11 +3815,11 @@
                     </div>
                 </div>
             </div>
-        </footer>
+        </div>
         <div class="z-20 absolute w-full h-full top-0 left-0 bg-black flex flex-col" style="display: none;" id="code-editor-overlay">
-            <div class="bg-[#141218] h-14 flex justify-between gap-x-1 px-1 py-1 z-10 fixed top-0 w-full">
-                <div class="flex! items-center justify-start cursor-pointer w-fit h-12"><span class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12">engineering</span><span>Assemble</span></div>
-                <div class="h-full py-1 flex justify-center items-center text-[22px] leading-normal">Editor</div>
+            <div class="bg-[#141218] top-bar">
+                <div class="flex! items-center justify-start cursor-pointer w-fit h-12"><span class="material-icons-round">engineering</span><span>Assemble</span></div>
+                <div class="title">Editor</div>
                 <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-24 h-12"><span class="flex! items-center justify-center cursor-pointer w-12 h-12">delete_sweep</span><span class="flex! items-center justify-center cursor-pointer w-12 h-12" onclick="document.querySelector('#code-editor-overlay').style.display = 'none'">expand_more</span></div>
             </div>
             <div class="absolute top-14 bottom-0 left-0 right-0 ps-4 pb-2">
@@ -3895,40 +3895,39 @@ MY_SUBROUTINE:
             </div>
         </div>
         <div class="z-20 fixed w-full h-full top-0 left-0 bg-[#141218]" style="display: none;" id="settings-overlay">
-            <div class="bg-[#141218] h-14 flex justify-between gap-x-1 px-1 py-1 z-10 fixed top-0 w-full">
-                <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12" onclick="document.querySelector('#settings-overlay').style.display = 'none'">arrow_back</div>
-                <div class="h-full py-1 flex justify-center items-center text-[22px] leading-normal">Settings</div>
+            <div class="bg-[#141218] top-bar">
+                <div class="material-icons-round" onclick="document.querySelector('#settings-overlay').style.display = 'none'">arrow_back</div>
+                <div class="title">Settings</div>
                 <div class="w-12 h-12"></div>
             </div>
             <div class="mt-16">
-                <div class="flex justify-between items-center px-4 py-2 gap-x-4 text-[16px] leading-normal">
+                <div class="listing-item">
                     <span>Show file control</span>
                     <input type="checkbox" class="switch" checked />
                 </div>
-                <div class="flex justify-between items-center px-4 py-2 gap-x-4 text-[16px] leading-normal">
+                <div class="listing-item">
                     <span>Show memory viewer</span>
                     <input type="checkbox" class="switch" />
                 </div>
-                <div class="flex justify-between items-center px-4 py-2 gap-x-4 text-[16px] leading-normal">
+                <div class="listing-item">
                     <span>Control style</span>
-                    <!-- Credits: https://flowbite.com/docs/forms/select/ -->
-                    <select class="w-[140px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select>
                         <option selected>Realistic</option>
                         <option>Simple</option>
                     </select>
                 </div>
-                <div class="flex justify-between items-center px-4 py-2 gap-x-4 text-[16px] leading-normal">
+                <div class="listing-item">
                     <span>Data display style</span>
-                    <select class="w-[140px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select>
                         <option selected>LED</option>
                         <option>Binary</option>
                         <option>Hexadecimal</option>
                         <option>Decimal</option>
                     </select>
                 </div>
-                <div class="flex justify-between items-center px-4 py-2 gap-x-4 text-[16px] leading-normal">
+                <div class="listing-item">
                     <span>Command display style</span>
-                    <select class="w-[140px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select>
                         <option selected>LED</option>
                         <option>Parsed</option>
                     </select>

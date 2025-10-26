@@ -1,5 +1,36 @@
 @import "tailwindcss";
 
+body {
+    @apply bg-[#121212] text-white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+div.top-bar {
+    @apply h-14 flex justify-between gap-x-1 px-1 py-1 z-10 absolute w-full;
+}
+div.top-bar div.material-icons-round {
+    @apply text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12;
+}
+div.top-bar div.title {
+    @apply h-full py-1 flex justify-center items-center text-[22px] leading-normal;
+}
+
+div.listing-item {
+    @apply flex justify-between items-center px-4 py-2 gap-x-4 text-[16px] leading-normal;
+}
+
+div.circuit-con {
+    @apply flex flex-col md:flex-row md:justify-center px-4 h-[calc(100vh-56px-8px-58px-136px-8px)] w-full mt-16 pt-2 pb-4 gap-y-4 absolute top-0 left-0;
+}
+div.controls-con {
+    @apply px-4 py-2 flex flex-col md:flex-row justify-center items-center;
+}
+
+/* Credits: https://flowbite.com/docs/forms/select/ */
+select {
+    @apply w-[140px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+}
+
 /* Credit: https://tailwindflex.com/@nickgirga/material-3-switches-light */
 /* Base Switch Style (Applied to Checkbox) */
 .switch {
