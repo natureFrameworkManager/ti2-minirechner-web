@@ -16,7 +16,7 @@
                 <div class="title">Minirechner Emulator</div>
                 <div class="material-icons-round" onclick="document.querySelector('#settings-overlay').style.display = ''">settings</div>
             </div>
-            <div class="col-1 row-2 flex-col justify-between items-stretch gap-y-4 max-w-[25vw] w-fit hidden md:flex" id="left-con">
+            <div class="col-1 row-2 flex-col justify-between items-stretch gap-y-4 w-[minmax(fit-content, 25vw)] hidden md:flex" id="left-con">
                 <div class="bg-[#2B2930] w-full h-full rounded-e" id="memory-map-con">
                     <div class="bg-[#2B2930] top-bar rounded-e">
                         <div class="w-12 h-12"></div>
@@ -27,12 +27,12 @@
                 <div class="bg-[#2B2930] w-full h-full rounded-e" id="expansion-board-con">
                     <div class="bg-[#2B2930] top-bar rounded-e">
                         <div class="w-12 h-12"></div>
-                        <div class="title">Erweiterungsboard</div>
+                        <div class="title">Erweiterungs<wbr />board</div>
                         <div class="material-icons-round" onclick="document.querySelector('#expansion-board-con').style.display = 'none'">close</div>
                     </div>
                 </div>
             </div>
-            <div class="col-2 row-2 flex flex-col justify-between items-stretch gap-y-4 h-[calc(100dh-56px-24px)]" id="middle-con">
+            <div class="col-2 row-2 flex flex-col justify-between items-stretch gap-y-4 h-[calc(100dvh-56px-24px)]" id="middle-con">
                 <div class="@container-[size] h-4/5">
                     <div class="circuit-con flexer">
                         <svg viewBox="0,-10 522,278" xmlns="http://www.w3.org/2000/svg" class="">
@@ -3822,15 +3822,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3 row-2 flex-col justify-between items-stretch gap-y-4 max-w-[25vw] w-fit hidden md:flex" id="right-con">
+            <div class="col-3 row-2 flex-col justify-between items-stretch gap-y-4 w-[minmax(fit-content, 25vw)] hidden md:flex" id="right-con">
                 <div class="bg-black flex flex-col w-full h-full rounded-s" id="code-editor-overlay">
                     <div class="bg-[#141218] top-bar rounded-s">
                         <div class="flex! items-center justify-start cursor-pointer w-fit h-12"><span class="material-icons-round">engineering</span><span>Assemble</span></div>
                         <div class="title">Editor</div>
                         <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-24 h-12"><span class="flex! items-center justify-center cursor-pointer w-12 h-12">delete_sweep</span><span class="flex! items-center justify-center cursor-pointer w-12 h-12" onclick="document.querySelector('#code-editor-overlay').style.display = 'none'">expand_more</span></div>
                     </div>
-                    <div class="ps-4 pb-2">
-                        <textarea id="code-input" cols="50" rows="32" class="w-full h-full" style="font-family: monospace;">#! mrasm
+                    <div class="ps-4 pb-2 h-full">
+                        <textarea id="code-input" class="w-full h-full" style="font-family: monospace;">#! mrasm
 
         LOOP:
             CLR R0
