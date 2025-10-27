@@ -6,10 +6,10 @@ body {
 }
 
 div.top-bar {
-    @apply h-14 flex justify-between gap-x-1 px-1 py-1 z-10 w-full;
+    @apply h-[minmax(14,fit-content)] flex justify-between items-center gap-x-2 px-1 py-1 z-10 w-full;
 }
 div.top-bar div.material-icons-round {
-    @apply text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12;
+    @apply text-[24px] flex! items-center justify-center cursor-pointer w-fit min-w-12 h-12;
 }
 div.top-bar div.title {
     @apply h-full py-1 flex justify-center items-center text-[22px] leading-normal;
@@ -35,6 +35,45 @@ div.controls-con {
 @container (width > 800px) {
     div.controls-con {
         @apply flex-row;
+    }
+}
+
+@media (width >= 48rem) {
+    .panel, .panel.shown {
+        @apply h-full w-[25vw];
+    }
+}
+@media (width < 48rem) {
+    .panel.shown {
+        @apply absolute w-full top-0 left-0 right-0 bottom-0 z-30;
+    }
+    .panel:not(.shown) {
+        @apply hidden;
+    }
+}
+.panel.full-screen {
+    @apply absolute w-full top-0 left-0 right-0 bottom-0 z-30;
+}
+.panel.hide {
+    @apply hidden;
+}
+@media (width >= 48rem) {
+    .panel-toggle.shown {
+        @apply flex;
+    }
+    .panel-toggle.hide, .panel-toggle:not(.shown) {
+        @apply hidden;
+    }
+}
+@media (width < 48rem) {
+    .fullscreen-toggle {
+        @apply hidden;
+    }
+    .panel-toggle.shown, .panel-toggle:not(.shown) {
+        @apply flex;
+    }
+    .panel-toggle.hide {
+        @apply hidden;
     }
 }
 

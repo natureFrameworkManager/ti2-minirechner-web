@@ -16,19 +16,19 @@
                 <div class="title">Minirechner Emulator</div>
                 <div class="material-icons-round" onclick="document.querySelector('#settings-overlay').style.display = ''">settings</div>
             </div>
-            <div class="col-1 row-2 flex-col justify-between items-stretch gap-y-4 w-[minmax(fit-content, 25vw)] hidden md:flex" id="left-con">
-                <div class="bg-[#2B2930] w-full h-full rounded-e" id="memory-map-con">
+            <div class="col-1 row-2 flex-col justify-end items-start gap-y-4 w-[minmax(fit-content, 25vw)] flex" id="left-con">
+                <div class="bg-[#2B2930] panel rounded-e" id="memory-map-con">
                     <div class="bg-[#2B2930] top-bar rounded-e">
-                        <div class="w-12 h-12"></div>
+                        <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#memory-map-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
                         <div class="title">Memory Map</div>
-                        <div class="material-icons-round" onclick="document.querySelector('#memory-map-con').style.display = 'none'">close</div>
+                        <div class="material-icons-round" onclick="hide('memory-map')">close</div>
                     </div>
                 </div>
-                <div class="bg-[#2B2930] w-full h-full rounded-e" id="expansion-board-con">
+                <div class="bg-[#2B2930] panel rounded-e" id="expansion-board-con">
                     <div class="bg-[#2B2930] top-bar rounded-e">
-                        <div class="w-12 h-12"></div>
+                        <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#expansion-board-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
                         <div class="title">Erweiterungs<wbr />board</div>
-                        <div class="material-icons-round" onclick="document.querySelector('#expansion-board-con').style.display = 'none'">close</div>
+                        <div class="material-icons-round" onclick="hide('expansion-board')">close</div>
                     </div>
                 </div>
             </div>
@@ -1928,8 +1928,16 @@
                         </svg>
                     </div>
                 </div>
-                <div class="@container-[size] h-full max-h-1/5">
-                    <div class="controls-con bg-[#211F26] rounded-t h-full">
+                <div class="@container-[size] h-full max-h-1/5 flex gap-x-2 w-full">
+                    <div class="flex flex-col justify-end gap-y-2">
+                        <div class="flex flex-row-reverse panel-toggle" id="memory-map-toggle">
+                            <div class="bg-[#2B2930] rounded text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12 material-icons-round" onclick="shown('memory-map')">map</div>
+                        </div>
+                        <div class="flex flex-row-reverse panel-toggle" id="expansion-board-toggle">
+                            <div class="bg-[#2B2930] rounded text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12 material-icons-round" onclick="shown('expansion-board')">sensors</div>
+                        </div>
+                    </div>
+                    <div class="controls-con bg-[#211F26] rounded-t h-full w-full">
                         <svg viewBox="74,592 448,74" xmlns="http://www.w3.org/2000/svg" class="h-full w-full">
                             <!-- Text annotations -->
 
@@ -3820,14 +3828,22 @@
                             <rect x="0" y="0" width="522" height="666" fill="#211F26" stroke="none" />
                         </svg>
                     </div>
+                    <div class="flex flex-col justify-end gap-y-2">
+                        <div class="flex-row-reverse panel-toggle" id="code-editor-toggle">
+                            <div class="bg-[#2B2930] rounded text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12 material-icons-round" onclick="shown('code-editor')">code</div>
+                        </div>
+                        <div class="flex-row-reverse panel-toggle" id="uart-toggle">
+                            <div class="bg-[#2B2930] rounded text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12 material-icons-round" onclick="shown('uart')">terminal</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-3 row-2 flex-col justify-between items-stretch gap-y-4 w-[minmax(fit-content, 25vw)] hidden md:flex" id="right-con">
-                <div class="bg-black flex flex-col w-full h-full rounded-s" id="code-editor-overlay">
+            <div class="col-3 row-2 flex-col justify-end items-stretch gap-y-4 flex" id="right-con">
+                <div class="bg-black flex flex-col panel rounded-s" id="code-editor-con">
                     <div class="bg-[#141218] top-bar rounded-s">
-                        <div class="flex! items-center justify-start cursor-pointer w-fit h-12"><span class="material-icons-round">engineering</span><span>Assemble</span></div>
+                        <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#code-editor-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
                         <div class="title">Editor</div>
-                        <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-24 h-12"><span class="flex! items-center justify-center cursor-pointer w-12 h-12">delete_sweep</span><span class="flex! items-center justify-center cursor-pointer w-12 h-12" onclick="document.querySelector('#code-editor-overlay').style.display = 'none'">expand_more</span></div>
+                        <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-24 h-12"><span class="flex! items-center justify-center cursor-pointer w-12 h-12" onclick="hide('code-editor')">expand_more</span></div>
                     </div>
                     <div class="ps-4 pb-2 h-full">
                         <textarea id="code-input" class="w-full h-full" style="font-family: monospace;">#! mrasm
@@ -3900,12 +3916,16 @@
             RET
                         </textarea>
                     </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-x-2 px-2 py-1 h-12 cursor-pointer"><span class="material-icons-round text-[24px]">engineering</span><span>Assemble</span></div>
+                        <div class="text-[24px] flex items-center justify-center cursor-pointer w-12 h-12"><span class="material-icons-round">delete_sweep</span>   </div>
+                    </div>
                 </div>
-                <div class="bg-[#2B2930] w-full h-full rounded-s" id="uart-con">
+                <div class="bg-[#2B2930] panel rounded-s" id="uart-con">
                     <div class="bg-[#2B2930] top-bar rounded-s">
-                        <div class="w-12 h-12"></div>
+                        <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#uart-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
                         <div class="title">UART-Konsole</div>
-                        <div class="material-icons-round" onclick="document.querySelector('#uart-con').style.display = 'none'">close</div>
+                        <div class="material-icons-round" onclick="hide('uart')">close</div>
                     </div>
                 </div>
             </div>
@@ -3917,14 +3937,6 @@
                 <div class="w-12 h-12"></div>
             </div>
             <div class="mt-16">
-                <div class="listing-item">
-                    <span>Show file control</span>
-                    <input type="checkbox" class="switch" checked />
-                </div>
-                <div class="listing-item">
-                    <span>Show memory viewer</span>
-                    <input type="checkbox" class="switch" />
-                </div>
                 <div class="listing-item">
                     <span>Control style</span>
                     <select>
@@ -3966,6 +3978,21 @@
                 }
             }));
             document.querySelectorAll("#step-btn *").forEach(el => el.addEventListener("click", clk))
+
+            function shown(id) {
+                document.querySelector("#" + id + "-con").classList.remove("hide");
+                document.querySelector("#" + id + "-con").classList.add("shown");
+                
+                document.querySelector("#" + id + "-toggle").classList.add("hide");
+                document.querySelector("#" + id + "-toggle").classList.remove("shown");
+            }
+            function hide(id) {
+                document.querySelector("#" + id + "-con").classList.remove("shown");
+                document.querySelector("#" + id + "-con").classList.add("hide");
+                
+                document.querySelector("#" + id + "-toggle").classList.add("shown");
+                document.querySelector("#" + id + "-toggle").classList.remove("hide");
+            }
         </script>
     </body>
 </html>
