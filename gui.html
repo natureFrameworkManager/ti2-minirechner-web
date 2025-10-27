@@ -3917,7 +3917,7 @@
                         </textarea>
                     </div>
                     <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-x-2 px-2 py-1 h-12 cursor-pointer"><span class="material-icons-round text-[24px]">engineering</span><span>Assemble</span></div>
+                        <div class="flex items-center gap-x-2 px-2 py-1 h-12 cursor-pointer" id="assemble-btn"><span class="material-icons-round text-[24px]">engineering</span><span>Assemble</span></div>
                         <div class="text-[24px] flex items-center justify-center cursor-pointer w-12 h-12"><span class="material-icons-round">delete_sweep</span>   </div>
                     </div>
                 </div>
@@ -3978,6 +3978,8 @@
                 }
             }));
             document.querySelectorAll("#step-btn *").forEach(el => el.addEventListener("click", clk))
+            document.querySelectorAll("#reset-btn *").forEach(el => el.addEventListener("click", reset))
+            document.querySelectorAll("#assemble-btn *").forEach(el => el.addEventListener("click", parseFromTextarea))
 
             function shown(id) {
                 document.querySelector("#" + id + "-con").classList.remove("hide");
