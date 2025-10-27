@@ -39,6 +39,10 @@ let IFF1 = false; // Interrupt Flip-Flop
 let currentAddr = 0;
 
 let MPRAM = new Array(512).fill(new Array(28).fill(0).join('')); // 512 x 28 Bit
+let DPRAM = new Array(0xEF +1).fill(0); // Data RAM (00-EF)
+let inputs = {"ff": 0b00000000, "fe": 0b00000000, "fd": 0b00000000, "fc": 0b00000000}; // 4 Inputs (FC-FF)
+let outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs (FE-FF)
+
 function fillMicrocode() {
     // Addressed in 16x 32 Bit Blocks
     // 4 Bit for Block selection and 5 Bit for each Block
@@ -338,20 +342,6 @@ function fillMicrocode() {
     MPRAM[0b111110010] = "0000 10010 0 0 0000 0000 0 0 0 0 1100 0".replaceAll(" ", "");
     MPRAM[0b111110011] = "0000 10011 0 0 0000 0000 0 0 0 0 1100 0".replaceAll(" ", "");
 }
-fillMicrocode();
-
-let DPRAM = new Array(0xEF +1).fill(0); // Data RAM (00-EF)
-
-// Load 0xFF to R0, Store R0 to (0xA1)
-DPRAM[0x00] = 0xFB;
-DPRAM[0x01] = 0xFF;
-DPRAM[0x02] = 0x10;
-DPRAM[0x03] = 0xF0;
-DPRAM[0x04] = 0x1F;
-DPRAM[0x05] = 0xA1;
-
-let inputs = {"ff": 0b00000000, "fe": 0b00000000, "fd": 0b00000000, "fc": 0b00000000}; // 4 Inputs (FC-FF)
-let outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs (FE-FF)
 
 memBC.onmessage = (ev) => {
     if (ev.data.msg === "request-state") {
@@ -996,15 +986,6 @@ function parseASMTarget(string) {
     }
 }
 
-console.log(parseASM(document.querySelector("#a-con #code-input").textContent))
-var tram = parseASM(document.querySelector("#a-con #code-input").textContent);
-for (let index = 0; index < 0xEF +1; index++) {
-    if (tram[index] === undefined) {
-        tram[index] = 0;
-    }
-}
-DPRAM = tram;
-
 function getCF() {
     return (regs[4] & 0b00000001); 
 }
@@ -1388,6 +1369,26 @@ function reset() {
         0b00000000,
         0b00000000,
     ];
+
+    MPRAM = new Array(512).fill(new Array(28).fill(0).join('')); // 512 x 28 Bit
+    DPRAM = new Array(0xEF +1).fill(0); // Data RAM (00-EF)
+    inputs = {"ff": 0b00000000, "fe": 0b00000000, "fd": 0b00000000, "fc": 0b00000000}; // 4 Inputs (FC-FF)
+    outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs (FE-FF)
+
+    fillMicrocode();
 }
+
+function parseFromTextarea() {
+    var tram = parseASM(document.querySelector("#a-con #code-input").textContent);
+    for (let index = 0; index < 0xEF +1; index++) {
+        if (tram[index] === undefined) {
+            tram[index] = 0;
+        }
+    }
+    DPRAM = tram;
+}
+
+reset();
+parseFromTextarea();
 
 setInterval(display, 10);
