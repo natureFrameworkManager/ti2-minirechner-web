@@ -3855,18 +3855,74 @@
                             <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-24 h-12"><span class="flex! items-center justify-center cursor-pointer w-12 h-12" onclick="hide('code-editor')">expand_more</span></div>
                         </div>
                         <div class="ps-4 pb-2 h-full">
-                            <textarea id="code-input" class="w-full h-full" style="font-family: monospace;"># Multiplication: (FF) = (FC) * (FD)
+                            <textarea id="code-input" class="w-full h-full" style="font-family: monospace;">#! mrasm
 
-00000: 00 00001 00 000 1100 01 01 1100 0 # R0 = FC
-00001: 00 00010 01 000 0000 01 10 0001 0 # R0 = (R0)
-00010: 00 00011 00 001 1101 01 01 1100 0 # R1 = FD
-00011: 00 00100 01 001 0000 01 10 0001 0 # R1 = (R1)
-00100: 00 00101 00 010 0000 01 00 0011 0 # R2 = 0
-00101: 10 00111 00 000 0000 00 00 0001 0 # R0; JMP to 0011Z
-00110: 00 01000 00 000 1111 01 01 0100 0 # R0 = R0 + FF; JMP 01000
-00111: 00 01001 00 001 1110 01 01 1100 0 # R1 = FE; JMP 01001
-01000: 00 00101 00 010 0001 01 00 0100 0 # R2 = R2 + R1; JMP 00101
-01001: 00 00000 11 001 0010 00 00 1100 0 # (R1) = R2; JMP 00000
+LOOP:
+    CLR R0
+    LD R1, 1
+    ADD R0, R1
+    ADC R0, R1
+    SUB R0, R1
+    MUL R0, R1
+    DIV R0, R1
+    INC R0
+    DEC R0
+    NEG R0
+
+    AND R0, R1
+    OR  R0, R1
+    XOR R0, R1
+    COM R0
+    BITS R0, R1
+    BITC R0, R1
+
+    TST R0
+    CMP R0, R1
+    BITT R0, R1
+
+    LSR R0
+    ASR R0
+    LSL R0
+    RRC R0
+    RLC R0
+
+    MOV R0, R1
+    LD R0, 42
+    LD R0, (0)
+    ST (0xFF), R0
+    LDSP 0x40
+    PUSH R0
+    POP R0
+    PUSHF
+    POPF
+    LDFR 0xFF
+
+    JCS CARRY_SET
+CARRY_SET:
+    JCC CARRY_CLEAR
+CARRY_CLEAR:
+    JZS ZERO_SET
+ZERO_SET:
+    JZC ZERO_CLEAR
+ZERO_CLEAR:
+    JNS NEGATIVE_SET
+NEGATIVE_SET:
+    JNC NEGATIVE_CLEAR
+NEGATIVE_CLEAR:
+    JR JUMP_HERE
+JUMP_HERE:
+    JMP NEXT
+NEXT:
+    CALL MY_SUBROUTINE
+    EI
+    DI
+    NOP
+    STOP
+    RETI
+
+
+MY_SUBROUTINE:
+    RET
                             </textarea>
                         </div>
                         <div class="flex items-center justify-between">
