@@ -16,12 +16,12 @@ I may change the formatting after a pull request but otherwise there is not much
 - [x] Complete interface for all buttons
 - [ ] Fully labeled interface 2i
 - [ ] Fully labeled interface 2a
-- [ ] Interface optimized for large and mobile screens
+- [x] Interface optimized for large and mobile screens
 - [ ] Interface full functionality 
 - [ ] Working UART
 - [ ] Working extension board
 - [ ] Working control board
-- [ ] Restructure file tree
+- [x] Restructure file tree
 - [ ] Split 2i and 2a into seperate GUIs and have working switch between the two GUIs
 - [ ] Debug view with numbers in HEX/Dec instead of binary LEDs
 
