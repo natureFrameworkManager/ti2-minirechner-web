@@ -22,7 +22,8 @@ I may change the formatting after a pull request but otherwise there is not much
 - [ ] Working extension board
 - [ ] Working control board
 - [x] Restructure file tree
-- [ ] Split 2i and 2a into seperate GUIs and have working switch between the two GUIs
+- [x] Split 2i and 2a into seperate GUIs 
+- [ ] Working switch between the two GUIs
 - [ ] Debug view with numbers in HEX/Dec instead of binary LEDs
 
 ## License
