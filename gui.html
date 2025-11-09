@@ -17,27 +17,27 @@
                 <div class="material-icons-round" onclick="document.querySelector('#settings-overlay').style.display = ''">settings</div>
             </div>
             <div class="col-1 row-2 flex flex-col items-start gap-y-4 h-[calc(100dvh-56px-24px)]" id="left-con">
-                <div class="min-h-0 grow shrink">
-                <div class="bg-[#2B2930] panel rounded-e flex flex-col h-full" id="memory-map-con">
-                    <div class="bg-[#2B2930] top-bar rounded-e">
-                        <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#memory-map-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
-                        <div class="title">Memory Map</div>
-                        <div class="material-icons-round" onclick="hide('memory-map')">close</div>
-                    </div>
-                    <div class="flex-1 min-h-0 overflow-auto">
-                        <div class="grid grid-cols-[2fr_repeat(8,1fr)] gap-x-2 p-4 text-sm h-full" style="font-family: monospace;" id="memory-map-content">
+                <div class="panel" id="memory-map-con">
+                    <div class="bg-[#2B2930] rounded-e flex flex-col h-full">
+                        <div class="bg-[#2B2930] top-bar rounded-e">
+                            <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#memory-map-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
+                            <div class="title">Memory Map</div>
+                            <div class="material-icons-round" onclick="hide('memory-map')">close</div>
+                        </div>
+                        <div class="flex-1 min-h-0 overflow-auto">
+                            <div class="grid grid-cols-[2fr_repeat(8,1fr)] gap-x-2 p-4 text-sm h-full" style="font-family: monospace;" id="memory-map-content">
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
-                <div class="min-h-0 grow shrink">
-                <div class="bg-[#2B2930] panel rounded-e" id="expansion-board-con">
-                    <div class="bg-[#2B2930] top-bar rounded-e">
-                        <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#expansion-board-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
-                        <div class="title">Erweiterungs<wbr />board</div>
-                        <div class="material-icons-round" onclick="hide('expansion-board')">close</div>
+                <div class="panel" id="expansion-board-con">
+                    <div class="bg-[#2B2930] rounded-e h-full">
+                        <div class="bg-[#2B2930] top-bar rounded-e">
+                            <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#expansion-board-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
+                            <div class="title">Erweiterungs<wbr />board</div>
+                            <div class="material-icons-round" onclick="hide('expansion-board')">close</div>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
             <div class="col-2 row-2 flex flex-col justify-between items-stretch gap-y-4 h-[calc(100dvh-56px-24px)]" id="middle-con">
@@ -3846,94 +3846,98 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3 row-2 flex-col justify-end items-stretch gap-y-4 flex" id="right-con">
-                <div class="bg-black flex flex-col panel rounded-s" id="code-editor-con">
-                    <div class="bg-[#141218] top-bar rounded-s">
-                        <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#code-editor-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
-                        <div class="title">Editor</div>
-                        <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-24 h-12"><span class="flex! items-center justify-center cursor-pointer w-12 h-12" onclick="hide('code-editor')">expand_more</span></div>
-                    </div>
-                    <div class="ps-4 pb-2 h-full">
-                        <textarea id="code-input" class="w-full h-full" style="font-family: monospace;">#! mrasm
+            <div class="col-3 row-2  flex flex-col items-start gap-y-4 h-[calc(100dvh-56px-24px)]" id="right-con">
+                <div class="panel" id="code-editor-con">
+                    <div class="bg-black flex flex-col h-full rounded-s">
+                        <div class="bg-[#141218] top-bar rounded-s">
+                            <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#code-editor-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
+                            <div class="title">Editor</div>
+                            <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-24 h-12"><span class="flex! items-center justify-center cursor-pointer w-12 h-12" onclick="hide('code-editor')">expand_more</span></div>
+                        </div>
+                        <div class="ps-4 pb-2 h-full">
+                            <textarea id="code-input" class="w-full h-full" style="font-family: monospace;">#! mrasm
 
-        LOOP:
-            CLR R0
-            LD R1, 1
-            ADD R0, R1
-            ADC R0, R1
-            SUB R0, R1
-            MUL R0, R1
-            DIV R0, R1
-            INC R0
-            DEC R0
-            NEG R0
+LOOP:
+    CLR R0
+    LD R1, 1
+    ADD R0, R1
+    ADC R0, R1
+    SUB R0, R1
+    MUL R0, R1
+    DIV R0, R1
+    INC R0
+    DEC R0
+    NEG R0
 
-            AND R0, R1
-            OR  R0, R1
-            XOR R0, R1
-            COM R0
-            BITS R0, R1
-            BITC R0, R1
+    AND R0, R1
+    OR  R0, R1
+    XOR R0, R1
+    COM R0
+    BITS R0, R1
+    BITC R0, R1
 
-            TST R0
-            CMP R0, R1
-            BITT R0, R1
+    TST R0
+    CMP R0, R1
+    BITT R0, R1
 
-            LSR R0
-            ASR R0
-            LSL R0
-            RRC R0
-            RLC R0
+    LSR R0
+    ASR R0
+    LSL R0
+    RRC R0
+    RLC R0
 
-            MOV R0, R1
-            LD R0, 42
-            LD R0, (0)
-            ST (0xFF), R0
-            LDSP 0x40
-            PUSH R0
-            POP R0
-            PUSHF
-            POPF
-            LDFR 0xFF
+    MOV R0, R1
+    LD R0, 42
+    LD R0, (0)
+    ST (0xFF), R0
+    LDSP 0x40
+    PUSH R0
+    POP R0
+    PUSHF
+    POPF
+    LDFR 0xFF
 
-            JCS CARRY_SET
-        CARRY_SET:
-            JCC CARRY_CLEAR
-        CARRY_CLEAR:
-            JZS ZERO_SET
-        ZERO_SET:
-            JZC ZERO_CLEAR
-        ZERO_CLEAR:
-            JNS NEGATIVE_SET
-        NEGATIVE_SET:
-            JNC NEGATIVE_CLEAR
-        NEGATIVE_CLEAR:
-            JR JUMP_HERE
-        JUMP_HERE:
-            JMP NEXT
-        NEXT:
-            CALL MY_SUBROUTINE
-            EI
-            DI
-            NOP
-            STOP
-            RETI
+    JCS CARRY_SET
+CARRY_SET:
+    JCC CARRY_CLEAR
+CARRY_CLEAR:
+    JZS ZERO_SET
+ZERO_SET:
+    JZC ZERO_CLEAR
+ZERO_CLEAR:
+    JNS NEGATIVE_SET
+NEGATIVE_SET:
+    JNC NEGATIVE_CLEAR
+NEGATIVE_CLEAR:
+    JR JUMP_HERE
+JUMP_HERE:
+    JMP NEXT
+NEXT:
+    CALL MY_SUBROUTINE
+    EI
+    DI
+    NOP
+    STOP
+    RETI
 
 
-        MY_SUBROUTINE:
-            RET
-                        </textarea>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-x-2 px-2 py-1 h-12 cursor-pointer" id="assemble-btn"><span class="material-icons-round text-[24px]">engineering</span><span>Assemble</span></div>
-                        <div class="text-[24px] flex items-center justify-center cursor-pointer w-12 h-12"><span class="material-icons-round">delete_sweep</span>   </div>
+MY_SUBROUTINE:
+    RET
+                            </textarea>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-x-2 px-2 py-1 h-12 cursor-pointer" id="assemble-btn"><span class="material-icons-round text-[24px]">engineering</span><span>Assemble</span></div>
+                            <div class="text-[24px] flex items-center justify-center cursor-pointer w-12 h-12"><span class="material-icons-round">delete_sweep</span>   </div>
+                        </div>
                     </div>
                 </div>
-                <div class="bg-[#2B2930] panel rounded-s" id="uart-con">
-                    <div class="bg-[#2B2930] top-bar rounded-s">
-                        <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#uart-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
-                        <div class="title">UART-Konsole</div>
-                        <div class="material-icons-round" onclick="hide('uart')">close</div>
+                <div class="panel" id="uart-con">
+                    <div class="bg-[#2B2930] h-full rounded-s">
+                        <div class="bg-[#2B2930] top-bar rounded-s">
+                            <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#uart-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
+                            <div class="title">UART-Konsole</div>
+                            <div class="material-icons-round" onclick="hide('uart')">close</div>
+                        </div>
                     </div>
                 </div>
             </div>

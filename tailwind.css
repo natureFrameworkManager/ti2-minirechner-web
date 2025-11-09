@@ -40,7 +40,7 @@ div.controls-con {
 
 @media (width >= 48rem) {
     .panel, .panel.shown {
-        @apply h-full w-[25vw] flex flex-col;
+        @apply w-[25vw] flex flex-col min-h-0 grow shrink;
     }
 }
 @media (width < 48rem) {
