@@ -16,20 +16,28 @@
                 <div class="title">Minirechner Emulator</div>
                 <div class="material-icons-round" onclick="document.querySelector('#settings-overlay').style.display = ''">settings</div>
             </div>
-            <div class="col-1 row-2 flex-col justify-end items-start gap-y-4 w-[minmax(fit-content, 25vw)] flex" id="left-con">
-                <div class="bg-[#2B2930] panel rounded-e" id="memory-map-con">
+            <div class="col-1 row-2 flex flex-col items-start gap-y-4 h-[calc(100dvh-56px-24px)]" id="left-con">
+                <div class="min-h-0 grow shrink">
+                <div class="bg-[#2B2930] panel rounded-e flex flex-col h-full" id="memory-map-con">
                     <div class="bg-[#2B2930] top-bar rounded-e">
                         <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#memory-map-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
                         <div class="title">Memory Map</div>
                         <div class="material-icons-round" onclick="hide('memory-map')">close</div>
                     </div>
+                    <div class="flex-1 min-h-0 overflow-auto">
+                        <div class="grid grid-cols-[2fr_repeat(8,1fr)] gap-x-2 p-4 text-sm h-full" style="font-family: monospace;" id="memory-map-content">
+                        </div>
+                    </div>
                 </div>
+                </div>
+                <div class="min-h-0 grow shrink">
                 <div class="bg-[#2B2930] panel rounded-e" id="expansion-board-con">
                     <div class="bg-[#2B2930] top-bar rounded-e">
                         <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#expansion-board-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
                         <div class="title">Erweiterungs<wbr />board</div>
                         <div class="material-icons-round" onclick="hide('expansion-board')">close</div>
                     </div>
+                </div>
                 </div>
             </div>
             <div class="col-2 row-2 flex flex-col justify-between items-stretch gap-y-4 h-[calc(100dvh-56px-24px)]" id="middle-con">
@@ -3990,11 +3998,34 @@
             }
             function hide(id) {
                 document.querySelector("#" + id + "-con").classList.remove("shown");
+                document.querySelector("#" + id + "-con").classList.remove("full-screen");
                 document.querySelector("#" + id + "-con").classList.add("hide");
                 
                 document.querySelector("#" + id + "-toggle").classList.add("shown");
                 document.querySelector("#" + id + "-toggle").classList.remove("hide");
             }
+
+            function updateMemoryMapContent(data) {
+                var html = '<span>Addr</span><span style="grid-column: 2/-1; text-align: center;">Data</span>';
+                for (let i = 0; i < data.length; i++) {
+                    if (i % 8 == 0) {
+                        html += '<span>' + i.toString(16).toUpperCase().padStart(2, '0') + ':</span>';
+                    }
+                    html += '<span>' + data[i].toString(16).toUpperCase().padStart(2, '0') + '</span>';
+                }
+                document.querySelector("#memory-map-content").innerHTML = html;
+            };
+            
+            const memBCGUI = new BroadcastChannel("memory-channel"); 
+            memBCGUI.onmessage = (ev) => {
+                if (ev.data.msg === "update" || ev.data.msg == "state") {
+                    updateMemoryMapContent(ev.data.data);
+                }
+            };
+
+            setInterval(() => {
+                memBCGUI.postMessage({msg: "request-state"});
+            }, 1000);
         </script>
     </body>
 </html>

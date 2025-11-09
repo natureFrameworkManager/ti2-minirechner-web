@@ -6,7 +6,7 @@ body {
 }
 
 div.top-bar {
-    @apply h-[minmax(14,fit-content)] flex justify-between items-center gap-x-2 px-1 py-1 z-10 w-full;
+    @apply min-h-[56px] h-fit flex justify-between items-center gap-x-2 px-1 py-1 z-10 w-full;
 }
 div.top-bar div.material-icons-round {
     @apply text-[24px] flex! items-center justify-center cursor-pointer w-fit min-w-12 h-12;
@@ -40,12 +40,12 @@ div.controls-con {
 
 @media (width >= 48rem) {
     .panel, .panel.shown {
-        @apply h-full w-[25vw];
+        @apply h-full w-[25vw] flex flex-col;
     }
 }
 @media (width < 48rem) {
     .panel.shown {
-        @apply absolute w-full top-0 left-0 right-0 bottom-0 z-30;
+        @apply absolute w-full top-0 left-0 right-0 bottom-0 z-30 flex flex-col;
     }
     .panel:not(.shown) {
         @apply hidden;
