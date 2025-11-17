@@ -14,7 +14,7 @@ I may change the formatting after a pull request but otherwise there is not much
 - [x] Running 2i micro computer
 - [x] Running 2a micro computer
 - [x] Complete interface for all buttons
-- [ ] Fully labeled interface 2i
+- [x] Fully labeled interface 2i
 - [x] Fully labeled interface 2a
 - [x] Interface optimized for large and mobile screens
 - [ ] Interface full functionality 
