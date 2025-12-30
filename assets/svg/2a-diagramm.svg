@@ -1,0 +1,1075 @@
+<svg viewBox="0,0 522,772" width="522" height="772" xmlns="http://www.w3.org/2000/svg">
+    <!-- Text annotations -->
+
+    <g font-size="6px">
+        <text text-anchor="end" x="29" y="17">MEMDI</text>
+        <text text-anchor="end" x="29" y="28">MAC0</text>
+        <text text-anchor="end" x="29" y="45">reset</text>
+        <text text-anchor="end" x="29" y="57">MAC1</text>
+        <text text-anchor="end" x="29" y="81">MAC2</text>
+        <text text-anchor="end" x="29" y="97">OP10</text>
+        <text text-anchor="end" x="29" y="115">1</text>
+        <text text-anchor="end" x="29" y="123">CF</text>
+        <text text-anchor="end" x="29" y="131">ZF</text>
+        <text text-anchor="end" x="29" y="139">NF</text>
+        <text text-anchor="end" x="29" y="156">OP01</text>
+        <text text-anchor="end" x="29" y="163">OP00</text>
+        <text text-anchor="end" x="29" y="172">IEF</text>
+        <text text-anchor="end" x="29" y="180">INTL</text>
+        <text text-anchor="end" x="29" y="204">MAC1</text>
+        <text text-anchor="end" x="29" y="212">MAC0</text>
+        <text text-anchor="end" x="29" y="220">NA0</text>
+        <text text-anchor="end" x="29" y="236">clock</text>
+        <text text-anchor="end" x="29" y="244">WAIT</text>
+        <text text-anchor="end" x="29" y="252">reset</text>
+        <text text-anchor="end" x="29" y="260">INTE</text>
+        <text text-anchor="end" x="29" y="289">MRGAA0</text>
+        <text text-anchor="end" x="29" y="298">OP00</text>
+        <text text-anchor="end" x="29" y="311">MRGAA1</text>
+        <text text-anchor="end" x="29" y="320">OP01</text>
+        <text text-anchor="end" x="29" y="332">MRGAA2</text>
+        <text text-anchor="end" x="82" y="341">0</text>
+        <text text-anchor="end" x="29" y="359">MRGAA3</text>
+        <text text-anchor="end" x="29" y="377">MRGWE</text>
+        <text text-anchor="end" x="29" y="386">MRGWS</text>
+        <text text-anchor="end" x="29" y="401">MCHFLG</text>
+        <text text-anchor="end" x="29" y="453">CLK</text>
+        <text text-anchor="end" x="29" y="462">RESET</text>
+        <text text-anchor="end" x="63" y="486">0</text>
+        <text text-anchor="end" x="29" y="508">OP11</text>
+        <text text-anchor="end" x="29" y="529">OP10</text>
+        <text text-anchor="end" x="29" y="542">MRGAB3</text>
+        <text text-anchor="end" x="29" y="550">MRGAB2</text>
+        <text text-anchor="end" x="29" y="558">MRGAB1</text>
+        <text text-anchor="end" x="29" y="566">MRGAB0</text>
+        <text text-anchor="start" x="235" y="62">OP11</text>
+        <text text-anchor="start" x="235" y="73">OP10</text>
+        <text text-anchor="start" x="235" y="89">OP01</text>
+        <text text-anchor="start" x="235" y="100">OP00</text>
+        <text text-anchor="end" x="272" y="65">NA4</text>
+        <text text-anchor="end" x="272" y="75">NA3</text>
+        <text text-anchor="end" x="272" y="86">NA2</text>
+        <text text-anchor="end" x="272" y="110">NA1</text>
+        <text text-anchor="end" x="272" y="121">OP11</text>
+        <text text-anchor="end" x="272" y="146">OP10</text>
+        <text text-anchor="end" x="125" y="108">0</text>
+        <text text-anchor="end" x="125" y="116">1</text>
+        <text text-anchor="end" x="125" y="131">CF</text>
+        <text text-anchor="end" x="125" y="139">CO</text>
+        <text text-anchor="end" x="125" y="148">ZO</text>
+        <text text-anchor="end" x="125" y="156">NO</text>
+        <text text-anchor="start" x="490" y="52">Datenpfad</text>
+        <text text-anchor="start" x="490" y="90">MAC3...0</text>
+        <text text-anchor="start" x="490" y="108">NA4...0</text>
+        <text text-anchor="middle" x="428" y="134">BUSEN</text>
+        <text text-anchor="middle" x="428" y="173">BUSWR</text>
+        <text text-anchor="start" x="504" y="140" text-decoration="overline">CE</text>
+        <text text-anchor="start" x="504" y="153" text-decoration="overline">OE</text>
+        <text text-anchor="start" x="504" y="167" text-decoration="overline">WE</text>
+        <text text-anchor="start" x="504" y="197">WAIT</text>
+        <text text-anchor="middle" x="389" y="192">RESET</text>
+        <text text-anchor="end" x="358" y="197">CLK</text>
+        <text text-anchor="end" x="290" y="211">1</text>
+        <text text-anchor="end" x="250" y="248">RESET</text>
+        <text text-anchor="end" x="209" y="227">CLK</text>
+        <text text-anchor="start" x="68" y="236">CLK</text>
+        <text text-anchor="start" x="68" y="252">RESET</text>
+        <text text-anchor="start" x="497" y="301">MEMA</text>
+        <text text-anchor="start" x="497" y="314">MEMDI</text>
+        <text text-anchor="start" x="505" y="333">CF</text>
+        <text text-anchor="start" x="505" y="341">ZF</text>
+        <text text-anchor="start" x="505" y="349">NF</text>
+        <text text-anchor="start" x="505" y="357">IEF</text>
+        <text text-anchor="start" x="505" y="378">CO</text>
+        <text text-anchor="start" x="505" y="388">ZO</text>
+        <text text-anchor="start" x="505" y="397">NO</text>
+        <text text-anchor="start" x="495" y="428">MEMDO</text>
+        <text text-anchor="middle" x="276" y="430">MALUIA</text>
+        <text text-anchor="middle" x="276" y="491">MALUIB</text>
+        <text text-anchor="end" x="350" y="517">MALUS...</text>
+        <text text-anchor="middle" x="357" y="517">3</text>
+        <text text-anchor="middle" x="371" y="517">2</text>
+        <text text-anchor="middle" x="383" y="517">1</text>
+        <text text-anchor="middle" x="397" y="517">0</text>
+
+        <g font-size="5px">
+            <text text-anchor="middle" x="157" y="4">BR</text>
+            <text text-anchor="middle" x="85" y="20">BL1</text>
+            <text text-anchor="middle" x="121" y="46">BL3</text>
+            <text text-anchor="middle" x="85" y="50">BL2</text>
+            <text text-anchor="middle" x="368" y="21">MPMEM</text>
+            <text text-anchor="start" x="59" y="104">AM2</text>
+            <text text-anchor="middle" x="103" y="112">AL1</text>
+            <text text-anchor="start" x="155" y="94">AM1</text>
+            <text text-anchor="middle" x="88" y="168">IL1</text>
+            <text text-anchor="middle" x="115" y="164">IL2</text>
+            <text text-anchor="start" x="298" y="104">AM4</text>
+            <text text-anchor="start" x="300" y="129">AM3</text>
+            <text text-anchor="middle" x="461" y="123">MCTR</text>
+            <text text-anchor="middle" x="202" y="197">IL3</text>
+            <text text-anchor="middle" x="234" y="199">IFF2</text>
+            <text text-anchor="middle" x="274" y="232">IL4</text>
+            <text text-anchor="middle" x="311" y="199">IFF1</text>
+            <text text-anchor="start" x="107" y="283">RM1</text>
+            <text text-anchor="start" x="107" y="305">RM2</text>
+            <text text-anchor="start" x="107" y="327">RM3</text>
+            <text text-anchor="start" x="200" y="344">REG</text>
+            <text text-anchor="middle" x="377" y="361">ALU</text>
+            <text text-anchor="start" x="273" y="380">DM1</text>
+            <text text-anchor="start" x="273" y="441">DM2</text>
+            <text text-anchor="start" x="81" y="471">RM4</text>
+            <text text-anchor="start" x="81" y="493">RM5</text>
+            <text text-anchor="start" x="81" y="515">RM6</text>
+            <text text-anchor="middle" x="468" y="476">UART</text>
+        </g>
+        <g>
+            <g>
+                <text text-anchor="start" x="147" y="15">D</text>
+                <text text-anchor="end" x="166" y="15">Q</text>
+                <text text-anchor="start" font-size="5px">
+                    <tspan x="149" y="21">Befehls-</tspan>
+                    <tspan x="149" y="26">Register</tspan>
+                </text>
+                <text text-anchor="begin" x="147" y="32">EN</text>
+                <text text-anchor="middle" x="157" y="43">CLR</text>
+            </g>
+            <g>
+                <text text-anchor="middle" x="368" y="30">Mikroprogramm-Memory</text>
+                <text text-anchor="middle" x="350" y="37" font-size="5px">MPRAM</text>
+                <text text-anchor="middle" x="390" y="37" font-size="5px">MPFF</text>
+                <text text-anchor="begin" x="336" y="44">A8...A5</text>
+                <text text-anchor="begin" x="336" y="65">A4</text>
+                <text text-anchor="begin" x="336" y="76">A3</text>
+                <text text-anchor="begin" x="336" y="87">A2</text>
+                <text text-anchor="begin" x="380" y="77">D</text>
+                <text text-anchor="end" x="399" y="77">Q</text>
+                <text text-anchor="middle">
+                    <tspan x="351" y="98">512 x 28 Bit</tspan>
+                    <tspan x="351" y="105">RAM</tspan>
+                </text>
+                <text text-anchor="middle">
+                    <tspan x="389.5" y="98">28 D-</tspan>
+                    <tspan x="389.5" y="105">Flipflops</tspan>
+                </text>
+                <text text-anchor="begin" x="336" y="116">A1</text>
+                <text text-anchor="begin" x="336" y="141">A0</text>
+                <text text-anchor="middle" x="389" y="166">CLR</text>
+            </g>
+            <g>
+                <text text-anchor="begin" x="445" y="140">EN</text>
+                <text text-anchor="begin" x="445" y="165">WR</text>
+                <text text-anchor="middle">
+                    <tspan x="462" y="178">Memory-</tspan>
+                    <tspan x="462" y="185">Controller</tspan>
+                </text>
+            </g>
+            <g font-size="10px">
+                <text text-anchor="middle" x="85" y="33">&</text>
+                <text text-anchor="middle" x="85" y="62">&</text>
+                <text text-anchor="middle" x="121" y="58">&ge;1</text>
+                <text text-anchor="middle" x="103" y="124">=1</text>
+                <text text-anchor="middle" x="116" y="179">&</text>
+                <text text-anchor="middle" x="90" y="185">&ge;1</text>
+                <text text-anchor="middle" x="202" y="212">&</text>
+                <text text-anchor="middle" x="274" y="245">&ge;1</text>
+            </g>
+            <g>
+                <text text-anchor="middle" x="150" y="355">AA2</text>
+                <text text-anchor="middle" x="169" y="355">AA1</text>
+                <text text-anchor="middle" x="188" y="355">AA0</text>
+                <text text-anchor="middle" x="170" y="367" font-size="9px">Register</text>
+                <text text-anchor="middle" x="131" y="378">WE</text>
+                <text text-anchor="middle" x="131" y="386">WS</text>
+                <text text-anchor="middle" x="131" y="402">FWE</text>
+                <text text-anchor="middle" x="131" y="412">F0I</text>
+                <text text-anchor="middle" x="131" y="420">F1I</text>
+                <text text-anchor="middle" x="131" y="428">F2I</text>
+                <text text-anchor="middle" x="131" y="441">DI</text>
+                <text text-anchor="middle" x="131" y="462">CLR</text>
+                <text text-anchor="middle" x="205" y="389">DOA</text>
+                <text text-anchor="middle" x="205" y="412">F0O</text>
+                <text text-anchor="middle" x="205" y="420">F1O</text>
+                <text text-anchor="middle" x="205" y="428">F2O</text>
+                <text text-anchor="middle" x="205" y="436">F3O</text>
+                <text text-anchor="middle" x="205" y="451">DOB</text>
+                <text text-anchor="middle" x="150" y="464">AB2</text>
+                <text text-anchor="middle" x="169" y="464">AB1</text>
+                <text text-anchor="middle" x="188" y="464">AB0</text>
+
+                <text text-anchor="end" x="148" y="379">0:</text>
+                <text text-anchor="end" x="148" y="390">1:</text>
+                <text text-anchor="end" x="148" y="400">2:</text>
+                <text text-anchor="end" x="148" y="411">3:</text>
+                <text text-anchor="end" x="148" y="421">p3:</text>
+                <text text-anchor="end" x="148" y="432">5:</text>
+                <text text-anchor="end" x="148" y="443">6:</text>
+                <text text-anchor="end" x="148" y="454">7:</text>
+            </g>
+            <g>
+                <text text-anchor="start" x="351" y="373">CI</text>
+                <text text-anchor="start" x="351" y="380" font-size="5px">Carry in</text>
+                <text text-anchor="start" x="351" y="397">A</text>
+                <text text-anchor="middle" x="376" y="424" font-size="8px">ALU</text>
+                <text text-anchor="start" x="351" y="458">B</text>
+                <text text-anchor="middle" x="356" y="472">S3</text>
+                <text text-anchor="middle" x="370" y="472">S2</text>
+                <text text-anchor="middle" x="383" y="472">S1</text>
+                <text text-anchor="middle" x="396" y="472">S0</text>
+                <text text-anchor="end" x="391" y="378" font-size="5px">Carry</text>
+                <text text-anchor="end" x="403" y="378">CO</text>
+                <text text-anchor="end" x="391" y="387" font-size="5px">Zero</text>
+                <text text-anchor="end" x="403" y="387">ZO</text>
+                <text text-anchor="end" x="391" y="397" font-size="5px">Negative</text>
+                <text text-anchor="end" x="403" y="397">NO</text>
+                <text text-anchor="end" x="403" y="428">F</text>
+            </g>
+            <g>
+                <text text-anchor="start" x="226" y="211">D</text>
+                <text text-anchor="end" x="242" y="211">Q</text>
+            </g>
+            <g>
+                <text text-anchor="start" x="304" y="211">D</text>
+                <text text-anchor="end" x="318" y="211">Q</text>
+                <text text-anchor="middle" x="311" y="232">CLR</text>
+            </g>
+            <g>
+                <text text-anchor="start" x="503" y="488">CTS</text>
+                <text text-anchor="start" x="503" y="502">TxD</text>
+                <text text-anchor="start" x="503" y="529">RxD</text>
+                <text text-anchor="start" x="503" y="541">RTS</text>
+            </g>
+
+            <g>
+                <text text-anchor="start" x="59" y="115">00</text>
+                <text text-anchor="start" x="59" y="123">01</text>
+                <text text-anchor="start" x="59" y="131">10</text>
+                <text text-anchor="start" x="59" y="139">11</text>
+                <text text-anchor="start" x="151" y="108">000</text>
+                <text text-anchor="start" x="151" y="115">001</text>
+                <text text-anchor="start" x="151" y="123">010</text>
+                <text text-anchor="start" x="151" y="131">011</text>
+                <text text-anchor="start" x="151" y="139">100</text>
+                <text text-anchor="start" x="151" y="148">101</text>
+                <text text-anchor="start" x="151" y="156">110</text>
+                <text text-anchor="start" x="151" y="164">111</text>
+                <text text-anchor="start" x="293" y="110">0</text>
+                <text text-anchor="start" x="293" y="120">1</text>
+                <text text-anchor="start" x="293" y="135">0</text>
+                <text text-anchor="start" x="293" y="146">1</text>
+                <text text-anchor="start" x="100" y="290">0</text>
+                <text text-anchor="start" x="100" y="297">1</text>
+                <text text-anchor="start" x="100" y="312">0</text>
+                <text text-anchor="start" x="100" y="319">1</text>
+                <text text-anchor="start" x="100" y="334">0</text>
+                <text text-anchor="start" x="100" y="341">1</text>
+                <text text-anchor="start" x="76" y="479">0</text>
+                <text text-anchor="start" x="76" y="486">1</text>
+                <text text-anchor="start" x="76" y="500">0</text>
+                <text text-anchor="start" x="76" y="507">1</text>
+                <text text-anchor="start" x="76" y="522">0</text>
+                <text text-anchor="start" x="76" y="529">1</text>
+                <text text-anchor="start" x="270" y="390">0</text>
+                <text text-anchor="start" x="270" y="406">1</text>
+                <text text-anchor="start" x="270" y="451">0</text>
+                <text text-anchor="start" x="270" y="467">1</text>
+            </g>
+
+            <g font-size="4.5px">
+                <text text-anchor="middle" x="153" y="613">MAC</text>
+                <text text-anchor="middle" x="192" y="613">NA</text>
+                <text text-anchor="middle" x="219" y="610">BUS..</text>
+                <text text-anchor="middle" x="216" y="615">WR</text>
+                <text text-anchor="middle" x="223" y="615">EN</text>
+                <text text-anchor="middle" x="246" y="615">AA</text>
+                <text text-anchor="middle" x="276" y="610">MRG...</text>
+                <text text-anchor="middle" x="280" y="615">AB</text>
+                <text text-anchor="middle" x="300" y="615">WS</text>
+                <text text-anchor="middle" x="311" y="615">WE</text>
+                <text text-anchor="middle" x="336" y="610">MALU...</text>
+                <text text-anchor="middle" x="320" y="615">IA</text>
+                <text text-anchor="middle" x="326" y="615">IB</text>
+                <text text-anchor="middle" x="346" y="615">S</text>
+                <text text-anchor="middle" x="366" y="610">MCH</text>
+                <text text-anchor="middle" x="365" y="615">FLG</text>
+            </g>
+            <g font-size="5px">
+                <text text-anchor="middle" x="143" y="630">27</text>
+                <text text-anchor="middle" x="163" y="630">24</text>
+                <text text-anchor="middle" x="180" y="630">23</text>
+                <text text-anchor="middle" x="200" y="630">20</text>
+                <text text-anchor="middle" x="230" y="630">16</text>
+                <text text-anchor="middle" x="247" y="630">15</text>
+                <text text-anchor="middle" x="267" y="630">12</text>
+                <text text-anchor="middle" x="297" y="630">8</text>
+                <text text-anchor="middle" x="312" y="630">7</text>
+                <text text-anchor="middle" x="333" y="630">4</text>
+                <text text-anchor="middle" x="350" y="630">2</text>
+                <text text-anchor="middle" x="363" y="630">0</text>
+                <text text-anchor="middle" x="467" y="630">7</text>
+                <text text-anchor="middle" x="487" y="630">4</text>
+                <text text-anchor="middle" x="503" y="630">2</text>
+                <text text-anchor="middle" x="517" y="630">0</text>
+
+                <text text-anchor="middle" x="114" y="655">7</text>
+                <text text-anchor="middle" x="134" y="655">4</text>
+                <text text-anchor="middle" x="150" y="655">2</text>
+                <text text-anchor="middle" x="163" y="655">0</text>
+                <text text-anchor="middle" x="181" y="655">7</text>
+                <text text-anchor="middle" x="200" y="655">4</text>
+                <text text-anchor="middle" x="217" y="655">2</text>
+                <text text-anchor="middle" x="230" y="655">0</text>
+                <text text-anchor="middle" x="247" y="655">7</text>
+                <text text-anchor="middle" x="267" y="655">4</text>
+                <text text-anchor="middle" x="283" y="655">2</text>
+                <text text-anchor="middle" x="297" y="655">0</text>
+                <text text-anchor="middle" x="313" y="655">7</text>
+                <text text-anchor="middle" x="333" y="655">4</text>
+                <text text-anchor="middle" x="350" y="655">2</text>
+                <text text-anchor="middle" x="363" y="655">0</text>
+                <text text-anchor="middle" x="404" y="655">7</text>
+                <text text-anchor="middle" x="424" y="655">4</text>
+                <text text-anchor="middle" x="440" y="655">2</text>
+                <text text-anchor="middle" x="454" y="655">0</text>
+                <text text-anchor="middle" x="467" y="655">7</text>
+                <text text-anchor="middle" x="487" y="655">4</text>
+                <text text-anchor="middle" x="503" y="655">2</text>
+                <text text-anchor="middle" x="517" y="655">0</text>
+            </g>
+            
+            <text text-anchor="start" x="143" y="638">microprog.</text>
+            <text text-anchor="start" x="312" y="638">bus</text>
+            <text text-anchor="end" x="447" y="635">microprog.</text>
+            <text text-anchor="start" x="465" y="635">bus</text>
+            
+            <g font-size="5px">
+                <text text-anchor="middle" x="46" y="697">LEDs off</text>
+                <text text-anchor="middle" x="46" y="710">LEDs normal</text>
+                <text text-anchor="middle" x="123" y="699">clock</text>
+                <text text-anchor="middle" x="146" y="699">LED test</text>
+                <text text-anchor="middle" x="203" y="699">autostep</text>
+                <text text-anchor="middle" x="257" y="730">default</text>
+                <text text-anchor="middle" x="273" y="699">clock 1/2</text>
+                <text text-anchor="middle" x="300" y="710">slower</text>
+                <text text-anchor="middle" x="348" y="710">faster</text>
+                <text text-anchor="middle" x="339" y="699">step 1/4</text>
+                <text text-anchor="middle" x="403" y="732">default</text>
+                <text text-anchor="middle" x="444" y="707">darker</text>
+                <text text-anchor="middle" x="491" y="707">brighter</text>
+            </g>
+            <g font-size="7px">
+                <text text-anchor="middle" x="49" y="664">interrupt</text>
+                <text text-anchor="middle" x="444" y="702">0</text>
+                <text text-anchor="middle" x="491" y="702">1</text>
+            </g>
+            <g font-size="8px">
+                <text text-anchor="middle" x="7" y="720">run</text>
+                <text text-anchor="middle" x="7" y="763">step</text>
+                <text text-anchor="middle" x="46" y="771">step</text>
+                <text text-anchor="middle" x="101" y="725">continue</text>
+                <text text-anchor="middle" x="101" y="771">reset</text>
+                <text text-anchor="middle" x="138" y="706">microprogram</text>
+                <text text-anchor="middle" x="174" y="725">write</text>
+                <text text-anchor="middle" x="174" y="771">read</text>
+                <text text-anchor="middle" x="213" y="771">store</text>
+                <text text-anchor="middle" x="204" y="706">bus</text>
+                <text text-anchor="middle" x="257" y="771">clear</text>
+                <text text-anchor="middle" x="404" y="686">shift</text>
+                <text text-anchor="middle" x="404" y="725">count</text>
+                <text text-anchor="middle" x="404" y="771">clear</text>
+                <text text-anchor="middle" x="444" y="771">down</text>
+                <text text-anchor="middle" x="491" y="771">up</text>
+            </g>
+            
+            <g font-size="9px">
+                <text text-anchor="start" x="1" y="707">clock:</text>
+                <text text-anchor="start" x="79" y="623">data read:</text>
+                <text text-anchor="start" x="79" y="640">load: data</text>
+                <text text-anchor="start" x="84" y="664">run:</text>
+                <text text-anchor="middle" x="137" y="664">in FF</text>
+                <text text-anchor="middle" x="144" y="725">load</text>
+                <text text-anchor="middle" x="144" y="771">run</text>
+                <text text-anchor="middle" x="204" y="664">in FE</text>
+                <text text-anchor="middle" x="271" y="664">in FD</text>
+                <text text-anchor="middle" x="300" y="771">0</text>
+                <text text-anchor="middle" x="338" y="664">in FC</text>
+                <text text-anchor="middle" x="348" y="771">1</text>
+                <text text-anchor="middle" x="426" y="664">out FF</text>
+                <text text-anchor="middle" x="492" y="664">out FE</text>
+            </g>
+        </g>
+    </g>
+
+    <!-- Control Symbols -->
+
+    <g>
+        <g id="interrupt-btn">
+            <rect x="39" y="673" width="16" height="16" stroke="black" stroke-width="0.5" fill="#DCDCDA" />
+            <circle cx="47" cy="681" r="4" stroke="black" stroke-width="0.5" fill="#716F6D" />
+        </g>
+        <circle cx="123" cy="675" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="ff-in-t" />
+        <circle cx="123" cy="687" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="ff-in-b" />
+        <g id="ff-in-btn">
+            <rect x="137" y="673" width="16" height="16" stroke="black" stroke-width="0.5" fill="#DCDCDA" />
+            <circle cx="145" cy="681" r="4" stroke="black" stroke-width="0.5" fill="#716F6D" />
+        </g>
+        <circle cx="190" cy="675" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="fe-in-t" />
+        <circle cx="190" cy="687" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="fe-in-b" />
+        <g id="fe-in-btn">
+            <rect x="203" y="673" width="16" height="16" stroke="black" stroke-width="0.5" fill="#DCDCDA" />
+            <circle cx="211" cy="681" r="4" stroke="black" stroke-width="0.5" fill="#716F6D" />
+        </g>
+        <circle cx="257" cy="675" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="fd-in-t" />
+        <circle cx="257" cy="687" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="fd-in-b" />
+        <g id="fd-in-btn">
+            <rect x="270" y="673" width="16" height="16" stroke="black" stroke-width="0.5" fill="#DCDCDA" />
+            <circle cx="278" cy="681" r="4" stroke="black" stroke-width="0.5" fill="#716F6D" />
+        </g>
+        <circle cx="324" cy="675" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="fc-in-t" />
+        <circle cx="324" cy="687" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="fc-in-b" />
+        <g id="fc-in-btn">
+            <rect x="337" y="673" width="16" height="16" stroke="black" stroke-width="0.5" fill="#DCDCDA" />
+            <circle cx="345" cy="681" r="4" stroke="black" stroke-width="0.5" fill="#716F6D" />
+        </g>
+        <g id="clk-switch">
+            <rect x="0" y="730" width="13" height="21" stroke="black" stroke-width="0.5" fill="#bfbfbf" />
+            <circle cx="6.5" cy="740.5" r="6.5" stroke="black" stroke-width="0.5" fill="none" />
+            <circle cx="6.5" cy="740.5" r="5" stroke="black" stroke-width="0.5" fill="none" />
+            <circle cx="6.5" cy="742.5" r="2.5" stroke="black" stroke-width="0.5" fill="#808080" id="clk-switch-off" />
+            <circle cx="6.5" cy="738" r="2.5" stroke="black" stroke-width="0.5" fill="#808080" style="display: none;" id="clk-switch-on" />
+        </g>
+        <g id="step-btn">
+            <rect x="30" y="715" width="32" height="46" stroke="black" stroke-width="0.5" fill="#ff502e" />
+            <rect x="34" y="735" width="24" height="22" stroke="none" fill="#ff0000" />
+        </g>
+        <g id="reset-btn">
+            <rect x="87" y="736" width="26" height="26" stroke="black" stroke-width="0.5" fill="#858274" />
+            <rect x="90" y="739" width="20" height="20" stroke="black" fill="#FFFE00" />
+        </g>
+        <g id="run-switch">
+            <rect x="137" y="737" width="13" height="21" stroke="black" stroke-width="0.5" fill="#bfbfbf" />
+            <circle cx="143.5" cy="747.5" r="6.5" stroke="black" stroke-width="0.5" fill="none" />
+            <circle cx="143.5" cy="747.5" r="5" stroke="black" stroke-width="0.5" fill="none" />
+            <circle cx="143.5" cy="749.5" r="2.5" stroke="black" stroke-width="0.5" fill="#808080" id="run-switch-off" />
+            <circle cx="143.5" cy="745" r="2.5" stroke="black" stroke-width="0.5" fill="#808080" style="display: none;" id="run-switch-on" />
+        </g>
+        <g id="write-switch">
+            <rect x="167" y="737" width="13" height="21" stroke="black" stroke-width="0.5" fill="#bfbfbf" />
+            <circle cx="173.5" cy="747.5" r="6.5" stroke="black" stroke-width="0.5" fill="none" />
+            <circle cx="173.5" cy="747.5" r="5" stroke="black" stroke-width="0.5" fill="none" />
+            <circle cx="173.5" cy="749.5" r="2.5" stroke="black" stroke-width="0.5" fill="#808080" id="write-switch-off" />
+            <circle cx="173.5" cy="745" r="2.5" stroke="black" stroke-width="0.5" fill="#808080" style="display: none;" id="write-switch-on" />
+        </g>
+        <circle cx="213" cy="725" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="store" />
+        <g id="store-btn">
+            <rect x="200" y="736" width="26" height="26" stroke="black" stroke-width="0.5" fill="#858274" />
+            <rect x="203" y="739" width="20" height="20" stroke="black" fill="#FF5031" />
+        </g>
+        <g id="store-btn">
+            <rect x="245" y="736" width="26" height="26" stroke="black" stroke-width="0.5" fill="#858274" />
+            <rect x="248" y="739" width="20" height="20" stroke="black" fill="#01BEFF" />
+        </g>
+        <g id="slower-btn">
+            <rect x="285" y="715" width="32" height="46" stroke="black" stroke-width="0.5" fill="#01BEFF" />
+            <rect x="289" y="735" width="24" height="22" stroke="none" fill="#0087b5" />
+        </g>
+        <g id="faster-btn">
+            <rect x="331" y="715" width="32" height="46" stroke="black" stroke-width="0.5" fill="#ff502e" />
+            <rect x="335" y="735" width="24" height="22" stroke="none" fill="#ff0000" />
+        </g>
+        <g id="shift-switch">
+            <rect x="397" y="695" width="13" height="21" stroke="black" stroke-width="0.5" fill="#bfbfbf" />
+            <circle cx="403.5" cy="705.5" r="6.5" stroke="black" stroke-width="0.5" fill="none" />
+            <circle cx="403.5" cy="705.5" r="5" stroke="black" stroke-width="0.5" fill="none" />
+            <circle cx="403.5" cy="707.5" r="2.5" stroke="black" stroke-width="0.5" fill="#808080" id="write-switch-off" />
+            <circle cx="403.5" cy="703" r="2.5" stroke="black" stroke-width="0.5" fill="#808080" style="display: none;" id="write-switch-on" />
+        </g>
+        <g id="clear-btn">
+            <rect x="389" y="736" width="26" height="26" stroke="black" stroke-width="0.5" fill="#858274" />
+            <rect x="392" y="739" width="20" height="20" stroke="black" fill="#01BEFF" />
+        </g>
+        <g id="down-btn">
+            <rect x="430" y="715" width="32" height="46" stroke="black" stroke-width="0.5" fill="#01BEFF" />
+            <rect x="434" y="735" width="24" height="22" stroke="none" fill="#0087b5" />
+        </g>
+        <g id="up-btn">
+            <rect x="475" y="715" width="32" height="46" stroke="black" stroke-width="0.5" fill="#ff502e" />
+            <rect x="479" y="735" width="24" height="22" stroke="none" fill="#ff0000" />
+        </g>
+    </g>
+
+    <!-- Traces -->
+    
+    <g>
+        <polyline points="42,15 143,15" stroke="black" stroke-width="1" fill="none" marker-start="url(#arrow-front)" />
+        <polyline points="35,26 75,26" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="66,64 66,33 75,33" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="36,43 100,43 100,51 111,51" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="35,55 75,55" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="66,79 66,64 75,64" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="35,79 191,79 191,153 298,153 298,147" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="36,95 87,95 87,117 94,117" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,113 56,113" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,121 56,121" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,129 56,129" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,137 56,137" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,154 64,154 64,142" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,161 74,161 74,137" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,170 106,170" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="38,178 80,178" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron-long)"/>
+        <polyline points="35,202 180,202 180,206 192,206" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="35,210 192,210" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="35,218 180,218 180,215 192,215" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="36,234 64,234" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,242 64,242" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,250 64,250" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="38,258 289,258 289,224 300,224" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron-long)" />
+        <polyline points="170,15 204,15 204,87 215,98 232,98" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="204,76 215,87 232,87" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="204,59 215,70 232,70" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="204,49 215,60 233,60" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="204,31 215,42 333,42" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="93,29 144,29" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="129,55 157,55 157,46" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="93,59 111,59" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="78,125 94,125" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="131,105 147,105" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="131,113 147,113" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="111,121 147,121" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="131,129 147,129" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="131,137 147,137" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="131,146 147,146" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="131,154 147,154" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="123,174 131,174 131,162 147,162" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="97,181 106,181" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="185,194 72,194 72,186 80,186" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="155,169 155,202" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="164,163 164,210" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="173,157 173,218" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="322,208 339,208 339,187 185,187 185,201 192,201" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="210,209 222,209" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="215,225 222,225" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="244,209 253,209 253,239 264,239" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="256,246 264,246" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="295,208 300,208" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="281,242 312,242 312,236" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="278,63 333,63" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
+        <polyline points="278,73 333,73" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
+        <polyline points="278,84 333,84" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
+        <polyline points="278,108 290,108" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="302,114 333,114" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="277,118 290,118" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="180,134 290,134" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="302,139 333,139" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="278,145 290,145" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="298,130 298,122" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="366,50 378,50" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="366,89 378,89" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="366,106 378,106" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="366,137 378,137" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="366,147 378,147" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="401,50 480,50" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-big)" />
+        <polyline points="401,89 480,89" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-big)" />
+        <polyline points="401,106 480,106" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-big)" />
+        <polyline points="401,137 441,137" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="401,146 421,146 421,164 441,164" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="480,138 493,138" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+        <polyline points="480,151 493,151" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+        <polyline points="480,165 493,165" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+        <polyline points="480,196 500,196" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="364,196 441,196" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="390,184 390,169" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron-up)" />
+        <polyline points="373,196 373,157 376,157" stroke="black" stroke-width="1" fill="none" />
+        
+        <polyline points="35,287 97,287" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="36,296 97,296" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="35,309 97,309" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="36,318 97,318" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="35,330 97,330" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="86,339 97,339" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
+        <polyline points="35,357 104,357 104,342" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="104,327 104,320" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="104,306 104,299" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="35,376 122,376" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="35,384 122,384" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="35,400 122,400" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="36,451 122,451" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,460 122,460" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,506 72,506" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,528 72,528" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="67,484 72,484" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
+        <polyline points="35,540 219,540 230,529" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="80,540 80,530" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="80,516 80,509" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="80,494 80,487" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="208,540 208,531 219,531 230,520" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="208,531 208,523 219,523 230,512" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="208,523 208,515 219,515 230,504" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="208,515 208,507 219,507 230,496" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="35,548 219,548 230,537" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="54,548 54,476 72,476" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="35,556 219,556 230,545" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="60,556 60,498 72,498" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="35,563 219,563 230,552 230,464 267,464" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="65,563 65,519 72,519" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="109,291 188,291 188,344" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="109,313 169,313 169,344" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="109,335 151,335 151,344" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="85,523 188,523 188,470" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="85,502 169,502 169,470" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="85,480 151,480 151,470" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="215,410 231,410 231,331 502,331" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="215,418 237,418 237,339 502,339" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="215,426 243,426 243,347 502,347" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="215,434 249,434 249,355 502,355" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="327,331 327,372 347,372" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="215,387 268,387" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="215,449 268,449" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="224,387 224,299 485,299" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+        <polyline points="486,312 258,312 258,403 268,403" stroke="black" stroke-width="1" fill="none" marker-start="url(#arrow-rev)" />
+        <polyline points="276,407 276,421" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
+        <polyline points="276,469 276,483" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
+        <polyline points="284,395 347,395" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="284,456 347,456" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="356,477 356,506" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
+        <polyline points="370,477 370,506" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
+        <polyline points="383,477 383,506" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
+        <polyline points="397,477 397,506" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
+        <polyline points="405,376 502,376" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="405,385 502,385" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="405,395 502,395" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="434,376 434,589 92,589 92,409 122,409" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="429,385 429,585 97,585 97,417 122,417" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="424,395 424,580 102,580 102,425 122,425" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="405,426 482,426" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+        <polyline points="416,426 416,572 109,572 109,439 122,439" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="480,486 501,486" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron-rev)" />
+        <polyline points="469,495 469,486 480,486" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="501,539 469,539 469,531" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="501,500 474,500" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="480,527 501,527" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron-rev)" />
+        <polyline points="474,527 480,527" stroke="black" stroke-width="1" fill="none" />
+    </g>
+
+    <!-- Trace connections -->
+
+    <g>
+        <circle cx="66" cy="79" r="2" stroke="none" fill="black" />
+        <circle cx="66" cy="64" r="2" stroke="none" fill="black" />
+        <circle cx="155" cy="202" r="2" stroke="none" fill="black" />
+        <circle cx="164" cy="210" r="2" stroke="none" fill="black" />
+        <circle cx="173" cy="218" r="2" stroke="none" fill="black" />
+        <circle cx="185" cy="194" r="2" stroke="none" fill="black" />
+        <circle cx="373" cy="196" r="2" stroke="none" fill="black" />
+        <circle cx="327" cy="331" r="2" stroke="none" fill="black" />
+        <circle cx="434" cy="376" r="2" stroke="none" fill="black" />
+        <circle cx="429" cy="385" r="2" stroke="none" fill="black" />
+        <circle cx="424" cy="395" r="2" stroke="none" fill="black" />
+        <circle cx="224" cy="387" r="2" stroke="none" fill="black" />
+        <circle cx="416" cy="426" r="2" stroke="none" fill="black" />
+        <circle cx="208" cy="515" r="2" stroke="none" fill="black" />
+        <circle cx="208" cy="523" r="2" stroke="none" fill="black" />
+        <circle cx="208" cy="531" r="2" stroke="none" fill="black" />
+        <circle cx="208" cy="540" r="2" stroke="none" fill="black" />
+        <circle cx="80" cy="540" r="2" stroke="none" fill="black" />
+        <circle cx="54" cy="548" r="2" stroke="none" fill="black" />
+        <circle cx="60" cy="556" r="2" stroke="none" fill="black" />
+        <circle cx="65" cy="563" r="2" stroke="none" fill="black" />
+    </g>
+
+    <!-- Symbols -->
+
+    <g>
+        <rect x="145" y="6" width="24" height="38" stroke="black" stroke-width="1" fill="none" />
+        <rect x="77" y="22" width="15" height="15" stroke="black" stroke-width="1" fill="none" />
+        <rect x="77" y="52" width="15" height="15" stroke="black" stroke-width="1" fill="none" />
+        <rect x="113" y="47" width="15" height="15" stroke="black" stroke-width="1" fill="none" />
+        <rect x="95" y="114" width="15" height="15" stroke="black" stroke-width="1" fill="none" />
+        <rect x="108" y="166" width="15" height="18" stroke="black" stroke-width="1" fill="none" />
+        <rect x="82" y="174" width="15" height="15" stroke="black" stroke-width="1" fill="none" />
+        <rect x="194" y="199" width="15" height="19" stroke="black" stroke-width="1" fill="none" />
+        <rect x="223" y="201" width="21" height="34" stroke="black" stroke-width="1" fill="none" />
+        <rect x="301" y="201" width="21" height="34" stroke="black" stroke-width="1" fill="none" />
+        <rect x="266" y="234" width="15" height="15" stroke="black" stroke-width="1" fill="none" />
+        <rect x="324" y="23" width="88" height="150" stroke="black" stroke-width="1" fill="none" />
+        <rect x="335" y="39" width="32" height="129" stroke="black" stroke-width="1" fill="none" />
+        <rect x="378" y="39" width="23" height="129" stroke="black" stroke-width="1" fill="none" />
+        <rect x="443" y="126" width="37" height="80" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="58,105 78,116 78,134 58,144" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="149,94 180,113 180,153 149,172" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="292,103 302,107 302,120 292,123" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="292,128 302,132 302,145 292,149" stroke="black" stroke-width="1" fill="none" />
+        
+        <rect x="123" y="346" width="92" height="122" stroke="black" stroke-width="1" fill="none" />
+        <rect x="139" y="372" width="58" height="84" stroke="black" stroke-width="1" fill="none" />
+        <rect x="349" y="363" width="55" height="112" stroke="black" stroke-width="1" fill="none" />
+        <rect x="458" y="479" width="21" height="69" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="99,282 109,286 109,297 99,301" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="99,304 109,308 109,318 99,322" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="99,325 109,329 109,340 99,344" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="268,380 283,386 283,404 268,410" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="268,442 283,448 283,466 268,472" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="75,471 85,475 85,486 75,490" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="75,493 85,497 85,507 75,511" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="75,514 85,518 85,528 75,532" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="464,491 474,500 464,508" stroke="black" stroke-width="1" fill="none" />
+        <polygon points="474,517 474,534 463,526" stroke="black" stroke-width="1" fill="none" />
+    </g>
+
+    <!-- Steuerwerk -->
+    
+    <circle cx="46" cy="27" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mac0" />
+    <circle cx="46" cy="55" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mac1" />
+    <circle cx="46" cy="80" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mac2" />
+    <circle cx="46" cy="96" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op10" />
+    <circle cx="46" cy="122" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="cf" />
+    <circle cx="46" cy="130" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="zf" />
+    <circle cx="46" cy="137" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="nf" />
+    <circle cx="46" cy="154" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op01" />
+    <circle cx="46" cy="161" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op00" />
+    <circle cx="46" cy="202" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mac1" />
+    <circle cx="46" cy="210" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mac0" />
+    <circle cx="46" cy="218" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na0" />
+    <circle cx="46" cy="234" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="clk" />
+    <circle cx="46" cy="242" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="wait" />
+    <circle cx="46" cy="250" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reset" />
+    <circle cx="46" cy="258" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="inte" />
+    
+    <circle cx="137" cy="29" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="bl1" />
+    <circle cx="137" cy="55" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="bl3" />
+    <circle cx="139" cy="122" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="al1" />
+    <circle cx="139" cy="130" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="cf" />
+    <circle cx="139" cy="138" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="co" />
+    <circle cx="139" cy="146" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="zo" />
+    <circle cx="139" cy="154" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="no" />
+    <circle cx="139" cy="162" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="il2" />
+    
+    <circle cx="222" cy="60" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op11" />
+    <circle cx="222" cy="71" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op10" />
+    <circle cx="222" cy="87" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op01" />
+    <circle cx="222" cy="98" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op00" />
+
+    <circle cx="292" cy="42" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na8" />
+    <circle cx="300" cy="42" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na7" />
+    <circle cx="308" cy="42" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na6" />
+    <circle cx="316" cy="42" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na5" />
+    <circle cx="316" cy="63" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na4" />
+    <circle cx="316" cy="73" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na3" />
+    <circle cx="316" cy="84" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na2" />
+    <circle cx="284" cy="108" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="na1" />
+    <circle cx="284" cy="119" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op11" />
+    <circle cx="316" cy="114" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="am4" />
+    <circle cx="284" cy="134" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="am1" />
+    <circle cx="284" cy="145" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op10" />
+    <circle cx="316" cy="139" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="am3" />
+    
+    <circle cx="297" cy="242" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="iff2" />
+    <circle cx="332" cy="208" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="iff1" />
+    
+    <circle cx="428" cy="138" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="busen" />
+    <circle cx="428" cy="164" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="buswr" />
+    <circle cx="487" cy="138" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="ce" />
+    <circle cx="487" cy="151" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="oe" />
+    <circle cx="487" cy="165" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="we" />
+
+    <!-- Datenpfad -->
+    
+    <circle cx="46" cy="287" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa0" />
+    <circle cx="46" cy="296" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op00" />
+    <circle cx="46" cy="308" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa1" />
+    <circle cx="46" cy="317" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op01" />
+    <circle cx="46" cy="330" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa2" />
+    <circle cx="104" cy="352" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa3" />
+    <circle cx="46" cy="375" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgwe" />
+    <circle cx="46" cy="383" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgws" />
+    <circle cx="46" cy="399" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mchflg" />
+    <circle cx="46" cy="506" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op11" />
+    <circle cx="46" cy="527" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="op10" />
+    <circle cx="46" cy="539" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab3" />
+    <circle cx="46" cy="547" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab2" />
+    <circle cx="46" cy="555" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab1" />
+    <circle cx="46" cy="563" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab0" />
+    
+    <circle cx="150" cy="338" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="aa2" />
+    <circle cx="169" cy="338" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="aa1" />
+    <circle cx="188" cy="338" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="aa0" />
+    <circle cx="150" cy="476" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="ab2" />
+    <circle cx="169" cy="476" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="ab1" />
+    <circle cx="188" cy="476" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="ab0" />
+
+    <g class="reg">
+        <circle cx="152" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg07" />
+        <circle cx="157" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg06" />
+        <circle cx="162" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg05" />
+        <circle cx="167" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg04" />
+        <circle cx="176" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg03" />
+        <circle cx="181" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg02" />
+        <circle cx="186" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg01" />
+        <circle cx="191" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg00" />
+        <circle cx="152" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg17" />
+        <circle cx="157" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg16" />
+        <circle cx="162" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg15" />
+        <circle cx="167" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg14" />
+        <circle cx="176" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg13" />
+        <circle cx="181" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg12" />
+        <circle cx="186" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg11" />
+        <circle cx="191" cy="387" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg10" />
+        <circle cx="152" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg27" />
+        <circle cx="157" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg26" />
+        <circle cx="162" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg25" />
+        <circle cx="167" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg24" />
+        <circle cx="176" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg23" />
+        <circle cx="181" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg22" />
+        <circle cx="186" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg21" />
+        <circle cx="191" cy="398" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg20" />
+        <circle cx="152" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg37" />
+        <circle cx="157" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg36" />
+        <circle cx="162" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg35" />
+        <circle cx="167" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg34" />
+        <circle cx="176" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg33" />
+        <circle cx="181" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg32" />
+        <circle cx="186" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg31" />
+        <circle cx="191" cy="408" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg30" />
+        <circle cx="152" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg47" />
+        <circle cx="157" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg46" />
+        <circle cx="162" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg45" />
+        <circle cx="167" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg44" />
+        <circle cx="176" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg43" />
+        <circle cx="181" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg42" />
+        <circle cx="186" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg41" />
+        <circle cx="191" cy="419" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg40" />
+        <circle cx="152" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg57" />
+        <circle cx="157" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg56" />
+        <circle cx="162" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg55" />
+        <circle cx="167" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg54" />
+        <circle cx="176" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg53" />
+        <circle cx="181" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg52" />
+        <circle cx="186" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg51" />
+        <circle cx="191" cy="430" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg50" />
+        <circle cx="152" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg67" />
+        <circle cx="157" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg66" />
+        <circle cx="162" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg65" />
+        <circle cx="167" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg64" />
+        <circle cx="176" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg63" />
+        <circle cx="181" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg62" />
+        <circle cx="186" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg61" />
+        <circle cx="191" cy="441" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg60" />
+        <circle cx="152" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg77" />
+        <circle cx="157" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg76" />
+        <circle cx="162" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg75" />
+        <circle cx="167" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg74" />
+        <circle cx="176" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg73" />
+        <circle cx="181" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg72" />
+        <circle cx="186" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg71" />
+        <circle cx="191" cy="451" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="reg70" />
+    </g>
+    
+    <circle cx="276" cy="415" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="maluia" />
+    <circle cx="276" cy="477" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="maluib" />
+
+    <g class="abf">
+        <circle cx="297" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a7" />
+        <circle cx="302" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a6" />
+        <circle cx="307" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a5" />
+        <circle cx="312" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a4" />
+        <circle cx="321" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a3" />
+        <circle cx="326" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a2" />
+        <circle cx="331" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a1" />
+        <circle cx="336" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="a0" />
+        <circle cx="297" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b7" />
+        <circle cx="302" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b6" />
+        <circle cx="307" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b5" />
+        <circle cx="312" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b4" />
+        <circle cx="321" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b3" />
+        <circle cx="326" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b2" />
+        <circle cx="331" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b1" />
+        <circle cx="336" cy="456" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="b0" />
+        <circle cx="297" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f7" />
+        <circle cx="302" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f6" />
+        <circle cx="307" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f5" />
+        <circle cx="312" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f4" />
+        <circle cx="321" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f3" />
+        <circle cx="326" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f2" />
+        <circle cx="331" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f1" />
+        <circle cx="336" cy="572" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="f0" />
+    </g>
+
+    <circle cx="356" cy="494" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="malus3" />
+    <circle cx="370" cy="494" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="malus2" />
+    <circle cx="383" cy="494" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="malus1" />
+    <circle cx="397" cy="494" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="malus0" />
+                    
+    <circle cx="493" cy="331" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="cf" />
+    <circle cx="493" cy="339" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="zf" />
+    <circle cx="493" cy="347" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="nf" />
+    <circle cx="493" cy="355" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="ief" />
+
+    <circle cx="493" cy="376" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="co" />
+    <circle cx="493" cy="385" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="zo" />
+    <circle cx="493" cy="395" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="no" />
+
+    <g class="memio">
+        <circle cx="437" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema7" />
+        <circle cx="442" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema6" />
+        <circle cx="447" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema5" />
+        <circle cx="452" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema4" />
+        <circle cx="461" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema3" />
+        <circle cx="466" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema2" />
+        <circle cx="471" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema1" />
+        <circle cx="476" cy="299" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="mema0" />
+        <circle cx="437" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi7" />
+        <circle cx="442" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi6" />
+        <circle cx="447" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi5" />
+        <circle cx="452" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi4" />
+        <circle cx="461" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi3" />
+        <circle cx="466" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi2" />
+        <circle cx="471" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi1" />
+        <circle cx="476" cy="312" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="memdi0" />
+    </g>
+
+    <!-- UART -->
+
+    <circle cx="493" cy="486" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="cts" />
+    <circle cx="468" cy="500" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="tx" />
+    <circle cx="493" cy="500" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="txd" />
+    
+    <circle cx="493" cy="526" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="rxd" />
+    <circle cx="468" cy="526" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="rx" />
+    <circle cx="493" cy="539" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="rts" />
+
+    <!-- I/O -->
+    <g class="bf">
+        <circle cx="142" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mac3" />
+        <circle cx="149" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mac2" />
+        <circle cx="156" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mac1" />
+        <circle cx="163" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mac0" />
+        <circle cx="180" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="na4" />
+        <circle cx="187" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="na3" />
+        <circle cx="193.5" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="na2" />
+        <circle cx="200" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="na1" />
+        <circle cx="209.5" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="na0" />
+        <circle cx="216" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="buswr" />
+        <circle cx="223" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="busen" />
+        <circle cx="230" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa3" />
+        <circle cx="247" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa2" />
+        <circle cx="254" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa1" />
+        <circle cx="260" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgaa0" />
+        <circle cx="267" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab3" />
+        <circle cx="277" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab2" />
+        <circle cx="283" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab1" />
+        <circle cx="290" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgab0" />
+        <circle cx="297" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgws" />
+        <circle cx="313" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mrgwe" />
+        <circle cx="320" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="maluia" />
+        <circle cx="327" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="maluib" />
+        <circle cx="333" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="malus3" />
+        <circle cx="342" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="malus2" />
+        <circle cx="349" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="malus1" />
+        <circle cx="356" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="malus0" />
+        <circle cx="363" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="mchflg" />
+    </g>
+
+    <g class="addr">
+        <circle cx="453" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr8" />
+        <circle cx="466" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr7" />
+        <circle cx="473" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr6" />
+        <circle cx="480" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr5" />
+        <circle cx="487" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr4" />
+        <circle cx="496" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr3" />
+        <circle cx="502" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr2" />
+        <circle cx="509" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr1" />
+        <circle cx="516" cy="620" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="addr0" />
+    </g>
+
+    <g class="input">
+        <circle cx="113" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff7" />
+        <circle cx="120" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff6" />
+        <circle cx="127" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff5" />
+        <circle cx="134" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff4" />
+        <circle cx="142" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff3" />
+        <circle cx="149" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff2" />
+        <circle cx="156" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff1" />
+        <circle cx="163" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="inff0" />
+        <circle cx="180" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe7" />
+        <circle cx="187" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe6" />
+        <circle cx="193.5" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe5" />
+        <circle cx="200" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe4" />
+        <circle cx="209.5" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe3" />
+        <circle cx="216" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe2" />
+        <circle cx="223" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe1" />
+        <circle cx="230" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infe0" />
+        <circle cx="247" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd7" />
+        <circle cx="254" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd6" />
+        <circle cx="260" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd5" />
+        <circle cx="267" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd4" />
+        <circle cx="277" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd3" />
+        <circle cx="283" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd2" />
+        <circle cx="290" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd1" />
+        <circle cx="297" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infd0" />
+        <circle cx="313" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc7" />
+        <circle cx="320" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc6" />
+        <circle cx="327" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc5" />
+        <circle cx="333" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc4" />
+        <circle cx="342" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc3" />
+        <circle cx="349" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc2" />
+        <circle cx="356" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc1" />
+        <circle cx="363" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="infc0" />
+    </g>
+
+    <g class="output">
+        <circle cx="403" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff7" />
+        <circle cx="410" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff6" />
+        <circle cx="417" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff5" />
+        <circle cx="423" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff4" />
+        <circle cx="432" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff3" />
+        <circle cx="439" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff2" />
+        <circle cx="446" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff1" />
+        <circle cx="453" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outff0" />
+        <circle cx="466" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe7" />
+        <circle cx="473" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe6" />
+        <circle cx="480" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe5" />
+        <circle cx="487" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe4" />
+        <circle cx="496" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe3" />
+        <circle cx="502" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe2" />
+        <circle cx="509" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe1" />
+        <circle cx="516" cy="646" r="2.5" stroke="black" stroke-width="0.5" fill="yellow" class="outfe0" />
+    </g>
+
+    <defs>
+        <marker id="chevron" markerWidth="4" markerHeight="4" refX="3" refY="2">
+            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" fill="black" stroke="none" />
+        </marker>
+        <marker id="chevron-rev" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto-start-reverse">
+            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" fill="black" stroke="none" />
+        </marker>
+        <marker id="chevron-up" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="-90">
+            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" fill="black" stroke="none" />
+        </marker>
+        <marker id="double-chevron" markerWidth="4" markerHeight="4" refX="3" refY="2">
+            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" fill="black" stroke="none" />
+            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" fill="black" stroke="none" />
+        </marker>
+        <marker id="double-chevron-up" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="-90">
+            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" fill="black" stroke="none" />
+            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" fill="black" stroke="none" />
+        </marker>
+        <marker id="double-chevron-big" markerWidth="8" markerHeight="8" refX="2" refY="4">
+            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" fill="black" stroke="none" transform="scale(2)" />
+            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" fill="black" stroke="none" transform="scale(2)" />
+        </marker>
+        <marker id="chevron-long" markerWidth="8" markerHeight="6" refX="7" refY="3">
+            <polygon points="1,5 5,5 7,3 5,1 1,1 3,3" fill="none" stroke="black" stroke-width="1" />
+        </marker>
+        <marker id="arrow" markerWidth="10" markerHeight="8" refX="0" refY="4">
+            <polygon points="2,0 10,4 2,7" fill="none" stroke="black" stroke-width="1" />
+            <polyline points="0,4 2,4" fill="none" stroke="black" stroke-width="1" />
+        </marker>
+        <marker id="arrow-front" markerWidth="10" markerHeight="8" refX="10" refY="4">
+            <polygon points="2,0 10,4 2,7" fill="none" stroke="black" stroke-width="1" />
+            <polyline points="0,4 2,4" fill="none" stroke="black" stroke-width="1" />
+        </marker>
+        <marker id="arrow-rev" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="180">
+            <polygon points="2,0 10,4 2,7" fill="none" stroke="black" stroke-width="1" />
+            <polyline points="0,4 2,4" fill="none" stroke="black" stroke-width="1" />
+        </marker>
+    </defs>
+</svg>
