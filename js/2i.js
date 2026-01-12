@@ -41,7 +41,7 @@ let outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs (FE-FF)
 
 memBC.onmessage = (ev) => {
     if (ev.data.msg === "request-state") {
-        memBC.postMessage({msg: "state", data: DPRAM});
+        memBC.postMessage({msg: "state", data: DPRAM, architecture: "i"});
     }
 }
 
@@ -181,7 +181,7 @@ function setMemBus() {
         }
     }
     if (busEn && busWr) {
-        memBC.postMessage({msg: "update", data: DPRAM});
+        memBC.postMessage({msg: "update", data: DPRAM, architecture: "i"});
     }
 }
 function alu() {

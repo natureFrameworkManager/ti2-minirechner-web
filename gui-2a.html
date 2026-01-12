@@ -304,7 +304,7 @@ MY_SUBROUTINE:
                 
                 const memBCGUI = new BroadcastChannel("memory-channel"); 
                 memBCGUI.onmessage = (ev) => {
-                    if (ev.data.msg === "update" || ev.data.msg == "state") {
+                    if ((ev.data.msg === "update" || ev.data.msg == "state") && ev.data.architecture === "a") {
                         updateMemoryMapContent(ev.data.data);
                     }
                 };

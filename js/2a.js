@@ -345,7 +345,7 @@ function fillMicrocode() {
 
 memBC.onmessage = (ev) => {
     if (ev.data.msg === "request-state") {
-        memBC.postMessage({msg: "state", data: DPRAM});
+        memBC.postMessage({msg: "state", data: DPRAM, architecture: "a"});
     }
 }
 
