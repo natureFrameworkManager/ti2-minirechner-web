@@ -1,7 +1,7 @@
 <svg viewBox="0,0 522,772" width="522" height="772" xmlns="http://www.w3.org/2000/svg">
     <!-- Text annotations -->
 
-    <g font-size="6px">
+    <g font-size="6px" fill="#ffffff">
         <text text-anchor="end" x="29" y="154">loop</text>
         <text text-anchor="end" x="29" y="161">BUSEV</text>
         <text text-anchor="end" x="29" y="202">MAC1</text>
@@ -427,7 +427,7 @@
 
     <!-- Traces -->
     
-    <g stroke="black" stroke-width="1" fill="none">
+    <g stroke="#ffffff" stroke-width="1" fill="none">
         <polyline points="38,152 80,152" marker-start="url(#chevron-long)" />
         <polyline points="38,159 80,159" marker-start="url(#chevron-long)" />
         <polyline points="35,200 180,200 180,204 192,204" marker-start="url(#double-chevron)" />
@@ -534,7 +534,7 @@
 
     <!-- Trace connections -->
 
-    <g stroke="none" fill="black">
+    <g stroke="none" fill="#ffffff">
         <circle cx="155" cy="200" r="2" />
         <circle cx="164" cy="208" r="2" />
         <circle cx="173" cy="216" r="2" />
@@ -557,7 +557,7 @@
 
     <!-- Symbols -->
 
-    <g stroke="black" stroke-width="1" fill="none">
+    <g stroke="#ffffff" stroke-width="1" fill="none">
         <rect x="82" y="149" width="15" height="19" />
         <rect x="194" y="197" width="15" height="19" />
         <rect x="223" y="199" width="21" height="34" />
@@ -869,41 +869,41 @@
     </g>
 
     <defs>
-        <marker id="chevron" markerWidth="4" markerHeight="4" refX="3" refY="2">
-            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" fill="black" stroke="none" />
+        <marker id="chevron" markerWidth="4" markerHeight="4" refX="3" refY="2" fill="#ffffff">
+            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" stroke="none" />
         </marker>
-        <marker id="chevron-rev" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto-start-reverse">
-            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" fill="black" stroke="none" />
+        <marker id="chevron-rev" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto-start-reverse" fill="#ffffff">
+            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" stroke="none" />
         </marker>
-        <marker id="chevron-up" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="-90">
-            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" fill="black" stroke="none" />
+        <marker id="chevron-up" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="-90" fill="#ffffff">
+            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" stroke="none" />
         </marker>
-        <marker id="double-chevron" markerWidth="4" markerHeight="4" refX="3" refY="2">
-            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" fill="black" stroke="none" />
-            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" fill="black" stroke="none" />
+        <marker id="double-chevron" markerWidth="4" markerHeight="4" refX="3" refY="2" fill="#ffffff">
+            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" stroke="none" />
+            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" stroke="none" />
         </marker>
-        <marker id="double-chevron-up" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="-90">
-            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" fill="black" stroke="none" />
-            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" fill="black" stroke="none" />
+        <marker id="double-chevron-up" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="-90" fill="#ffffff">
+            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" stroke="none" />
+            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" stroke="none" />
         </marker>
-        <marker id="double-chevron-big" markerWidth="8" markerHeight="8" refX="2" refY="4">
-            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" fill="black" stroke="none" transform="scale(2)" />
-            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" fill="black" stroke="none" transform="scale(2)" />
+        <marker id="double-chevron-big" markerWidth="8" markerHeight="8" refX="2" refY="4" fill="#ffffff">
+            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" stroke="none" transform="scale(2)" />
+            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" stroke="none" transform="scale(2)" />
         </marker>
-        <marker id="chevron-long" markerWidth="8" markerHeight="6" refX="7" refY="3">
-            <polygon points="1,5 5,5 7,3 5,1 1,1 3,3" fill="none" stroke="black" stroke-width="1" />
+        <marker id="chevron-long" markerWidth="8" markerHeight="6" refX="7" refY="3" stroke="#ffffff">
+            <polygon points="1,5 5,5 7,3 5,1 1,1 3,3" fill="none" stroke-width="1" />
         </marker>
-        <marker id="arrow" markerWidth="10" markerHeight="8" refX="0" refY="4">
-            <polygon points="2,0 10,4 2,7" fill="none" stroke="black" stroke-width="1" />
-            <polyline points="0,4 2,4" fill="none" stroke="black" stroke-width="1" />
+        <marker id="arrow" markerWidth="10" markerHeight="8" refX="0" refY="4" stroke="#ffffff">
+            <polygon points="2,0 10,4 2,7" fill="none" stroke-width="1" />
+            <polyline points="0,4 2,4" fill="none" stroke-width="1" />
         </marker>
-        <marker id="arrow-front" markerWidth="10" markerHeight="8" refX="10" refY="4">
-            <polygon points="2,0 10,4 2,7" fill="none" stroke="black" stroke-width="1" />
-            <polyline points="0,4 2,4" fill="none" stroke="black" stroke-width="1" />
+        <marker id="arrow-front" markerWidth="10" markerHeight="8" refX="10" refY="4" stroke="#ffffff">
+            <polygon points="2,0 10,4 2,7" fill="none" stroke-width="1" />
+            <polyline points="0,4 2,4" fill="none" stroke-width="1" />
         </marker>
-        <marker id="arrow-rev" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="180">
-            <polygon points="2,0 10,4 2,7" fill="none" stroke="black" stroke-width="1" />
-            <polyline points="0,4 2,4" fill="none" stroke="black" stroke-width="1" />
+        <marker id="arrow-rev" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="180" stroke="#ffffff">
+            <polygon points="2,0 10,4 2,7" fill="none" stroke-width="1" />
+            <polyline points="0,4 2,4" fill="none" stroke-width="1" />
         </marker>
     </defs>
 </svg>

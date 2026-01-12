@@ -1,7 +1,7 @@
 <svg viewBox="0,0 522,772" width="522" height="772" xmlns="http://www.w3.org/2000/svg">
     <!-- Text annotations -->
 
-    <g font-size="6px">
+    <g font-size="6px" fill="#ffffff">
         <text text-anchor="end" x="29" y="17">MEMDI</text>
         <text text-anchor="end" x="29" y="28">MAC0</text>
         <text text-anchor="end" x="29" y="45">reset</text>
@@ -499,220 +499,220 @@
 
     <!-- Traces -->
     
-    <g>
-        <polyline points="42,15 143,15" stroke="black" stroke-width="1" fill="none" marker-start="url(#arrow-front)" />
-        <polyline points="35,26 75,26" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="66,64 66,33 75,33" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="36,43 100,43 100,51 111,51" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="35,55 75,55" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="66,79 66,64 75,64" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="35,79 191,79 191,153 298,153 298,147" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="36,95 87,95 87,117 94,117" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="36,113 56,113" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="36,121 56,121" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="36,129 56,129" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="36,137 56,137" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="36,154 64,154 64,142" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="36,161 74,161 74,137" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="36,170 106,170" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="38,178 80,178" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron-long)"/>
-        <polyline points="35,202 180,202 180,206 192,206" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="35,210 192,210" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="35,218 180,218 180,215 192,215" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="36,234 64,234" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="36,242 64,242" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="36,250 64,250" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="38,258 289,258 289,224 300,224" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron-long)" />
-        <polyline points="170,15 204,15 204,87 215,98 232,98" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
-        <polyline points="204,76 215,87 232,87" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
-        <polyline points="204,59 215,70 232,70" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
-        <polyline points="204,49 215,60 233,60" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
-        <polyline points="204,31 215,42 333,42" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="93,29 144,29" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="129,55 157,55 157,46" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="93,59 111,59" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="78,125 94,125" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="131,105 147,105" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="131,113 147,113" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="111,121 147,121" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="131,129 147,129" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="131,137 147,137" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="131,146 147,146" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="131,154 147,154" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="123,174 131,174 131,162 147,162" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="97,181 106,181" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="185,194 72,194 72,186 80,186" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="155,169 155,202" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="164,163 164,210" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="173,157 173,218" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="322,208 339,208 339,187 185,187 185,201 192,201" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="210,209 222,209" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="215,225 222,225" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="244,209 253,209 253,239 264,239" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="256,246 264,246" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="295,208 300,208" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="281,242 312,242 312,236" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="278,63 333,63" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
-        <polyline points="278,73 333,73" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
-        <polyline points="278,84 333,84" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
-        <polyline points="278,108 290,108" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="302,114 333,114" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="277,118 290,118" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="180,134 290,134" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="302,139 333,139" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="278,145 290,145" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="298,130 298,122" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="366,50 378,50" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="366,89 378,89" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="366,106 378,106" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="366,137 378,137" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="366,147 378,147" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="401,50 480,50" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-big)" />
-        <polyline points="401,89 480,89" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-big)" />
-        <polyline points="401,106 480,106" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-big)" />
-        <polyline points="401,137 441,137" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="401,146 421,146 421,164 441,164" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="480,138 493,138" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
-        <polyline points="480,151 493,151" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
-        <polyline points="480,165 493,165" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
-        <polyline points="480,196 500,196" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
-        <polyline points="364,196 441,196" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="390,184 390,169" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron-up)" />
-        <polyline points="373,196 373,157 376,157" stroke="black" stroke-width="1" fill="none" />
+    <g stroke="#ffffff">
+        <polyline points="42,15 143,15" stroke-width="1" fill="none" marker-start="url(#arrow-front)" />
+        <polyline points="35,26 75,26" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="66,64 66,33 75,33" stroke-width="1" fill="none" />
+        <polyline points="36,43 100,43 100,51 111,51" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="35,55 75,55" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="66,79 66,64 75,64" stroke-width="1" fill="none" />
+        <polyline points="35,79 191,79 191,153 298,153 298,147" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="36,95 87,95 87,117 94,117" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,113 56,113" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,121 56,121" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,129 56,129" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,137 56,137" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,154 64,154 64,142" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,161 74,161 74,137" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,170 106,170" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="38,178 80,178" stroke-width="1" fill="none" marker-start="url(#chevron-long)"/>
+        <polyline points="35,202 180,202 180,206 192,206" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="35,210 192,210" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="35,218 180,218 180,215 192,215" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="36,234 64,234" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,242 64,242" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,250 64,250" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="38,258 289,258 289,224 300,224" stroke-width="1" fill="none" marker-start="url(#chevron-long)" />
+        <polyline points="170,15 204,15 204,87 215,98 232,98" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="204,76 215,87 232,87" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="204,59 215,70 232,70" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="204,49 215,60 233,60" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="204,31 215,42 333,42" stroke-width="1" fill="none" />
+        <polyline points="93,29 144,29" stroke-width="1" fill="none" />
+        <polyline points="129,55 157,55 157,46" stroke-width="1" fill="none" />
+        <polyline points="93,59 111,59" stroke-width="1" fill="none" />
+        <polyline points="78,125 94,125" stroke-width="1" fill="none" />
+        <polyline points="131,105 147,105" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="131,113 147,113" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="111,121 147,121" stroke-width="1" fill="none" />
+        <polyline points="131,129 147,129" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="131,137 147,137" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="131,146 147,146" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="131,154 147,154" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="123,174 131,174 131,162 147,162" stroke-width="1" fill="none" />
+        <polyline points="97,181 106,181" stroke-width="1" fill="none" />
+        <polyline points="185,194 72,194 72,186 80,186" stroke-width="1" fill="none" />
+        <polyline points="155,169 155,202" stroke-width="1" fill="none" />
+        <polyline points="164,163 164,210" stroke-width="1" fill="none" />
+        <polyline points="173,157 173,218" stroke-width="1" fill="none" />
+        <polyline points="322,208 339,208 339,187 185,187 185,201 192,201" stroke-width="1" fill="none" />
+        <polyline points="210,209 222,209" stroke-width="1" fill="none" />
+        <polyline points="215,225 222,225" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="244,209 253,209 253,239 264,239" stroke-width="1" fill="none" />
+        <polyline points="256,246 264,246" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="295,208 300,208" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="281,242 312,242 312,236" stroke-width="1" fill="none" />
+        <polyline points="278,63 333,63" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
+        <polyline points="278,73 333,73" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
+        <polyline points="278,84 333,84" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
+        <polyline points="278,108 290,108" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="302,114 333,114" stroke-width="1" fill="none" />
+        <polyline points="277,118 290,118" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="180,134 290,134" stroke-width="1" fill="none" />
+        <polyline points="302,139 333,139" stroke-width="1" fill="none" />
+        <polyline points="278,145 290,145" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="298,130 298,122" stroke-width="1" fill="none" />
+        <polyline points="366,50 378,50" stroke-width="1" fill="none" />
+        <polyline points="366,89 378,89" stroke-width="1" fill="none" />
+        <polyline points="366,106 378,106" stroke-width="1" fill="none" />
+        <polyline points="366,137 378,137" stroke-width="1" fill="none" />
+        <polyline points="366,147 378,147" stroke-width="1" fill="none" />
+        <polyline points="401,50 480,50" stroke-width="1" fill="none" marker-end="url(#double-chevron-big)" />
+        <polyline points="401,89 480,89" stroke-width="1" fill="none" marker-end="url(#double-chevron-big)" />
+        <polyline points="401,106 480,106" stroke-width="1" fill="none" marker-end="url(#double-chevron-big)" />
+        <polyline points="401,137 441,137" stroke-width="1" fill="none" />
+        <polyline points="401,146 421,146 421,164 441,164" stroke-width="1" fill="none" />
+        <polyline points="480,138 493,138" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+        <polyline points="480,151 493,151" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+        <polyline points="480,165 493,165" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+        <polyline points="480,196 500,196" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="364,196 441,196" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="390,184 390,169" stroke-width="1" fill="none" marker-start="url(#chevron-up)" />
+        <polyline points="373,196 373,157 376,157" stroke-width="1" fill="none" />
         
-        <polyline points="35,287 97,287" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="36,296 97,296" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="35,309 97,309" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="36,318 97,318" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="35,330 97,330" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="86,339 97,339" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
-        <polyline points="35,357 104,357 104,342" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="104,327 104,320" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="104,306 104,299" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="35,376 122,376" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="35,384 122,384" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="35,400 122,400" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="36,451 122,451" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="36,460 122,460" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="36,506 72,506" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="36,528 72,528" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="67,484 72,484" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
-        <polyline points="35,540 219,540 230,529" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="80,540 80,530" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="80,516 80,509" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="80,494 80,487" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="208,540 208,531 219,531 230,520" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="208,531 208,523 219,523 230,512" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="208,523 208,515 219,515 230,504" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="208,515 208,507 219,507 230,496" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="35,548 219,548 230,537" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="54,548 54,476 72,476" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="35,556 219,556 230,545" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="60,556 60,498 72,498" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="35,563 219,563 230,552 230,464 267,464" stroke="black" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
-        <polyline points="65,563 65,519 72,519" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="109,291 188,291 188,344" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="109,313 169,313 169,344" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="109,335 151,335 151,344" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="85,523 188,523 188,470" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="85,502 169,502 169,470" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="85,480 151,480 151,470" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="215,410 231,410 231,331 502,331" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
-        <polyline points="215,418 237,418 237,339 502,339" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
-        <polyline points="215,426 243,426 243,347 502,347" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
-        <polyline points="215,434 249,434 249,355 502,355" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
-        <polyline points="327,331 327,372 347,372" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="215,387 268,387" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="215,449 268,449" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="224,387 224,299 485,299" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
-        <polyline points="486,312 258,312 258,403 268,403" stroke="black" stroke-width="1" fill="none" marker-start="url(#arrow-rev)" />
-        <polyline points="276,407 276,421" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
-        <polyline points="276,469 276,483" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
-        <polyline points="284,395 347,395" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="284,456 347,456" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="356,477 356,506" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
-        <polyline points="370,477 370,506" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
-        <polyline points="383,477 383,506" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
-        <polyline points="397,477 397,506" stroke="black" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
-        <polyline points="405,376 502,376" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
-        <polyline points="405,385 502,385" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
-        <polyline points="405,395 502,395" stroke="black" stroke-width="1" fill="none" marker-end="url(#chevron)" />
-        <polyline points="434,376 434,589 92,589 92,409 122,409" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="429,385 429,585 97,585 97,417 122,417" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="424,395 424,580 102,580 102,425 122,425" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="405,426 482,426" stroke="black" stroke-width="1" fill="none" marker-end="url(#arrow)" />
-        <polyline points="416,426 416,572 109,572 109,439 122,439" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="480,486 501,486" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron-rev)" />
-        <polyline points="469,495 469,486 480,486" stroke="black" stroke-width="1" fill="none" />
-        <polyline points="501,539 469,539 469,531" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="501,500 474,500" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron)" />
-        <polyline points="480,527 501,527" stroke="black" stroke-width="1" fill="none" marker-start="url(#chevron-rev)" />
-        <polyline points="474,527 480,527" stroke="black" stroke-width="1" fill="none" />
+        <polyline points="35,287 97,287" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="36,296 97,296" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="35,309 97,309" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="36,318 97,318" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="35,330 97,330" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="86,339 97,339" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
+        <polyline points="35,357 104,357 104,342" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="104,327 104,320" stroke-width="1" fill="none" />
+        <polyline points="104,306 104,299" stroke-width="1" fill="none" />
+        <polyline points="35,376 122,376" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="35,384 122,384" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="35,400 122,400" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="36,451 122,451" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,460 122,460" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,506 72,506" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="36,528 72,528" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="67,484 72,484" stroke-width="1" fill="none" marker-start="url(#chevron)"/>
+        <polyline points="35,540 219,540 230,529" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="80,540 80,530" stroke-width="1" fill="none" />
+        <polyline points="80,516 80,509" stroke-width="1" fill="none" />
+        <polyline points="80,494 80,487" stroke-width="1" fill="none" />
+        <polyline points="208,540 208,531 219,531 230,520" stroke-width="1" fill="none" />
+        <polyline points="208,531 208,523 219,523 230,512" stroke-width="1" fill="none" />
+        <polyline points="208,523 208,515 219,515 230,504" stroke-width="1" fill="none" />
+        <polyline points="208,515 208,507 219,507 230,496" stroke-width="1" fill="none" />
+        <polyline points="35,548 219,548 230,537" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="54,548 54,476 72,476" stroke-width="1" fill="none" />
+        <polyline points="35,556 219,556 230,545" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="60,556 60,498 72,498" stroke-width="1" fill="none" />
+        <polyline points="35,563 219,563 230,552 230,464 267,464" stroke-width="1" fill="none" marker-start="url(#double-chevron)" />
+        <polyline points="65,563 65,519 72,519" stroke-width="1" fill="none" />
+        <polyline points="109,291 188,291 188,344" stroke-width="1" fill="none" />
+        <polyline points="109,313 169,313 169,344" stroke-width="1" fill="none" />
+        <polyline points="109,335 151,335 151,344" stroke-width="1" fill="none" />
+        <polyline points="85,523 188,523 188,470" stroke-width="1" fill="none" />
+        <polyline points="85,502 169,502 169,470" stroke-width="1" fill="none" />
+        <polyline points="85,480 151,480 151,470" stroke-width="1" fill="none" />
+        <polyline points="215,410 231,410 231,331 502,331" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="215,418 237,418 237,339 502,339" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="215,426 243,426 243,347 502,347" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="215,434 249,434 249,355 502,355" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="327,331 327,372 347,372" stroke-width="1" fill="none" />
+        <polyline points="215,387 268,387" stroke-width="1" fill="none" />
+        <polyline points="215,449 268,449" stroke-width="1" fill="none" />
+        <polyline points="224,387 224,299 485,299" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+        <polyline points="486,312 258,312 258,403 268,403" stroke-width="1" fill="none" marker-start="url(#arrow-rev)" />
+        <polyline points="276,407 276,421" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
+        <polyline points="276,469 276,483" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
+        <polyline points="284,395 347,395" stroke-width="1" fill="none" />
+        <polyline points="284,456 347,456" stroke-width="1" fill="none" />
+        <polyline points="356,477 356,506" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
+        <polyline points="370,477 370,506" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
+        <polyline points="383,477 383,506" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
+        <polyline points="397,477 397,506" stroke-width="1" fill="none" marker-end="url(#double-chevron-up)" />
+        <polyline points="405,376 502,376" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="405,385 502,385" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="405,395 502,395" stroke-width="1" fill="none" marker-end="url(#chevron)" />
+        <polyline points="434,376 434,589 92,589 92,409 122,409" stroke-width="1" fill="none" />
+        <polyline points="429,385 429,585 97,585 97,417 122,417" stroke-width="1" fill="none" />
+        <polyline points="424,395 424,580 102,580 102,425 122,425" stroke-width="1" fill="none" />
+        <polyline points="405,426 482,426" stroke-width="1" fill="none" marker-end="url(#arrow)" />
+        <polyline points="416,426 416,572 109,572 109,439 122,439" stroke-width="1" fill="none" />
+        <polyline points="480,486 501,486" stroke-width="1" fill="none" marker-start="url(#chevron-rev)" />
+        <polyline points="469,495 469,486 480,486" stroke-width="1" fill="none" />
+        <polyline points="501,539 469,539 469,531" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="501,500 474,500" stroke-width="1" fill="none" marker-start="url(#chevron)" />
+        <polyline points="480,527 501,527" stroke-width="1" fill="none" marker-start="url(#chevron-rev)" />
+        <polyline points="474,527 480,527" stroke-width="1" fill="none" />
     </g>
 
     <!-- Trace connections -->
 
-    <g>
-        <circle cx="66" cy="79" r="2" stroke="none" fill="black" />
-        <circle cx="66" cy="64" r="2" stroke="none" fill="black" />
-        <circle cx="155" cy="202" r="2" stroke="none" fill="black" />
-        <circle cx="164" cy="210" r="2" stroke="none" fill="black" />
-        <circle cx="173" cy="218" r="2" stroke="none" fill="black" />
-        <circle cx="185" cy="194" r="2" stroke="none" fill="black" />
-        <circle cx="373" cy="196" r="2" stroke="none" fill="black" />
-        <circle cx="327" cy="331" r="2" stroke="none" fill="black" />
-        <circle cx="434" cy="376" r="2" stroke="none" fill="black" />
-        <circle cx="429" cy="385" r="2" stroke="none" fill="black" />
-        <circle cx="424" cy="395" r="2" stroke="none" fill="black" />
-        <circle cx="224" cy="387" r="2" stroke="none" fill="black" />
-        <circle cx="416" cy="426" r="2" stroke="none" fill="black" />
-        <circle cx="208" cy="515" r="2" stroke="none" fill="black" />
-        <circle cx="208" cy="523" r="2" stroke="none" fill="black" />
-        <circle cx="208" cy="531" r="2" stroke="none" fill="black" />
-        <circle cx="208" cy="540" r="2" stroke="none" fill="black" />
-        <circle cx="80" cy="540" r="2" stroke="none" fill="black" />
-        <circle cx="54" cy="548" r="2" stroke="none" fill="black" />
-        <circle cx="60" cy="556" r="2" stroke="none" fill="black" />
-        <circle cx="65" cy="563" r="2" stroke="none" fill="black" />
+    <g fill="#ffffff">
+        <circle cx="66" cy="79" r="2" stroke="none" />
+        <circle cx="66" cy="64" r="2" stroke="none" />
+        <circle cx="155" cy="202" r="2" stroke="none" />
+        <circle cx="164" cy="210" r="2" stroke="none" />
+        <circle cx="173" cy="218" r="2" stroke="none" />
+        <circle cx="185" cy="194" r="2" stroke="none" />
+        <circle cx="373" cy="196" r="2" stroke="none" />
+        <circle cx="327" cy="331" r="2" stroke="none" />
+        <circle cx="434" cy="376" r="2" stroke="none" />
+        <circle cx="429" cy="385" r="2" stroke="none" />
+        <circle cx="424" cy="395" r="2" stroke="none" />
+        <circle cx="224" cy="387" r="2" stroke="none" />
+        <circle cx="416" cy="426" r="2" stroke="none" />
+        <circle cx="208" cy="515" r="2" stroke="none" />
+        <circle cx="208" cy="523" r="2" stroke="none" />
+        <circle cx="208" cy="531" r="2" stroke="none" />
+        <circle cx="208" cy="540" r="2" stroke="none" />
+        <circle cx="80" cy="540" r="2" stroke="none" />
+        <circle cx="54" cy="548" r="2" stroke="none" />
+        <circle cx="60" cy="556" r="2" stroke="none" />
+        <circle cx="65" cy="563" r="2" stroke="none" />
     </g>
 
     <!-- Symbols -->
 
-    <g>
-        <rect x="145" y="6" width="24" height="38" stroke="black" stroke-width="1" fill="none" />
-        <rect x="77" y="22" width="15" height="15" stroke="black" stroke-width="1" fill="none" />
-        <rect x="77" y="52" width="15" height="15" stroke="black" stroke-width="1" fill="none" />
-        <rect x="113" y="47" width="15" height="15" stroke="black" stroke-width="1" fill="none" />
-        <rect x="95" y="114" width="15" height="15" stroke="black" stroke-width="1" fill="none" />
-        <rect x="108" y="166" width="15" height="18" stroke="black" stroke-width="1" fill="none" />
-        <rect x="82" y="174" width="15" height="15" stroke="black" stroke-width="1" fill="none" />
-        <rect x="194" y="199" width="15" height="19" stroke="black" stroke-width="1" fill="none" />
-        <rect x="223" y="201" width="21" height="34" stroke="black" stroke-width="1" fill="none" />
-        <rect x="301" y="201" width="21" height="34" stroke="black" stroke-width="1" fill="none" />
-        <rect x="266" y="234" width="15" height="15" stroke="black" stroke-width="1" fill="none" />
-        <rect x="324" y="23" width="88" height="150" stroke="black" stroke-width="1" fill="none" />
-        <rect x="335" y="39" width="32" height="129" stroke="black" stroke-width="1" fill="none" />
-        <rect x="378" y="39" width="23" height="129" stroke="black" stroke-width="1" fill="none" />
-        <rect x="443" y="126" width="37" height="80" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="58,105 78,116 78,134 58,144" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="149,94 180,113 180,153 149,172" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="292,103 302,107 302,120 292,123" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="292,128 302,132 302,145 292,149" stroke="black" stroke-width="1" fill="none" />
+    <g stroke="#ffffff">
+        <rect x="145" y="6" width="24" height="38" stroke-width="1" fill="none" />
+        <rect x="77" y="22" width="15" height="15" stroke-width="1" fill="none" />
+        <rect x="77" y="52" width="15" height="15" stroke-width="1" fill="none" />
+        <rect x="113" y="47" width="15" height="15" stroke-width="1" fill="none" />
+        <rect x="95" y="114" width="15" height="15" stroke-width="1" fill="none" />
+        <rect x="108" y="166" width="15" height="18" stroke-width="1" fill="none" />
+        <rect x="82" y="174" width="15" height="15" stroke-width="1" fill="none" />
+        <rect x="194" y="199" width="15" height="19" stroke-width="1" fill="none" />
+        <rect x="223" y="201" width="21" height="34" stroke-width="1" fill="none" />
+        <rect x="301" y="201" width="21" height="34" stroke-width="1" fill="none" />
+        <rect x="266" y="234" width="15" height="15" stroke-width="1" fill="none" />
+        <rect x="324" y="23" width="88" height="150" stroke-width="1" fill="none" />
+        <rect x="335" y="39" width="32" height="129" stroke-width="1" fill="none" />
+        <rect x="378" y="39" width="23" height="129" stroke-width="1" fill="none" />
+        <rect x="443" y="126" width="37" height="80" stroke-width="1" fill="none" />
+        <polygon points="58,105 78,116 78,134 58,144" stroke-width="1" fill="none" />
+        <polygon points="149,94 180,113 180,153 149,172" stroke-width="1" fill="none" />
+        <polygon points="292,103 302,107 302,120 292,123" stroke-width="1" fill="none" />
+        <polygon points="292,128 302,132 302,145 292,149" stroke-width="1" fill="none" />
         
-        <rect x="123" y="346" width="92" height="122" stroke="black" stroke-width="1" fill="none" />
-        <rect x="139" y="372" width="58" height="84" stroke="black" stroke-width="1" fill="none" />
-        <rect x="349" y="363" width="55" height="112" stroke="black" stroke-width="1" fill="none" />
-        <rect x="458" y="479" width="21" height="69" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="99,282 109,286 109,297 99,301" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="99,304 109,308 109,318 99,322" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="99,325 109,329 109,340 99,344" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="268,380 283,386 283,404 268,410" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="268,442 283,448 283,466 268,472" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="75,471 85,475 85,486 75,490" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="75,493 85,497 85,507 75,511" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="75,514 85,518 85,528 75,532" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="464,491 474,500 464,508" stroke="black" stroke-width="1" fill="none" />
-        <polygon points="474,517 474,534 463,526" stroke="black" stroke-width="1" fill="none" />
+        <rect x="123" y="346" width="92" height="122" stroke-width="1" fill="none" />
+        <rect x="139" y="372" width="58" height="84" stroke-width="1" fill="none" />
+        <rect x="349" y="363" width="55" height="112" stroke-width="1" fill="none" />
+        <rect x="458" y="479" width="21" height="69" stroke-width="1" fill="none" />
+        <polygon points="99,282 109,286 109,297 99,301" stroke-width="1" fill="none" />
+        <polygon points="99,304 109,308 109,318 99,322" stroke-width="1" fill="none" />
+        <polygon points="99,325 109,329 109,340 99,344" stroke-width="1" fill="none" />
+        <polygon points="268,380 283,386 283,404 268,410" stroke-width="1" fill="none" />
+        <polygon points="268,442 283,448 283,466 268,472" stroke-width="1" fill="none" />
+        <polygon points="75,471 85,475 85,486 75,490" stroke-width="1" fill="none" />
+        <polygon points="75,493 85,497 85,507 75,511" stroke-width="1" fill="none" />
+        <polygon points="75,514 85,518 85,528 75,532" stroke-width="1" fill="none" />
+        <polygon points="464,491 474,500 464,508" stroke-width="1" fill="none" />
+        <polygon points="474,517 474,534 463,526" stroke-width="1" fill="none" />
     </g>
 
     <!-- Steuerwerk -->
@@ -1035,41 +1035,41 @@
     </g>
 
     <defs>
-        <marker id="chevron" markerWidth="4" markerHeight="4" refX="3" refY="2">
-            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" fill="black" stroke="none" />
+        <marker id="chevron" markerWidth="4" markerHeight="4" refX="3" refY="2" fill="#ffffff">
+            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" stroke="none" />
         </marker>
-        <marker id="chevron-rev" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto-start-reverse">
-            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" fill="black" stroke="none" />
+        <marker id="chevron-rev" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto-start-reverse" fill="#ffffff">
+            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" stroke="none" />
         </marker>
-        <marker id="chevron-up" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="-90">
-            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" fill="black" stroke="none" />
+        <marker id="chevron-up" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="-90" fill="#ffffff">
+            <polygon points="0,4 2,4 4,2 2,0 0,0 2,2" stroke="none" />
         </marker>
-        <marker id="double-chevron" markerWidth="4" markerHeight="4" refX="3" refY="2">
-            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" fill="black" stroke="none" />
-            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" fill="black" stroke="none" />
+        <marker id="double-chevron" markerWidth="4" markerHeight="4" refX="3" refY="2" fill="#ffffff">
+            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" stroke="none" />
+            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" stroke="none" />
         </marker>
-        <marker id="double-chevron-up" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="-90">
-            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" fill="black" stroke="none" />
-            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" fill="black" stroke="none" />
+        <marker id="double-chevron-up" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="-90" fill="#ffffff">
+            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" stroke="none" />
+            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" stroke="none" />
         </marker>
-        <marker id="double-chevron-big" markerWidth="8" markerHeight="8" refX="2" refY="4">
-            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" fill="black" stroke="none" transform="scale(2)" />
-            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" fill="black" stroke="none" transform="scale(2)" />
+        <marker id="double-chevron-big" markerWidth="8" markerHeight="8" refX="2" refY="4" fill="#ffffff">
+            <polygon points="0,4 1,4 2,2 1,0 0,0 1,2" stroke="none" transform="scale(2)" />
+            <polygon points="2,4 3,4 4,2 3,0 2,0 3,2" stroke="none" transform="scale(2)" />
         </marker>
-        <marker id="chevron-long" markerWidth="8" markerHeight="6" refX="7" refY="3">
-            <polygon points="1,5 5,5 7,3 5,1 1,1 3,3" fill="none" stroke="black" stroke-width="1" />
+        <marker id="chevron-long" markerWidth="8" markerHeight="6" refX="7" refY="3" stroke="#ffffff">
+            <polygon points="1,5 5,5 7,3 5,1 1,1 3,3" fill="none" stroke-width="1" />
         </marker>
-        <marker id="arrow" markerWidth="10" markerHeight="8" refX="0" refY="4">
-            <polygon points="2,0 10,4 2,7" fill="none" stroke="black" stroke-width="1" />
-            <polyline points="0,4 2,4" fill="none" stroke="black" stroke-width="1" />
+        <marker id="arrow" markerWidth="10" markerHeight="8" refX="0" refY="4" stroke="#ffffff">
+            <polygon points="2,0 10,4 2,7" fill="none" stroke-width="1" />
+            <polyline points="0,4 2,4" fill="none" stroke-width="1" />
         </marker>
-        <marker id="arrow-front" markerWidth="10" markerHeight="8" refX="10" refY="4">
-            <polygon points="2,0 10,4 2,7" fill="none" stroke="black" stroke-width="1" />
-            <polyline points="0,4 2,4" fill="none" stroke="black" stroke-width="1" />
+        <marker id="arrow-front" markerWidth="10" markerHeight="8" refX="10" refY="4" stroke="#ffffff">
+            <polygon points="2,0 10,4 2,7" fill="none" stroke-width="1" />
+            <polyline points="0,4 2,4" fill="none" stroke-width="1" />
         </marker>
-        <marker id="arrow-rev" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="180">
-            <polygon points="2,0 10,4 2,7" fill="none" stroke="black" stroke-width="1" />
-            <polyline points="0,4 2,4" fill="none" stroke="black" stroke-width="1" />
+        <marker id="arrow-rev" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="180" stroke="#ffffff">
+            <polygon points="2,0 10,4 2,7" fill="none" stroke-width="1" />
+            <polyline points="0,4 2,4" fill="none" stroke-width="1" />
         </marker>
     </defs>
 </svg>
