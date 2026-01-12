@@ -140,6 +140,33 @@
         </div>
         <script src="js/2i.js"></script>
         <script>
+            function shown(id) {
+                document.querySelector("#" + id + "-con").classList.remove("hide");
+                document.querySelector("#" + id + "-con").classList.add("shown");
+                
+                document.querySelector("#" + id + "-toggle").classList.add("hide");
+                document.querySelector("#" + id + "-toggle").classList.remove("shown");
+            }
+            function hide(id) {
+                document.querySelector("#" + id + "-con").classList.remove("shown");
+                document.querySelector("#" + id + "-con").classList.remove("full-screen");
+                document.querySelector("#" + id + "-con").classList.add("hide");
+                
+                document.querySelector("#" + id + "-toggle").classList.add("shown");
+                document.querySelector("#" + id + "-toggle").classList.remove("hide");
+            }
+
+            function updateMemoryMapContent(data) {
+                var html = '<span>Addr</span><span style="grid-column: 2/-1; text-align: center;">Data</span>';
+                for (let i = 0; i < data.length; i++) {
+                    if (i % 8 == 0) {
+                        html += '<span>' + i.toString(16).toUpperCase().padStart(2, '0') + ':</span>';
+                    }
+                    html += '<span>' + data[i].toString(16).toUpperCase().padStart(2, '0') + '</span>';
+                }
+                document.querySelector("#memory-map-content").innerHTML = html;
+            };
+
             (async () => {
                 let cons = [
                     {
@@ -217,33 +244,6 @@
                 }));
                 document.querySelectorAll("#step-btn *").forEach(el => el.addEventListener("click", clk))
                 document.querySelectorAll("#assemble-btn *").forEach(el => el.addEventListener("click", parseCodeInput))
-
-                function shown(id) {
-                    document.querySelector("#" + id + "-con").classList.remove("hide");
-                    document.querySelector("#" + id + "-con").classList.add("shown");
-                    
-                    document.querySelector("#" + id + "-toggle").classList.add("hide");
-                    document.querySelector("#" + id + "-toggle").classList.remove("shown");
-                }
-                function hide(id) {
-                    document.querySelector("#" + id + "-con").classList.remove("shown");
-                    document.querySelector("#" + id + "-con").classList.remove("full-screen");
-                    document.querySelector("#" + id + "-con").classList.add("hide");
-                    
-                    document.querySelector("#" + id + "-toggle").classList.add("shown");
-                    document.querySelector("#" + id + "-toggle").classList.remove("hide");
-                }
-
-                function updateMemoryMapContent(data) {
-                    var html = '<span>Addr</span><span style="grid-column: 2/-1; text-align: center;">Data</span>';
-                    for (let i = 0; i < data.length; i++) {
-                        if (i % 8 == 0) {
-                            html += '<span>' + i.toString(16).toUpperCase().padStart(2, '0') + ':</span>';
-                        }
-                        html += '<span>' + data[i].toString(16).toUpperCase().padStart(2, '0') + '</span>';
-                    }
-                    document.querySelector("#memory-map-content").innerHTML = html;
-                };
                 
                 const memBCGUI = new BroadcastChannel("memory-channel"); 
                 memBCGUI.onmessage = (ev) => {
