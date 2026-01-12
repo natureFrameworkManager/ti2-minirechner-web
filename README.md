@@ -27,6 +27,7 @@ I may change the formatting after a pull request but otherwise there is not much
 - [x] Restructure file tree
 - [x] Split 2i and 2a into seperate GUIs 
 - [x] Working switch between the two GUIs
+- [x] Automatic saving of code input
 - [ ] Debug view with numbers in HEX/Dec instead of binary LEDs
 
 ## License
