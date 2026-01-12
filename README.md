@@ -3,6 +3,7 @@
 This a emulator for the micro computers 2i and 2a used in the computer science hardware course at Leipzig University. The emulator completly runs in a webbrowser, so no additional programms are needed.
 
 ## Usage
+First download the full repository.  
 Open the file [`gui-2a.html`](gui-2a.html) in a webbrowser of your choice for the "2a-Minirechner".  
 Open the file [`gui-2i.html`](gui-2i.html) in a webbrowser of your choice for the "2i-Minirechner".  
   
