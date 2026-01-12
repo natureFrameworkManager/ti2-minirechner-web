@@ -8,7 +8,7 @@ body {
 div.top-bar {
     @apply min-h-[56px] h-fit flex justify-between items-center gap-x-2 px-1 py-1 z-10 w-full;
 }
-div.top-bar div.material-icons-round {
+div.top-bar a.material-icons-round {
     @apply text-[24px] flex! items-center justify-center cursor-pointer w-fit min-w-12 h-12;
 }
 div.top-bar div.title {
