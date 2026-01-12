@@ -3,7 +3,9 @@
 This a emulator for the micro computers 2i and 2a used in the computer science hardware course at Leipzig University. The emulator completly runs in a webbrowser, so no additional programms are needed.
 
 ## Usage
-Open the file `gui.html` in a webbrowser of your choice.  
+Open the file [`gui-2a.html`](gui-2a.html) in a webbrowser of your choice for the "2a-Minirechner".  
+Open the file [`gui-2i.html`](gui-2i.html) in a webbrowser of your choice for the "2i-Minirechner".  
+  
 The file `html.html` was just for the initial programming of the diffrent architectures and now only used to trace the diagramms to a SVG format.
 
 ## Contributions 
@@ -23,7 +25,7 @@ I may change the formatting after a pull request but otherwise there is not much
 - [ ] Working control board
 - [x] Restructure file tree
 - [x] Split 2i and 2a into seperate GUIs 
-- [ ] Working switch between the two GUIs
+- [x] Working switch between the two GUIs
 - [ ] Debug view with numbers in HEX/Dec instead of binary LEDs
 
 ## License
