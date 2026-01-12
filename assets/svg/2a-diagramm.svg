@@ -164,14 +164,14 @@
                 </text>
             </g>
             <g font-size="10px">
-                <text text-anchor="middle" x="85" y="33">&</text>
-                <text text-anchor="middle" x="85" y="62">&</text>
-                <text text-anchor="middle" x="121" y="58">&ge;1</text>
+                <text text-anchor="middle" x="85" y="33">&amp;</text>
+                <text text-anchor="middle" x="85" y="62">&amp;</text>
+                <text text-anchor="middle" x="121" y="58">&#8805;1</text>
                 <text text-anchor="middle" x="103" y="124">=1</text>
-                <text text-anchor="middle" x="116" y="179">&</text>
-                <text text-anchor="middle" x="90" y="185">&ge;1</text>
-                <text text-anchor="middle" x="202" y="212">&</text>
-                <text text-anchor="middle" x="274" y="245">&ge;1</text>
+                <text text-anchor="middle" x="116" y="179">&amp;</text>
+                <text text-anchor="middle" x="90" y="185">&#8805;1</text>
+                <text text-anchor="middle" x="202" y="212">&amp;</text>
+                <text text-anchor="middle" x="274" y="245">&#8805;1</text>
             </g>
             <g>
                 <text text-anchor="middle" x="150" y="355">AA2</text>

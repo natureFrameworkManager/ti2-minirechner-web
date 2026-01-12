@@ -115,9 +115,9 @@
                 </text>
             </g>
             <g font-size="10px">
-                <text text-anchor="middle" x="90" y="163">&ge;1</text>
-                <text text-anchor="middle" x="202" y="210">&</text>
-                <text text-anchor="middle" x="274" y="243">&ge;1</text>
+                <text text-anchor="middle" x="90" y="163">&#8805;1</text>
+                <text text-anchor="middle" x="202" y="210">&amp;</text>
+                <text text-anchor="middle" x="274" y="243">&#8805;1</text>
             </g>
             <g>
                 <text text-anchor="middle" x="150" y="353">AA2</text>
