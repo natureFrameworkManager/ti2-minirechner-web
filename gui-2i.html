@@ -75,23 +75,11 @@
                             <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-24 h-12"><span class="flex! items-center justify-center cursor-pointer w-12 h-12" onclick="hide('code-editor')">expand_more</span></div>
                         </div>
                         <div class="ps-4 pb-2 h-full">
-                            <textarea id="code-input" class="w-full h-full" style="font-family: monospace;"># Multiplication: (FF) = (FC) * (FD)
-
-00000: 00 00001 00 000 1100 01 01 1100 0 # R0 = FC
-00001: 00 00010 01 000 0000 01 10 0001 0 # R0 = (R0)
-00010: 00 00011 00 001 1101 01 01 1100 0 # R1 = FD
-00011: 00 00100 01 001 0000 01 10 0001 0 # R1 = (R1)
-00100: 00 00101 00 010 0000 01 00 0011 0 # R2 = 0
-00101: 10 00111 00 000 0000 00 00 0001 0 # R0; JMP to 0011Z
-00110: 00 01000 00 000 1111 01 01 0100 0 # R0 = R0 + FF; JMP 01000
-00111: 00 01001 00 001 1110 01 01 1100 0 # R1 = FE; JMP 01001
-01000: 00 00101 00 010 0001 01 00 0100 0 # R2 = R2 + R1; JMP 00101
-01001: 00 00000 11 001 0010 00 00 1100 0 # (R1) = R2; JMP 00000
-                            </textarea>
+                            <textarea id="code-input" class="w-full h-full" style="font-family: monospace;"></textarea>
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-x-2 px-2 py-1 h-12 cursor-pointer" id="assemble-btn"><span class="material-icons-round text-[24px]">engineering</span><span>Assemble</span></div>
-                            <div class="text-[24px] flex items-center justify-center cursor-pointer w-12 h-12"><span class="material-icons-round">delete_sweep</span>   </div>
+                            <div class="text-[24px] flex items-center justify-center cursor-pointer w-12 h-12" id="clear-btn"><span class="material-icons-round">delete_sweep</span>   </div>
                         </div>
                     </div>
                 </div>
@@ -140,6 +128,27 @@
         </div>
         <script src="js/2i.js"></script>
         <script>
+            const sampleProgram = `# Multiplication: (FF) = (FC) * (FD)
+
+00000: 00 00001 00 000 1100 01 01 1100 0 # R0 = FC
+00001: 00 00010 01 000 0000 01 10 0001 0 # R0 = (R0)
+00010: 00 00011 00 001 1101 01 01 1100 0 # R1 = FD
+00011: 00 00100 01 001 0000 01 10 0001 0 # R1 = (R1)
+00100: 00 00101 00 010 0000 01 00 0011 0 # R2 = 0
+00101: 10 00111 00 000 0000 00 00 0001 0 # R0; JMP to 0011Z
+00110: 00 01000 00 000 1111 01 01 0100 0 # R0 = R0 + FF; JMP 01000
+00111: 00 01001 00 001 1110 01 01 1100 0 # R1 = FE; JMP 01001
+01000: 00 00101 00 010 0001 01 00 0100 0 # R2 = R2 + R1; JMP 00101
+01001: 00 00000 11 001 0010 00 00 1100 0 # (R1) = R2; JMP 00000`;
+
+            if (localStorage.getItem("minirechner-2i-code") !== null) {
+                console.log("Loading code from localStorage");
+                document.querySelectorAll("#code-input").forEach(el => el.value = localStorage.getItem("minirechner-2i-code"));
+            } else {
+                console.log("Loading sample program into code input");
+                document.querySelectorAll("#code-input").forEach(el => el.value = sampleProgram);
+            }
+
             function shown(id) {
                 document.querySelector("#" + id + "-con").classList.remove("hide");
                 document.querySelector("#" + id + "-con").classList.add("shown");
@@ -166,6 +175,10 @@
                 }
                 document.querySelector("#memory-map-content").innerHTML = html;
             };
+
+            document.querySelectorAll("#code-input").forEach(el => el.addEventListener("input", (ev) => {
+                localStorage.setItem("minirechner-2i-code", ev.target.value);
+            }));
 
             (async () => {
                 let cons = [
@@ -244,6 +257,11 @@
                 }));
                 document.querySelectorAll("#step-btn *").forEach(el => el.addEventListener("click", clk))
                 document.querySelectorAll("#assemble-btn *").forEach(el => el.addEventListener("click", parseCodeInput))
+                document.querySelectorAll("#clear-btn *").forEach(el => el.addEventListener("click", () => {
+                    console.log("Clearing code input and localStorage");
+                    document.querySelectorAll("#code-input").forEach(el => el.value = '');
+                    localStorage.removeItem("minirechner-2i-code");
+                }))
                 
                 const memBCGUI = new BroadcastChannel("memory-channel"); 
                 memBCGUI.onmessage = (ev) => {

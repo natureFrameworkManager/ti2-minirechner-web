@@ -75,7 +75,60 @@
                             <div class="material-icons-round text-[24px] flex! items-center justify-center cursor-pointer w-24 h-12"><span class="flex! items-center justify-center cursor-pointer w-12 h-12" onclick="hide('code-editor')">expand_more</span></div>
                         </div>
                         <div class="ps-4 pb-2 h-full">
-                            <textarea id="code-input" class="w-full h-full" style="font-family: monospace;">#! mrasm
+                            <textarea id="code-input" class="w-full h-full" style="font-family: monospace;"></textarea>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-x-2 px-2 py-1 h-12 cursor-pointer" id="assemble-btn"><span class="material-icons-round text-[24px]">engineering</span><span>Assemble</span></div>
+                            <div class="text-[24px] flex items-center justify-center cursor-pointer w-12 h-12" id="clear-btn"><span class="material-icons-round">delete_sweep</span>   </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel" id="uart-con">
+                    <div class="bg-[#2B2930] h-full rounded-s">
+                        <div class="bg-[#2B2930] top-bar rounded-s">
+                            <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#uart-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
+                            <div class="title">UART-Konsole</div>
+                            <div class="material-icons-round" onclick="hide('uart')">close</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div class="z-20 fixed w-full h-full top-0 left-0 bg-[#141218]" style="display: none;" id="settings-overlay">
+            <div class="bg-[#141218] top-bar">
+                <div class="material-icons-round" onclick="document.querySelector('#settings-overlay').style.display = 'none'">arrow_back</div>
+                <div class="title">Settings</div>
+                <div class="w-12 h-12"></div>
+            </div>
+            <div class="mt-16">
+                <div class="listing-item">
+                    <span>Control style</span>
+                    <select>
+                        <option selected>Realistic</option>
+                        <option>Simple</option>
+                    </select>
+                </div>
+                <div class="listing-item">
+                    <span>Data display style</span>
+                    <select>
+                        <option selected>LED</option>
+                        <option>Binary</option>
+                        <option>Hexadecimal</option>
+                        <option>Decimal</option>
+                    </select>
+                </div>
+                <div class="listing-item">
+                    <span>Command display style</span>
+                    <select>
+                        <option selected>LED</option>
+                        <option>Parsed</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <script src="js/2a.js"></script>
+        <script>
+            const sampleProgram = `#! mrasm
 
 LOOP:
     CLR R0
@@ -142,60 +195,16 @@ NEXT:
 
 
 MY_SUBROUTINE:
-    RET
-                            </textarea>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-x-2 px-2 py-1 h-12 cursor-pointer" id="assemble-btn"><span class="material-icons-round text-[24px]">engineering</span><span>Assemble</span></div>
-                            <div class="text-[24px] flex items-center justify-center cursor-pointer w-12 h-12"><span class="material-icons-round">delete_sweep</span>   </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel" id="uart-con">
-                    <div class="bg-[#2B2930] h-full rounded-s">
-                        <div class="bg-[#2B2930] top-bar rounded-s">
-                            <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#uart-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
-                            <div class="title">UART-Konsole</div>
-                            <div class="material-icons-round" onclick="hide('uart')">close</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-        <div class="z-20 fixed w-full h-full top-0 left-0 bg-[#141218]" style="display: none;" id="settings-overlay">
-            <div class="bg-[#141218] top-bar">
-                <div class="material-icons-round" onclick="document.querySelector('#settings-overlay').style.display = 'none'">arrow_back</div>
-                <div class="title">Settings</div>
-                <div class="w-12 h-12"></div>
-            </div>
-            <div class="mt-16">
-                <div class="listing-item">
-                    <span>Control style</span>
-                    <select>
-                        <option selected>Realistic</option>
-                        <option>Simple</option>
-                    </select>
-                </div>
-                <div class="listing-item">
-                    <span>Data display style</span>
-                    <select>
-                        <option selected>LED</option>
-                        <option>Binary</option>
-                        <option>Hexadecimal</option>
-                        <option>Decimal</option>
-                    </select>
-                </div>
-                <div class="listing-item">
-                    <span>Command display style</span>
-                    <select>
-                        <option selected>LED</option>
-                        <option>Parsed</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <script src="js/2a.js"></script>
-        <script>
+    RET`;
+
+            if (localStorage.getItem("minirechner-2a-code") !== null) {
+                console.log("Loading code from localStorage");
+                document.querySelectorAll("#code-input").forEach(el => el.value = localStorage.getItem("minirechner-2a-code"));
+            } else {
+                console.log("Loading sample program into code input");
+                document.querySelectorAll("#code-input").forEach(el => el.value = sampleProgram);
+            }
+
             function shown(id) {
                 document.querySelector("#" + id + "-con").classList.remove("hide");
                 document.querySelector("#" + id + "-con").classList.add("shown");
@@ -222,6 +231,10 @@ MY_SUBROUTINE:
                 }
                 document.querySelector("#memory-map-content").innerHTML = html;
             };
+
+            document.querySelectorAll("#code-input").forEach(el => el.addEventListener("input", (ev) => {
+                localStorage.setItem("minirechner-2a-code", ev.target.value);
+            }));
             
             (async () => {
                 let cons = [
@@ -301,6 +314,11 @@ MY_SUBROUTINE:
                 document.querySelectorAll("#step-btn *").forEach(el => el.addEventListener("click", clk))
                 document.querySelectorAll("#reset-btn *").forEach(el => el.addEventListener("click", reset))
                 document.querySelectorAll("#assemble-btn *").forEach(el => el.addEventListener("click", parseFromTextarea))
+                document.querySelectorAll("#clear-btn *").forEach(el => el.addEventListener("click", () => {
+                    console.log("Clearing code input and localStorage");
+                    document.querySelectorAll("#code-input").forEach(el => el.value = '');
+                    localStorage.removeItem("minirechner-2a-code");
+                }))
                 
                 const memBCGUI = new BroadcastChannel("memory-channel"); 
                 memBCGUI.onmessage = (ev) => {
