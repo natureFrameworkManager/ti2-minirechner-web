@@ -361,6 +361,7 @@ function parseASM(asm) {
 
     var lines = asm.split("\n");
     if (lines[0] != "#! mrasm") { // Check for asm identifier
+        console.error("No valid asm file");
         return false;
     }
     lines = lines.map(line => line.toUpperCase()) // ignore lower or upper case
@@ -1194,7 +1195,7 @@ function setMemBus() {
         }
     }
     if (CTRL.busEn && CTRL.busWr) {
-        memBC.postMessage({msg: "update", data: DPRAM});
+        memBC.postMessage({msg: "update", data: DPRAM, architecture: "a"});
     }
 }
 // Steuerwerk
@@ -1379,13 +1380,15 @@ function reset() {
 }
 
 function parseFromTextarea() {
-    var tram = parseASM(document.querySelector("#a-con #code-input").textContent);
+    var tram = parseASM(document.querySelector("#a-con #code-input").value);
     for (let index = 0; index < 0xEF +1; index++) {
         if (tram[index] === undefined) {
             tram[index] = 0;
         }
     }
-    DPRAM = tram;
+    if (tram !== false) {
+        DPRAM = tram;
+    }
 }
 
 reset();
