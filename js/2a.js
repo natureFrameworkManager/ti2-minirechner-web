@@ -947,7 +947,9 @@ function parseASM(asm) {
         const exec = output[index];
         if (typeof exec == "string") {
             if (Object.keys(labels).includes(exec)) {
-                output[index] = labels[exec];
+                var value = labels[exec] - (index +1);
+                value = value < 0 ? value + 256 : value;
+                output[index] = value;
             } else {
                 console.error("Unknown label or const");
                 continue;
