@@ -297,6 +297,7 @@ MY_SUBROUTINE:
                         getLast(document.querySelectorAll(con.selector + ' svg')).appendChild(rect);
                     }
                 }
+                parseFromTextarea();
 
                 var interval = null;
                 document.querySelectorAll("#clk-switch *").forEach(el => el.addEventListener("click", () => {

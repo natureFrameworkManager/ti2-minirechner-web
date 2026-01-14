@@ -1392,6 +1392,5 @@ function parseFromTextarea() {
 }
 
 reset();
-parseFromTextarea();
 
 setInterval(display, 10);

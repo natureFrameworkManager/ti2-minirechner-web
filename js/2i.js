@@ -67,8 +67,6 @@ function parseCodeInput() {
 }
 
 
-parseCodeInput();
-
 function setNAddr(value) {
     nAddr = value & 0b11111;
 }

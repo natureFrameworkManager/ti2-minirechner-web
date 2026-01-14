@@ -241,6 +241,7 @@
                         getLast(document.querySelectorAll(con.selector + ' svg')).appendChild(rect);
                     }
                 }
+                parseCodeInput();
 
                 var interval = null;
                 document.querySelectorAll("#clk-switch *").forEach(el => el.addEventListener("click", () => {
