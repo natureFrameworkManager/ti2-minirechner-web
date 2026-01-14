@@ -274,7 +274,7 @@ MY_SUBROUTINE:
                     }
                 ]
 
-                var f2a = await fetch('/assets/svg/2a-diagramm-white.svg');
+                var f2a = await fetch('assets/svg/2a-diagramm-white.svg');
                 var f2aText = await f2a.text();
                 cons.map(el => el.selector).forEach(element => {
                     document.querySelector(element).innerHTML = "";
