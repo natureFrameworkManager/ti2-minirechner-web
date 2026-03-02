@@ -729,7 +729,11 @@ function parseASM(asm) {
                         }
                     } else if (split[1].startsWith("(") && split[1].endsWith(")")) {
                         // (addr)
-                        output[addr++] = srcAddr & 0b00001111; // (PC+) = (R3+)
+                        if (split[0] == "ST") {
+                            output[addr++] = 0b00011111;
+                        } else {
+                            output[addr++] = srcAddr & 0b00001111; // (PC+) = (R3+)
+                        }
                         if (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1].replaceAll(/[\(\)]/g, ""))) {
                             output[addr++] = parseASMNumber(split[1].replaceAll(/[\(\)]/g, ""));
                         } else {
