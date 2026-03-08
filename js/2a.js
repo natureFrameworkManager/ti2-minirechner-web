@@ -653,7 +653,7 @@ function parseASM(asm) {
                     if (split[0] == "BITS") {
                         var srcAddr = 0b01010000;
                     }
-                    if (split[0] == "BITS") {
+                    if (split[0] == "BITC") {
                         var srcAddr = 0b01100000;
                     }
                     if (split[0] == "CMP") {
