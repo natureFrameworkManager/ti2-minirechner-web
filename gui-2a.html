@@ -84,11 +84,14 @@
                     </div>
                 </div>
                 <div class="panel" id="uart-con">
-                    <div class="bg-[#2B2930] h-full rounded-s">
+                    <div class="bg-black flex flex-col h-full rounded-s">
                         <div class="bg-[#2B2930] top-bar rounded-s">
                             <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#uart-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
                             <div class="title">UART-Konsole</div>
                             <div class="material-icons-round" onclick="hide('uart')">close</div>
+                        </div>
+                        <div class="h-full">
+                            <textarea id="uart-terminal" style="width: 100%; height: 100%; background: #1a1620; color: #00ff00; font-family: monospace; border: none; padding: 10px; resize: none;"></textarea>
                         </div>
                     </div>
                 </div>
@@ -320,6 +323,38 @@ MY_SUBROUTINE:
                     document.querySelectorAll("#code-input").forEach(el => el.value = '');
                     localStorage.removeItem("minirechner-2a-code");
                 }))
+
+                setInterval(() => {
+                    if (uartSendShiftReg !== null) {
+                        document.querySelectorAll("#uart-terminal").forEach(el => el.value += String.fromCharCode(uartSendShiftReg));
+                        console.log("-> 0x" + uartSendShiftReg.toString(16).padStart(2, "0").toUpperCase());
+                        uartSendShiftReg = null;
+                    }
+                }, 100);
+
+                var uartBuffer = [];
+                function sendUartData() {
+                    if (uartBuffer.length > 0) {
+                        if (uartRecvShiftReg === null) {
+                            uartRecvShiftReg = uartBuffer.shift()
+                        } else {
+                            setTimeout(sendUartData, 100);
+                        }
+                    }
+                }
+
+                document.querySelectorAll("#uart-terminal").forEach(el => el.addEventListener("keydown", (ev) => {
+                    ev.preventDefault();
+                    if (ev.key.length === 1) {
+                        uartBuffer.push(ev.key.charCodeAt(0));
+                        console.log("<- 0x" + ev.key.charCodeAt(0).toString(16).padStart(2, "0").toUpperCase());
+                        sendUartData();
+                    } else if (ev.key === "Enter") {
+                        uartBuffer.push(0x0A);
+                        console.log("<- 0x0A");
+                        sendUartData();
+                    }
+                }));
                 
                 const memBCGUI = new BroadcastChannel("memory-channel"); 
                 memBCGUI.onmessage = (ev) => {

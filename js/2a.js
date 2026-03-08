@@ -1,12 +1,13 @@
 // TODO: Asembler
 // TODO: Expansion Card (F0-F3)
-// TODO: UART (FA-FB)
+// Partial: UART (FA-FB)
 // TODO: Interrupts
 // TODO: Clock Flow
 // TODO: Full Controls
 
 // Connection to the memory broadcast channel
 const memBC = new BroadcastChannel("memory-channel"); 
+let displayOnly = false;
 
 let regs = [
     0b00000000, // R0
@@ -42,6 +43,16 @@ let MPRAM = new Array(512).fill(new Array(28).fill(0).join('')); // 512 x 28 Bit
 let DPRAM = new Array(0xEF +1).fill(0); // Data RAM (00-EF)
 let inputs = {"ff": 0b00000000, "fe": 0b00000000, "fd": 0b00000000, "fc": 0b00000000}; // 4 Inputs (FC-FF)
 let outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs (FE-FF)
+
+// UART
+let uartRecvShiftReg = null; // Shift register for receiving data
+let uartRecvReg = 0b00000000; // UART Receive Register (Read to receive) (FB read)
+let uartSendBuffer = null; // UART Send Register (Write to send) (FB write)
+let uartSendShiftReg = null; // Shift register for transmitting data
+let uartStatusReg = 0b00000000; // UART Status Register (FA read) [7: TxReady, 6: TxEmpty, 5: not CTS, 4: TxD, 3: RxD, 2: not RTS, 1: RxFull, 0: RxReady]
+let uartControlReg = 0b00000000; // UART Control Register (FA write) [7: Interupt on RxReady, 6: Interupt on RxFull, 5: TxEmpty, 4: TxReady, 3: 0->CTS/1->Ignore CTS, 2: always 0, 1+0: Baudrate 00: 115200, 01: 38400, 10: 19200, 11: 9600]
+
+let uartRecvRead = true;
 
 function fillMicrocode() {
     // Addressed in 16x 32 Bit Blocks
@@ -1038,6 +1049,16 @@ function getMemBusData() {
         if (getRegA() >= 0xFC && getRegA() <= 0xFF) {
             return inputs[getRegA().toString(16)];
         }
+        // UART 
+        if (getRegA() === 0xFA && !CTRL.busWr) {
+            if (!displayOnly) {
+                uartRecvRead = true;
+            }
+            return uartRecvReg;
+        }
+        if (getRegA() === 0xFB) {
+            return uartStatusReg;
+        }
     }
 }
 function getALU() {
@@ -1119,6 +1140,54 @@ function getALU() {
     var F_signed = (res << 24) >> 24;
     return {"f": res, "co": CO, "zo": (F_signed === 0), "no": (F_signed < 0)};
 }
+// UART Updates
+function setUartStatus() {
+    uartStatusReg = 0b00000000;
+    uartStatusReg = 0b00000000 | 
+    (uartSendBuffer === null ? 0b10000000 : 0) | // TxReady: Ready to accept new data to send
+    (uartSendBuffer === null && uartSendShiftReg === null ? 0b01000000 : 0) | // TxEmpty: No data waiting to be sent
+    (uartSendBuffer !== null && uartSendShiftReg !== null ? 0b00100000 : 0) | // No CTS
+    (false ? 0b00010000 : 0) | // TxD: Current output value on Tx line
+    (false ? 0b00001000 : 0) | // RxD: Current input value on Rx line
+    (uartRecvShiftReg !== null ? 0b00000100 : 0) | // No RTS: UART can't accept new data to receive;
+    (!uartRecvRead && uartRecvShiftReg !== null ? 0b00000010 : 0) | // RxFULL: Data received and waiting to be read
+    (!uartRecvRead ? 0b00000001 : 0); // RxREADY: Data received and ready to be read
+
+}
+function updateUartTransmission() {
+    // Send 
+    if (uartSendShiftReg === null && uartSendBuffer !== null) {
+        uartSendShiftReg = uartSendBuffer;
+        uartSendBuffer = null;
+    }
+    // Receive
+    if (uartRecvRead && uartRecvShiftReg !== null) {
+        uartRecvReg = uartRecvShiftReg;
+        uartRecvShiftReg = null;
+        uartRecvRead = false;
+    }
+
+    // Set baudrate
+    var baudrateFlag = uartControlReg & 0x00000011;
+    let baudrate = 115200;
+    switch (baudrateFlag) {
+        case 0b00:
+            baudrate = 115200
+            break;
+        case 0b01: 
+            baudrate = 38400
+            break;
+        case 0b10: 
+            baudrate = 19200
+            break;
+        case 0b11: 
+            baudrate = 9600
+            break;
+    }
+    setTimeout(updateUartTransmission, (1000000 / (baudrate)));
+}
+updateUartTransmission()
+
 // Steuerwerk
 function getAM2() {
     switch (BR & 0b00000011) {
@@ -1199,6 +1268,17 @@ function setMemBus() {
                 outputs[getRegA().toString(16)] = (getALU().f & 0xFF);
             }
         }
+        // UART
+        if (getRegA() == 0xFA) {
+            if (CTRL.busWr) {
+                uartSendBuffer = (getALU().f & 0xFF);
+            }
+        }
+        if (getRegA() == 0xFB) {
+            if (CTRL.busWr) {
+                uartControlReg = (getALU().f & 0xFF);
+            }
+        }
     }
     if (CTRL.busEn && CTRL.busWr) {
         memBC.postMessage({msg: "update", data: DPRAM, architecture: "a"});
@@ -1242,6 +1322,10 @@ function resetIFF1() {
 }
 
 function display() {
+    displayOnly = true;
+    setUartStatus();
+
+
     document.querySelectorAll(`svg .mrgwe`).forEach(el => el.setAttribute("fill", (CTRL.mrgWE ? "yellow" : "slategray")));
     document.querySelectorAll(`svg .mrgws`).forEach(el => el.setAttribute("fill", (CTRL.mrgWS ? "yellow" : "slategray")));
 
@@ -1339,6 +1423,13 @@ function display() {
     for (let bit = 0; bit < 9; bit++) {
         document.querySelectorAll(`svg .addr${bit}`).forEach(el => el.setAttribute("fill", ((currentAddr & (1 << bit)) !== 0 ? "yellow" : "slategray")));
     }
+
+    document.querySelectorAll(`svg .tx`).forEach(el => el.setAttribute("fill", (uartSendBuffer !== null ? "yellow" : "slategray")));
+    document.querySelectorAll(`svg .txd`).forEach(el => el.setAttribute("fill", (uartSendShiftReg !== null ? "yellow" : "slategray")));
+    document.querySelectorAll(`svg .rx`).forEach(el => el.setAttribute("fill", (!uartRecvRead ? "yellow" : "slategray")));
+    document.querySelectorAll(`svg .rxd`).forEach(el => el.setAttribute("fill", (uartRecvShiftReg !== null ? "yellow" : "slategray")));
+
+    displayOnly = false;
 }
 function clk() {
     setReg();

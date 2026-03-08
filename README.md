@@ -21,7 +21,7 @@ I may change the formatting after a pull request but otherwise there is not much
 - [x] Fully labeled interface 2a
 - [x] Interface optimized for large and mobile screens
 - [ ] Interface full functionality 
-- [ ] Working UART
+- [x] Working UART
 - [ ] Working extension board
 - [ ] Working control board
 - [x] Restructure file tree
