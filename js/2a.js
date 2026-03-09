@@ -933,18 +933,25 @@ function parseASM(asm) {
                     switch (split[0]) {
                         case "PUSHF":
                             output[addr++] = 0b00011000;
+                            break;
                         case "POPF":
                             output[addr++] = 0b00011100; 
+                            break;
                         case "RET":
                             output[addr++] = 0b00010111;
+                            break;
                         case "RETI":
                             output[addr++] = 0b00101100;
+                            break;
                         case "STOP":
                             output[addr++] = 0b00000001;
+                            break;
                         case "NOP":
                             output[addr++] = 0b00000010;
+                            break;
                         case "EI":
                             output[addr++] = 0b00001000;
+                            break;
                         case "DI":
                             output[addr++] = 0b00001100;
                             break;
