@@ -371,7 +371,7 @@ function parseASM(asm) {
     let labels = {};
 
     var lines = asm.split("\n");
-    if (lines[0] != "#! mrasm") { // Check for asm identifier
+    if (!lines[0].startsWith("#! mrasm")) { // Check for asm identifier
         console.error("No valid asm file");
         return false;
     }
