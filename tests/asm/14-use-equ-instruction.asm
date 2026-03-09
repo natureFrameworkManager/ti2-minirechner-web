@@ -14,4 +14,4 @@
     .ORG 33
     .DB 42
 
-; test-result: FF 21 1F FF FF 21 1F FE
+; test-result: FF 21 1F FF FF 21 1F FE 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 2A
