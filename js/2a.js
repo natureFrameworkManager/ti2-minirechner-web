@@ -962,7 +962,11 @@ function parseASM(asm) {
         const exec = output[index];
         if (typeof exec == "string") {
             if (Object.keys(labels).includes(exec)) {
-                var value = labels[exec] - (index +1);
+                if ((output[index -1] & 0b11111000) == 0b00100000) {
+                    var value = labels[exec] - (index +1);
+                } else {
+                    var value = labels[exec];
+                }
                 value = value < 0 ? value + 256 : value;
                 output[index] = value;
             } else {
