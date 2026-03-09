@@ -967,7 +967,7 @@ function parseASM(asm) {
                 output[index] = value;
             } else {
                 console.error("Unknown label or const");
-                continue;
+                return;
             }
         }
     }
