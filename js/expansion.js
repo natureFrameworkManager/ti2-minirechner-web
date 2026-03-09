@@ -34,9 +34,11 @@ function writeMinibus(addr, value) {
     }
 }
 
+// https://en.wikipedia.org/wiki/Resistor_ladder#Voltage_Mode
 function DAC(value) {
-    var step = (2.55 - 0) / (2**8 -1);
-    return step * value
+    value = value & 0xFF;
+    const Vref = 2.55;
+    return Vref * (value/(2**8))
 }
 
 setInterval(() => {
