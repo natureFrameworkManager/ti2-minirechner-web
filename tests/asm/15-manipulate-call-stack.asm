@@ -1,0 +1,31 @@
+#! mrasm
+
+    .ORG 0
+    JR INIT
+    JR ISR
+
+
+INIT:
+    LDSP 0xEF
+    BITS (0xF9), 1
+    EI
+MAIN:
+    JR MAIN
+
+
+_REACHABLE:
+    BITS (0xFF), 1
+    MOV (0xEC), UNREACHABLE
+    RET
+
+
+UNREACHABLE:
+    ; WHAAAT
+    BITS (0xFF), 2
+    STOP
+
+
+ISR:
+    CALL _REACHABLE
+
+; test-result: 20 02 20 18 FB EF 40 FB 01 5F F9 08 20 FE FB 01 FF FB 17 1F EC 17 FB 02 5F FF 01 28 0E

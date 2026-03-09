@@ -1,0 +1,12 @@
+#! mrasm
+
+LOOP:
+    CLR R0
+    JZS OUTPUT
+    MOV (0xFE), 0xFF
+    JMP LOOP
+OUTPUT:
+    MOV (0xFF), 0b10101010
+    JMP LOOP
+
+; test-result: 04 22 07 FB FF 1F FE FB 00 13 FB AA 1F FF FB 00 13 
