@@ -763,4 +763,14 @@
 <path id="Vector_291" d="M54.2 456.4C53.6 456.4 53.1 456.3 52.6 456C52.1 455.7 51.8 455.4 51.5 454.9C51.2 454.4 51.1 453.9 51.1 453.3C51.1 452.7 51.2 452.2 51.5 451.8C51.8 451.3 52.1 450.9 52.6 450.6C53.1 450.3 53.6 450.2 54.2 450.2C54.7 450.2 55.2 450.3 55.7 450.6C56.2 450.9 56.6 451.3 56.8 451.8C57.1 452.2 57.3 452.7 57.3 453.3C57.3 453.9 57.1 454.4 56.8 454.9C56.6 455.4 56.2 455.7 55.7 456C55.2 456.3 54.7 456.4 54.2 456.4Z" stroke="#AAA9A9" stroke-width="1.287"/>
 </g>
 </g>
+<text class="org1" fill="black" font-family="sans-serif" font-size="8" x="100" y="240">org1</text>
+<text class="ao1-v" fill="black" font-family="sans-serif" font-size="8" x="100" y="250">ao1</text>
+<text class="org2" fill="black" font-family="sans-serif" font-size="8" x="100" y="330">org2</text>
+<text class="ao2-v" fill="black" font-family="sans-serif" font-size="8" x="100" y="340">ao2</text>
+<text class="irg" fill="black" font-family="sans-serif" font-size="8" x="100" y="390">irg</text>
+
+<circle cx="124" cy="455" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="cp2" />
+<circle cx="148" cy="455" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="cp1" />
+<circle cx="176" cy="455" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="ao2" />
+<circle cx="198" cy="455" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="ao1" />
 </svg>
