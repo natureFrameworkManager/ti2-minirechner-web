@@ -134,3 +134,7 @@ select {
 .switch:disabled:checked::before {
     @apply bg-[#E6E0E9];
 }
+
+#step-btn, #clk-switch {
+    @apply cursor-pointer
+}

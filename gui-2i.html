@@ -30,7 +30,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel" id="expansion-board-con">
+                <div class="panel hidden!" id="expansion-board-con">
                     <div class="bg-[#2B2930] rounded-e h-full">
                         <div class="bg-[#2B2930] top-bar rounded-e">
                             <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#expansion-board-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
@@ -50,7 +50,7 @@
                         <div class="flex flex-row-reverse panel-toggle" id="memory-map-toggle">
                             <div class="bg-[#2B2930] rounded text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12 material-icons-round" onclick="shown('memory-map')">map</div>
                         </div>
-                        <div class="flex flex-row-reverse panel-toggle" id="expansion-board-toggle">
+                        <div class="flex flex-row-reverse panel-toggle hidden!" id="expansion-board-toggle">
                             <div class="bg-[#2B2930] rounded text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12 material-icons-round" onclick="shown('expansion-board')">sensors</div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                         <div class="flex-row-reverse panel-toggle" id="code-editor-toggle">
                             <div class="bg-[#2B2930] rounded text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12 material-icons-round" onclick="shown('code-editor')">code</div>
                         </div>
-                        <div class="flex-row-reverse panel-toggle" id="uart-toggle">
+                        <div class="flex-row-reverse panel-toggle shown" id="uart-toggle">
                             <div class="bg-[#2B2930] rounded text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12 material-icons-round" onclick="shown('uart')">terminal</div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel" id="uart-con">
+                <div class="panel hide" id="uart-con">
                     <div class="bg-[#2B2930] h-full rounded-s">
                         <div class="bg-[#2B2930] top-bar rounded-s">
                             <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#uart-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
