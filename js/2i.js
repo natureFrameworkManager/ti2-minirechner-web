@@ -65,18 +65,57 @@ mramBC.onmessage = (ev) => {
 function parseCodeInput() {
     let codeInput = document.querySelector("#code-input").value;
     codeInput = codeInput.trim().split('\n');
-    codeInput = codeInput.map(line => line.trim().split('#')[0].trim()).filter(line => line.length > 0);
-    codeInput = codeInput.map(line => line.replace(/[^(0,1,:)]/g,""));
+    codeInput = codeInput.map(line => line.trim().split('#')[0].trim());
+    codeInput = codeInput.map(line => line.replace(/[^(0,1,:)]/g,"")).filter(line => line.length > 0);
     codeInput = codeInput.map(line => line.split(':'));
+    codeInput.forEach((line, index) => {
+        if (line.length > 2) {
+            console.error("Line has two much colons at line ", index + 1, ": ", line.join(":"));
+        } else {
+            if (line.length == 2 && line[0].length === 0) {
+                console.error("Line has empty address field at line ", index + 1, ": :", line[1]);
+            }
+            if (line.length == 2 && line[1].length === 0) {
+                console.error("Line has empty data field at line ", index + 1, ": ", line[0], ":");
+            }
+            if ((line.length == 2 && line[1].replace(/^0+/, '').length > 25) || (line.length == 1 && line[0].replace(/^0+/, '').length > 25)) {
+                console.error("Line has to much bits in instructions at line ", index + 1, ": ", line.join(":"));
+            } 
+            if (line.length == 2 && parseInt(line[0], 2) > 0b11111) {
+                console.error("Line has invalid address at line ", index + 1, ": ", line.join(":"));
+            }
+            if ((line.length == 2 && line[1].length < 25) || (line.length == 1 && line[0].length < 25)) {
+                console.warn("Line has less than 25 bits in instructions at line ", index + 1, ": ", line.join(":"));
+            }
+        }
+    });
+    codeInput = codeInput.filter(line => line.length == 1 || line.length == 2);
+    var addressSet = new Set();
+    codeInput.forEach((line, index) => {
+        if (line.length == 2) {
+            if (addressSet.has(line[0])) {
+                console.warn("Duplicate address in code input at line", index + 1, ": ", line.join(":"));
+            } else {
+                addressSet.add(line[0]);
+            }
+        }
+    });
+
+    if (codeInput.length > 32) {
+        console.error("Code input has ", codeInput.length, " entries but only 32 address slots are available, excess entries will be ignored.");
+    }
 
     let addr = new Array(32).fill(false);
     for (let line of codeInput) {
         if (line.length == 2) {
             addr[parseInt(line[0], 2)] = line[1];
         } else if (line.length == 1) {
-            addr[addr.indexOf(false)] = line[0];
-        } else {
-            console.error("Invalid line in code input:", line);
+            const freeSlot = addr.indexOf(false);
+            if (freeSlot === -1) {
+                console.error("No free address slot available for implicit entry: ", line[0]);
+            } else {
+                addr[freeSlot] = line[0];
+            }
         }
     }
     addr = addr.map(line => line ? line.replace(/ /g, '') : "0000000000000000000000000");

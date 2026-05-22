@@ -370,126 +370,212 @@ function parseASM(asm) {
     let output = [];
     let labels = {};
 
-    var lines = asm.split("\n");
-    if (!lines[0].startsWith("#! mrasm")) { // Check for asm identifier
+    const VALID_NUMBER = /^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/;
+    const VALID_LABEL_NAME = /^[A-Z_][A-Z0-9_]*$/;
+    const INSTRUCTIONS = new Set([
+        "CLR","ADD","ADC","SUB","MUL","DIV","AND","OR","XOR","INC","DEC",
+        "NEG","COM","LSR","ASR","LSL","RRC","RLC","TST","BITS","BITC","CMP",
+        "BITT","MOV","LD","ST","LDSP","LDFR","JMP","PUSH","POP",
+        "JCS","JCC","JZS","JZC","JNS","JNC","JR","CALL",
+        "PUSHF","POPF","RET","RETI","STOP","NOP","EI","DI"
+    ]);
+
+    var rawLines = asm.split("\n");
+    if (!rawLines[0].startsWith("#! mrasm")) { // Check for asm identifier
         console.error("No valid asm file");
         return false;
     }
-    lines = lines.map(line => line.toUpperCase()) // ignore lower or upper case
-    lines = lines.slice(1).map(line => line.trim()).filter((line) => (!(line == "" || line.startsWith(";")))); // Filter empty and comment lines and remove all spaces and tabs
-    lines = lines.map(line => line.split(";")[0].trim()) // remove everything behind semicolon as it is a comment
-    // Find all labels
-    for (const line of lines) {
+
+    // Build array of [lineContent, originalLineNumber] preserving 1-based source positions
+    var lines = rawLines
+        .map((line, i) => [line.toUpperCase().trim(), i + 1])
+        .slice(1)
+        .filter(([line]) => !(line == "" || line.startsWith(";")))
+        .map(([line, num]) => [line.split(";")[0].trim(), num])
+        .filter(([line]) => line !== "");
+
+    // Find all labels (first pass)
+    for (const [line, lineNum] of lines) {
         if (/\s+\,|\s+\:/.test(line)) {
-            console.error("Error with line: ", line);
+            console.error(`Line ${lineNum}: Unexpected whitespace before ',' or ':'`);
             continue;
         }
-        var split = line.split(/\,\s+|\,|\s+/g)
+        var split = line.split(/\,\s+|\,|\s+/g);
         if (line.startsWith(".")) {
-            // Assembler control relevant for genereted code
             if (split[0].slice(1) == "EQU") {
                 if (split.length != 3) {
-                    console.error("No parameter match")
+                    console.error(`Line ${lineNum}: .EQU requires exactly 2 parameters`);
                     continue;
                 }
-                if (split[0].startsWith("R") || split[0].startsWith("PC")) {
-                    console.error("Invalid label name");
+                const labelName = split[1];
+                if (split[1].startsWith("R") || split[1].startsWith("PC")) {
+                    console.error(`Line ${lineNum}: Invalid label name '${labelName}' — conflicts with register name`);
                     continue;
                 }
-                labels[split[1]] = parseASMNumber(split[2]);
+                if (!VALID_LABEL_NAME.test(labelName)) {
+                    console.error(`Line ${lineNum}: Invalid label name '${labelName}'`);
+                    continue;
+                }
+                if (INSTRUCTIONS.has(labelName)) {
+                    console.error(`Line ${lineNum}: Label name '${labelName}' conflicts with instruction mnemonic`);
+                    continue;
+                }
+                if (Object.prototype.hasOwnProperty.call(labels, labelName)) {
+                    console.warn(`Line ${lineNum}: Duplicate label/EQU definition '${labelName}' — previous definition overwritten`);
+                }
+                labels[labelName] = parseASMNumber(split[2]);
             }
         } else if (split[0].endsWith(":")) {
-            // Label
-            if (split[0].startsWith("R") || split[0].startsWith("PC")) {
-                console.error("Invalid label name");
+            const labelName = split[0].slice(0, split[0].length - 1);
+            if (labelName.startsWith("R") || labelName.startsWith("PC")) {
+                console.error(`Line ${lineNum}: Invalid label name '${labelName}' — conflicts with register name`);
+                continue;
+            }
+            if (!VALID_LABEL_NAME.test(labelName)) {
+                console.error(`Line ${lineNum}: Invalid label name '${labelName}'`);
+                continue;
+            }
+            if (INSTRUCTIONS.has(labelName)) {
+                console.error(`Line ${lineNum}: Label name '${labelName}' conflicts with instruction mnemonic`);
                 continue;
             }
             if (split.length != 1) {
-                console.error("No parameter allowed")
+                console.error(`Line ${lineNum}: No tokens allowed on same line as label '${labelName}'`);
                 continue;
             }
-            labels[split[0].slice(0, split[0].length-1)] = null;
+            if (Object.prototype.hasOwnProperty.call(labels, labelName)) {
+                console.warn(`Line ${lineNum}: Duplicate label definition '${labelName}' — previous definition overwritten`);
+            }
+            labels[labelName] = null;
         }
     }
-    // Parse code
-    for (const line of lines) {
+
+    // Helper: check if a token is a valid branch/call/jump target (number literal or known label)
+    const isValidTarget = (tok) =>
+        VALID_NUMBER.test(tok) || Object.prototype.hasOwnProperty.call(labels, tok);
+
+    // Parse code (second pass)
+    for (const [line, lineNum] of lines) {
         if (/\s+\,|\s+\:/.test(line)) {
-            console.error("Error with line: ", line);
+            console.error(`Line ${lineNum}: Unexpected whitespace before ',' or ':'`);
             continue;
         }
-        var split = line.split(/\,\s+|\,|\s+/g)
+        var split = line.split(/\,\s+|\,|\s+/g);
         if (line.startsWith("*")) {
-            // Assembler control not for genereted code relevant
+            // Assembler control not relevant for generated code
         } else if (line.startsWith(".")) {
-            // Assembler control relevant for genereted code
             switch (split[0].slice(1)) {
-                case "ORG":
+                case "ORG": {
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: .ORG requires exactly 1 parameter`);
                         continue;
                     }
-                    addr = parseASMNumber(split[1]);
-                    break;
-                case "BYTE":
-                    if (split.length != 2) {
-                        console.error("No parameter match")
+                    const newAddr = parseASMNumber(split[1]);
+                    if (isNaN(newAddr) || newAddr < 0 || newAddr > 0xFF) {
+                        console.error(`Line ${lineNum}: .ORG value ${split[1]} is out of range (0–255)`);
                         continue;
                     }
-                    addr += parseASMNumber(split[1]);
+                    addr = newAddr;
                     break;
-                case "DB":
+                }
+                case "BYTE": {
+                    if (split.length != 2) {
+                        console.error(`Line ${lineNum}: .BYTE requires exactly 1 parameter`);
+                        continue;
+                    }
+                    const byteCount = parseASMNumber(split[1]);
+                    if (isNaN(byteCount) || byteCount < 0) {
+                        console.error(`Line ${lineNum}: .BYTE value ${split[1]} must be a non-negative number`);
+                        continue;
+                    }
+                    addr += byteCount;
+                    if (addr > 0xFF) {
+                        console.warn(`Line ${lineNum}: .BYTE advances address past 0xFF (now 0x${addr.toString(16).toUpperCase()})`);
+                    }
+                    break;
+                }
+                case "DB": {
                     if (!(split.length >= 2)) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: .DB requires at least 1 parameter`);
                         continue;
                     }
                     for (const byte of split.slice(1)) {
-                        output[addr++] = (parseASMNumber(byte) & 0xFF);
+                        const val = parseASMNumber(byte);
+                        if (isNaN(val)) {
+                            console.error(`Line ${lineNum}: .DB value '${byte}' is not a valid number`);
+                            continue;
+                        }
+                        if (val < -128 || val > 0xFF) {
+                            console.warn(`Line ${lineNum}: .DB value ${val} is out of byte range (−128–255), truncated`);
+                        }
+                        if (addr > 0xFF) {
+                            console.error(`Line ${lineNum}: .DB write at address 0x${addr.toString(16).toUpperCase()} exceeds memory limit`);
+                        }
+                        output[addr++] = (val & 0xFF);
                     }
                     break;
-                case "DW":
+                }
+                case "DW": {
                     if (!(split.length >= 2)) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: .DW requires at least 1 parameter`);
                         continue;
                     }
-                    for (const byte of split.slice(1)) {
-                        output[addr] = ((0xFF00 & parseASMNumber(byte)) >> 8);
-                        output[addr+1] = (0xFF & parseASMNumber(byte));
+                    for (const word of split.slice(1)) {
+                        const val = parseASMNumber(word);
+                        if (isNaN(val)) {
+                            console.error(`Line ${lineNum}: .DW value '${word}' is not a valid number`);
+                            continue;
+                        }
+                        if (val < 0 || val > 0xFFFF) {
+                            console.warn(`Line ${lineNum}: .DW value ${val} is out of word range (0–65535), truncated`);
+                        }
+                        if (addr + 1 > 0xFF) {
+                            console.error(`Line ${lineNum}: .DW write at address 0x${addr.toString(16).toUpperCase()} exceeds memory limit`);
+                        }
+                        output[addr]     = ((0xFF00 & val) >> 8);
+                        output[addr + 1] = (0xFF & val);
                         addr += 2;
                     }
                     break;
-                case "EQU":
+                }
+                case "EQU": {
                     if (split.length != 3) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: .EQU requires exactly 2 parameters`);
                         continue;
                     }
-                    if (split[0].startsWith("R") || split[0].startsWith("PC")) {
-                        console.error("Invalid label name");
+                    const labelName = split[1];
+                    if (labelName.startsWith("R") || labelName.startsWith("PC")) {
+                        console.error(`Line ${lineNum}: Invalid label name '${labelName}' — conflicts with register name`);
                         continue;
                     }
-                    labels[split[1]] = parseASMNumber(split[2]);
+                    labels[labelName] = parseASMNumber(split[2]);
+                    break;
+                }
+                default:
+                    console.warn(`Line ${lineNum}: Unknown assembler directive '.${split[0].slice(1)}'`);
                     break;
             }
         } else if (split[0].endsWith(":")) {
-            // Label
-            if (split[0].startsWith("R") || split[0].startsWith("PC")) {
-                console.error("Invalid label name");
+            const labelName = split[0].slice(0, split[0].length - 1);
+            if (labelName.startsWith("R") || labelName.startsWith("PC")) {
+                console.error(`Line ${lineNum}: Invalid label name '${labelName}' — conflicts with register name`);
                 continue;
             }
             if (split.length != 1) {
-                console.error("No parameter allowed")
+                console.error(`Line ${lineNum}: No tokens allowed on same line as label '${labelName}'`);
                 continue;
             }
-            labels[split[0].slice(0, split[0].length-1)] = addr;
+            labels[labelName] = addr;
         } else {
             // machine code or error
             switch (split[0]) {
                 case "CLR":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: CLR requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
+                        console.error(`Line ${lineNum}: CLR — expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00000100 | (parseInt(split[1][1]));
@@ -503,11 +589,15 @@ function parseASM(asm) {
                 case "OR":
                 case "XOR":
                     if (split.length != 3) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: ${split[0]} requires exactly 2 parameters`);
                         continue;
                     }
-                    if (!(/^R[0-2]$/.test(split[1]) && /^R[0-2]$/.test(split[2]))) {
-                        console.error("No register as parameters")
+                    if (!(/^R[0-2]$/.test(split[1]))) {
+                        console.error(`Line ${lineNum}: ${split[0]} — expected register R0–R2 as first parameter, got '${split[1]}'`);
+                        continue;
+                    }
+                    if (!(/^R[0-2]$/.test(split[2]))) {
+                        console.error(`Line ${lineNum}: ${split[0]} — expected register R0–R2 as second parameter, got '${split[2]}'`);
                         continue;
                     }
                     switch (split[0]) {
@@ -545,111 +635,115 @@ function parseASM(asm) {
                     break;
                 case "INC":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: INC requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
+                        console.error(`Line ${lineNum}: INC — expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01000100 | (parseInt(split[1][1]));
                     break;
                 case "DEC":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: DEC requires exactly 1 parameter`);
                         continue;
                     }
                     if (/^R[0-2]$/.test(split[1])) {
                         output[addr++] = 0b01010000 | (parseInt(split[1][1]));
-                    } else {
+                    } else if (VALID_NUMBER.test(split[1]) || Object.prototype.hasOwnProperty.call(labels, split[1])) {
                         output[addr++] = 0b01011111;
                         output[addr++] = split[1];
-                    } // TODO: handle not addr or label
+                    } else {
+                        // TODO: handle not addr or label
+                        console.error(`Line ${lineNum}: DEC — expected register R0–R2, address, or label, got '${split[1]}'`);
+                        continue;
+                    }
                     break;
                 case "NEG":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: NEG requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
+                        console.error(`Line ${lineNum}: NEG — expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00110100 | (parseInt(split[1][1]));
                     break;
                 case "COM":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: COM requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
+                        console.error(`Line ${lineNum}: COM — expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00110000 | (parseInt(split[1][1]));
                     break;
                 case "LSR":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: LSR requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
+                        console.error(`Line ${lineNum}: LSR — expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00111000 | (parseInt(split[1][1]));
                     break;
                 case "ASR":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: ASR requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
+                        console.error(`Line ${lineNum}: ASR — expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00111100 | (parseInt(split[1][1]));
                     break;
                 case "LSL":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: LSL requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
+                        console.error(`Line ${lineNum}: LSL — expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01100000 | (parseInt(split[1][1]) << 2) | (parseInt(split[1][1]));
                     break;
                 case "RRC":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: RRC requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
+                        console.error(`Line ${lineNum}: RRC — expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01000000 | (parseInt(split[1][1]));
                     break;
                 case "RLC":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: RLC requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
+                        console.error(`Line ${lineNum}: RLC — expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01110000 | (parseInt(split[1][1]) << 2) | (parseInt(split[1][1]));
                     break;
                 case "TST":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: TST requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
+                        console.error(`Line ${lineNum}: TST — expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01001000 | (parseInt(split[1][1]));
@@ -678,23 +772,23 @@ function parseASM(asm) {
                     }
 
                     if (split.length != 3) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: ${split[0]} requires exactly 2 parameters`);
                         continue;
                     }
                     if (!(
                         /^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[2]) || // Rn, (Rn), (Rn+), ((Rn+))
-                        /^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[2].replaceAll(/[\(\)]/g, "")) || // const, (addr)
-                        Object.keys(labels).includes(split[2].replaceAll(/[\(\)]/g, "")) // label
+                        VALID_NUMBER.test(split[2].replaceAll(/[\(\)]/g, "")) || // const, (addr)
+                        Object.prototype.hasOwnProperty.call(labels, split[2].replaceAll(/[\(\)]/g, "")) // label
                     )) {
-                        console.error("No register, const, addr or valid label as parameter for destination", line)
+                        console.error(`Line ${lineNum}: ${split[0]} — invalid destination '${split[2]}': expected register, const, address, or label`);
                         continue;
                     }
                     if (!(
                         /^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[1]) || // Rn, (Rn), (Rn+), ((Rn+))
-                        (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1].replaceAll(/[\(\)]/g, "")) && split[1].startsWith("(") && split[1].endsWith(")")) || // (addr) and no const as src
-                        Object.keys(labels).includes(split[1].replaceAll(/[\(\)]/g, "")) // label
+                        (VALID_NUMBER.test(split[1].replaceAll(/[\(\)]/g, "")) && split[1].startsWith("(") && split[1].endsWith(")")) || // (addr) only
+                        Object.prototype.hasOwnProperty.call(labels, split[1].replaceAll(/[\(\)]/g, "")) // label
                     )) {
-                        console.error("No register, const, addr or valid label as parameter for source", line)
+                        console.error(`Line ${lineNum}: ${split[0]} — invalid source '${split[1]}': expected register, (address), or label`);
                         continue;
                     }
                     // dst
@@ -712,7 +806,7 @@ function parseASM(asm) {
                     } else if (split[2].startsWith("(") && split[2].endsWith(")")) {
                         // (addr)
                         output[addr++] = 0b11111111; // ((PC+)) = ((R3+))
-                        if (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[2].replaceAll(/[\(\)]/g, ""))) {
+                        if (VALID_NUMBER.test(split[2].replaceAll(/[\(\)]/g, ""))) {
                             output[addr++] = parseASMNumber(split[2].replaceAll(/[\(\)]/g, ""));
                         } else {
                             output[addr++] = split[2].replaceAll(/[\(\)]/g, "");
@@ -720,7 +814,7 @@ function parseASM(asm) {
                     } else {
                         // const
                         output[addr++] = 0b11111011; // (PC+) = (R3+)
-                        if (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[2])) {
+                        if (VALID_NUMBER.test(split[2])) {
                             output[addr++] = parseASMNumber(split[2]);
                         } else {
                             output[addr++] = split[2];
@@ -745,28 +839,28 @@ function parseASM(asm) {
                         } else {
                             output[addr++] = srcAddr | 0b00001111; // (PC+) = (R3+)
                         }
-                        if (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1].replaceAll(/[\(\)]/g, ""))) {
+                        if (VALID_NUMBER.test(split[1].replaceAll(/[\(\)]/g, ""))) {
                             output[addr++] = parseASMNumber(split[1].replaceAll(/[\(\)]/g, ""));
                         } else {
                             output[addr++] = split[1].replaceAll(/[\(\)]/g, "");
                         }
                     } else {
-                        console.error("No register or address as first parameter")
+                        console.error(`Line ${lineNum}: ${split[0]} — source '${split[1]}' is not a register or address`);
                         continue;
                     }
                     break;
                 case "LDSP":
                 case "LDFR":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: ${split[0]} requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(
                         /^(|\(|\(\()R[0-2](|\)|\+\)|\+\)\))$/.test(split[1]) || // Rn, (Rn), (Rn+), ((Rn+))
-                        /^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1].replaceAll(/[\(\)]/g, "")) || // const, (addr)
-                        Object.keys(labels).includes(split[1].replaceAll(/[\(\)]/g, "")) // label
+                        VALID_NUMBER.test(split[1].replaceAll(/[\(\)]/g, "")) || // const, (addr)
+                        Object.prototype.hasOwnProperty.call(labels, split[1].replaceAll(/[\(\)]/g, "")) // label
                     )) {
-                        console.error("No register, const, addr or valid label as parameter for destination", line)
+                        console.error(`Line ${lineNum}: ${split[0]} — invalid operand '${split[1]}': expected register, const, address, or label`);
                         continue;
                     }
                     // dst
@@ -784,7 +878,7 @@ function parseASM(asm) {
                     } else if (split[1].startsWith("(") && split[1].endsWith(")")) {
                         // (addr)
                         output[addr++] = 0b11111111; // ((PC+)) = ((R3+))
-                        if (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1].replaceAll(/[\(\)]/g, ""))) {
+                        if (VALID_NUMBER.test(split[1].replaceAll(/[\(\)]/g, ""))) {
                             output[addr++] = parseASMNumber(split[1].replaceAll(/[\(\)]/g, ""));
                         } else {
                             output[addr++] = split[1].replaceAll(/[\(\)]/g, "");
@@ -792,7 +886,7 @@ function parseASM(asm) {
                     } else {
                         // const
                         output[addr++] = 0b11111011; // (PC+) = (R3+)
-                        if (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1])) {
+                        if (VALID_NUMBER.test(split[1])) {
                             output[addr++] = parseASMNumber(split[1]);
                         } else {
                             output[addr++] = split[1];
@@ -806,21 +900,30 @@ function parseASM(asm) {
                     break;
                 case "JMP":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: JMP requires exactly 1 parameter`);
                         continue;
                     }
                     if (split[1].startsWith("(") && split[1].endsWith(")")) {
+                        const inner = split[1].replaceAll(/[\(\)]/g, "");
+                        if (!VALID_NUMBER.test(inner) && !Object.prototype.hasOwnProperty.call(labels, inner)) {
+                            console.error(`Line ${lineNum}: JMP — indirect target '${inner}' is not a valid address or label`);
+                            continue;
+                        }
                         // (addr)
                         output[addr++] = 0b11111111; // ((PC+)) = ((R3+))
-                        if (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1].replaceAll(/[\(\)]/g, ""))) {
-                            output[addr++] = parseASMNumber(split[1].replaceAll(/[\(\)]/g, ""));
+                        if (VALID_NUMBER.test(inner)) {
+                            output[addr++] = parseASMNumber(inner);
                         } else {
-                            output[addr++] = split[1].replaceAll(/[\(\)]/g, "");
+                            output[addr++] = inner;
                         }
                     } else {
-                        // const
+                        if (!VALID_NUMBER.test(split[1]) && !Object.prototype.hasOwnProperty.call(labels, split[1])) {
+                            console.error(`Line ${lineNum}: JMP — target '${split[1]}' is not a valid address or label`);
+                            continue;
+                        }
+                        // const/label
                         output[addr++] = 0b11111011; // (PC+) = (R3+)
-                        if (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1])) {
+                        if (VALID_NUMBER.test(split[1])) {
                             output[addr++] = parseASMNumber(split[1]);
                         } else {
                             output[addr++] = split[1];
@@ -830,89 +933,57 @@ function parseASM(asm) {
                     break;
                 case "PUSH":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: PUSH requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
+                        console.error(`Line ${lineNum}: PUSH — expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00010000 | (parseInt(split[1][1]));
                     break;
                 case "POP":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: POP requires exactly 1 parameter`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error("No register as parameter")
+                        console.error(`Line ${lineNum}: POP — expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00010100 | (parseInt(split[1][1]));
                     break;
                 case "JCS":
-                    if (split.length != 2) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    output[addr++] = 0b00100000 | 0b001; // Condition
-                    output[addr++] = split[1];
-                    break;
                 case "JCC":
-                    if (split.length != 2) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    output[addr++] = 0b00100000 | 0b101; // Condition
-                    output[addr++] = split[1];
-                    break;
                 case "JZS":
-                    if (split.length != 2) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    output[addr++] = 0b00100000 | 0b010; // Condition
-                    output[addr++] = split[1];
-                    break;
                 case "JZC":
-                    if (split.length != 2) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    output[addr++] = 0b00100000 | 0b110; // Condition
-                    output[addr++] = split[1];
-                    break;
                 case "JNS":
-                    if (split.length != 2) {
-                        console.error("No parameter match")
-                        continue;
-                    }
-                    output[addr++] = 0b00100000 | 0b011; // Condition
-                    output[addr++] = split[1];
-                    break;
                 case "JNC":
+                case "JR": {
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: ${split[0]} requires exactly 1 parameter`);
                         continue;
                     }
-                    output[addr++] = 0b00100000 | 0b111; // Condition
-                    output[addr++] = split[1];
-                    break;
-                case "JR":
-                    if (split.length != 2) {
-                        console.error("No parameter match")
+                    if (!isValidTarget(split[1])) {
+                        console.error(`Line ${lineNum}: ${split[0]} — target '${split[1]}' is not a valid label or number`);
                         continue;
                     }
-                    output[addr++] = 0b00100000 | 0b000; // Condition
+                    const condBits = { JCS: 0b001, JCC: 0b101, JZS: 0b010, JZC: 0b110, JNS: 0b011, JNC: 0b111, JR: 0b000 };
+                    output[addr++] = 0b00100000 | condBits[split[0]];
                     output[addr++] = split[1];
                     break;
+                }
                 case "CALL":
                     if (split.length != 2) {
-                        console.error("No parameter match")
+                        console.error(`Line ${lineNum}: CALL requires exactly 1 parameter`);
+                        continue;
+                    }
+                    if (!isValidTarget(split[1])) {
+                        console.error(`Line ${lineNum}: CALL — target '${split[1]}' is not a valid label or address`);
                         continue;
                     }
                     output[addr++] = 0b00101000;
-                    if (/^([0-9]+|0B[0-1]+|0X([0-9]|[A-F])+)$/.test(split[1])) {
+                    if (VALID_NUMBER.test(split[1])) {
                         output[addr++] = parseASMNumber(split[1]);
                     } else {
                         output[addr++] = split[1];
@@ -927,7 +998,7 @@ function parseASM(asm) {
                 case "EI":
                 case "DI":
                     if (split.length != 1) {
-                        console.error("No parameter allowed")
+                        console.error(`Line ${lineNum}: ${split[0]} takes no parameters`);
                         continue;
                     }
                     switch (split[0]) {
@@ -959,7 +1030,7 @@ function parseASM(asm) {
                     break;
             
                 default:
-                    console.error("CMD not known")
+                    console.error(`Line ${lineNum}: Unknown instruction '${split[0]}'`);
                     continue;
             }
         }
@@ -968,16 +1039,24 @@ function parseASM(asm) {
     for (let index = 0; index < output.length; index++) {
         const exec = output[index];
         if (typeof exec == "string") {
-            if (Object.keys(labels).includes(exec)) {
-                if ((output[index -1] & 0b11111000) == 0b00100000) {
-                    var value = labels[exec] - (index +1);
+            if (Object.prototype.hasOwnProperty.call(labels, exec)) {
+                if (labels[exec] === null) {
+                    console.error(`Label '${exec}' at output[${index}] was never assigned an address`);
+                    return;
+                }
+                if ((output[index - 1] & 0b11111000) == 0b00100000) {
+                    var value = labels[exec] - (index + 1);
+                    // Check relative jump fits in signed 8-bit (−128..127)
+                    if (value < -128 || value > 127) {
+                        console.warn(`Relative branch to label '${exec}' is out of range (offset ${value}); wrapping to 8-bit`);
+                    }
                 } else {
                     var value = labels[exec];
                 }
                 value = value < 0 ? value + 256 : value;
                 output[index] = value;
             } else {
-                console.error("Unknown label or const");
+                console.error(`Unknown label or constant: '${exec}'`);
                 return;
             }
         }
