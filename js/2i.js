@@ -459,8 +459,48 @@ function clk() {
     parseNextInstr();
 }
 
+function reset() {
+    regs = [0, 0, 0, 0, 0, 0, 0, 0];
+    mrgAddrA = 0;
+    mrgAddrB = 0;
+    mrgWE = false;
+    mrgWS = false;
+    mAluIA = false;
+    mAluIB = false;
+    mAluS = 0;
+    F = 0;
+    CO = false;
+    ZO = false;
+    NO = false;
+    mChFlg = false;
+    CF = false;
+    ZF = false;
+    NF = false;
+
+    currentAddr = 0;
+    nAddr = 0;
+    mAddrCtr = 0;
+
+    busEn = false;
+    busWr = false;
+
+    outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs (FE-FF)
+
+    // UART
+    uartRecvShiftReg = null; // Shift register for receiving data
+    uartRecvReg = 0b00000000; // UART Receive Register (Read to receive) (FB read)
+    uartSendBuffer = null; // UART Send Register (Write to send) (FB write)
+    uartSendShiftReg = null; // Shift register for transmitting data
+    uartStatusReg = 0b00000000; // UART Status Register (FA read) [7: TxReady, 6: TxEmpty, 5: not CTS, 4: TxD, 3: RxD, 2: not RTS, 1: RxFull, 0: RxReady]
+    uartControlReg = 0b00000000; // UART Control Register (FA write) [7: Interupt on RxReady, 6: Interupt on RxFull, 5: TxEmpty, 4: TxReady, 3: 0->CTS/1->Ignore CTS, 2: always 0, 1+0: Baudrate 00: 115200, 01: 38400, 10: 19200, 11: 9600]
+
+    uartRecvRead = true;
+}
+
 function displayBin8bit(value) {
     return (value >>> 0).toString(2).padStart(8, '0').slice(0, 8);
 }
+
+reset();
 
 setInterval(display, 10);

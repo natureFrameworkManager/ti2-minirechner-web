@@ -1479,9 +1479,6 @@ function reset() {
         0b00000000,
     ];
 
-    MPRAM = new Array(512).fill(new Array(28).fill(0).join('')); // 512 x 28 Bit
-    DPRAM = new Array(0xEF +1).fill(0); // Data RAM (00-EF)
-    inputs = {"ff": 0b00000000, "fe": 0b00000000, "fd": 0b00000000, "fc": 0b00000000}; // 4 Inputs (FC-FF)
     outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs (FE-FF)
 
     fillMicrocode();

@@ -279,6 +279,7 @@
                     }
                 }));
                 document.querySelectorAll("#step-btn *").forEach(el => el.addEventListener("click", clk))
+                document.querySelectorAll("#reset-btn *").forEach(el => el.addEventListener("click", reset))
                 document.querySelectorAll("#assemble-btn *").forEach(el => el.addEventListener("click", parseCodeInput))
                 document.querySelectorAll("#clear-btn *").forEach(el => el.addEventListener("click", () => {
                     console.log("Clearing code input and localStorage");
