@@ -409,7 +409,7 @@ function parseASM(asm) {
                 }
                 const labelName = split[1];
                 if (split[1].startsWith("R") || split[1].startsWith("PC")) {
-                    console.error(`Line ${lineNum}: Invalid label name '${labelName}' — conflicts with register name`);
+                    console.error(`Line ${lineNum}: Invalid label name '${labelName}' - conflicts with register name`);
                     continue;
                 }
                 if (!VALID_LABEL_NAME.test(labelName)) {
@@ -429,7 +429,7 @@ function parseASM(asm) {
         } else if (split[0].endsWith(":")) {
             const labelName = split[0].slice(0, split[0].length - 1);
             if (labelName.startsWith("R") || labelName.startsWith("PC")) {
-                console.error(`Line ${lineNum}: Invalid label name '${labelName}' — conflicts with register name`);
+                console.error(`Line ${lineNum}: Invalid label name '${labelName}' - conflicts with register name`);
                 continue;
             }
             if (!VALID_LABEL_NAME.test(labelName)) {
@@ -547,7 +547,7 @@ function parseASM(asm) {
                     }
                     const labelName = split[1];
                     if (labelName.startsWith("R") || labelName.startsWith("PC")) {
-                        console.error(`Line ${lineNum}: Invalid label name '${labelName}' — conflicts with register name`);
+                        console.error(`Line ${lineNum}: Invalid label name '${labelName}' - conflicts with register name`);
                         continue;
                     }
                     labels[labelName] = parseASMNumber(split[2]);
@@ -560,7 +560,7 @@ function parseASM(asm) {
         } else if (split[0].endsWith(":")) {
             const labelName = split[0].slice(0, split[0].length - 1);
             if (labelName.startsWith("R") || labelName.startsWith("PC")) {
-                console.error(`Line ${lineNum}: Invalid label name '${labelName}' — conflicts with register name`);
+                console.error(`Line ${lineNum}: Invalid label name '${labelName}' - conflicts with register name`);
                 continue;
             }
             if (split.length != 1) {
@@ -577,7 +577,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: CLR — expected register R0–R2, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: CLR - expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00000100 | (parseInt(split[1][1]));
@@ -595,11 +595,11 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: ${split[0]} — expected register R0–R2 as first parameter, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: ${split[0]} - expected register R0–R2 as first parameter, got '${split[1]}'`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[2]))) {
-                        console.error(`Line ${lineNum}: ${split[0]} — expected register R0–R2 as second parameter, got '${split[2]}'`);
+                        console.error(`Line ${lineNum}: ${split[0]} - expected register R0–R2 as second parameter, got '${split[2]}'`);
                         continue;
                     }
                     switch (split[0]) {
@@ -641,7 +641,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: INC — expected register R0–R2, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: INC - expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01000100 | (parseInt(split[1][1]));
@@ -658,7 +658,7 @@ function parseASM(asm) {
                         output[addr++] = split[1];
                     } else {
                         // TODO: handle not addr or label
-                        console.error(`Line ${lineNum}: DEC — expected register R0–R2, address, or label, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: DEC - expected register R0–R2, address, or label, got '${split[1]}'`);
                         continue;
                     }
                     break;
@@ -668,7 +668,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: NEG — expected register R0–R2, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: NEG - expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00110100 | (parseInt(split[1][1]));
@@ -679,7 +679,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: COM — expected register R0–R2, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: COM - expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00110000 | (parseInt(split[1][1]));
@@ -690,7 +690,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: LSR — expected register R0–R2, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: LSR - expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00111000 | (parseInt(split[1][1]));
@@ -701,7 +701,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: ASR — expected register R0–R2, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: ASR - expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00111100 | (parseInt(split[1][1]));
@@ -712,7 +712,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: LSL — expected register R0–R2, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: LSL - expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01100000 | (parseInt(split[1][1]) << 2) | (parseInt(split[1][1]));
@@ -723,7 +723,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: RRC — expected register R0–R2, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: RRC - expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01000000 | (parseInt(split[1][1]));
@@ -734,7 +734,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: RLC — expected register R0–R2, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: RLC - expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01110000 | (parseInt(split[1][1]) << 2) | (parseInt(split[1][1]));
@@ -745,7 +745,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: TST — expected register R0–R2, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: TST - expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01001000 | (parseInt(split[1][1]));
@@ -782,7 +782,7 @@ function parseASM(asm) {
                         VALID_NUMBER.test(split[2].replaceAll(/[\(\)]/g, "")) || // const, (addr)
                         Object.prototype.hasOwnProperty.call(labels, split[2].replaceAll(/[\(\)]/g, "")) // label
                     )) {
-                        console.error(`Line ${lineNum}: ${split[0]} — invalid destination '${split[2]}': expected register, const, address, or label`);
+                        console.error(`Line ${lineNum}: ${split[0]} - invalid destination '${split[2]}': expected register, const, address, or label`);
                         continue;
                     }
                     if (!(
@@ -790,7 +790,7 @@ function parseASM(asm) {
                         (VALID_NUMBER.test(split[1].replaceAll(/[\(\)]/g, "")) && split[1].startsWith("(") && split[1].endsWith(")")) || // (addr) only
                         Object.prototype.hasOwnProperty.call(labels, split[1].replaceAll(/[\(\)]/g, "")) // label
                     )) {
-                        console.error(`Line ${lineNum}: ${split[0]} — invalid source '${split[1]}': expected register, (address), or label`);
+                        console.error(`Line ${lineNum}: ${split[0]} - invalid source '${split[1]}': expected register, (address), or label`);
                         continue;
                     }
                     // dst
@@ -847,7 +847,7 @@ function parseASM(asm) {
                             output[addr++] = split[1].replaceAll(/[\(\)]/g, "");
                         }
                     } else {
-                        console.error(`Line ${lineNum}: ${split[0]} — source '${split[1]}' is not a register or address`);
+                        console.error(`Line ${lineNum}: ${split[0]} - source '${split[1]}' is not a register or address`);
                         continue;
                     }
                     break;
@@ -862,7 +862,7 @@ function parseASM(asm) {
                         VALID_NUMBER.test(split[1].replaceAll(/[\(\)]/g, "")) || // const, (addr)
                         Object.prototype.hasOwnProperty.call(labels, split[1].replaceAll(/[\(\)]/g, "")) // label
                     )) {
-                        console.error(`Line ${lineNum}: ${split[0]} — invalid operand '${split[1]}': expected register, const, address, or label`);
+                        console.error(`Line ${lineNum}: ${split[0]} - invalid operand '${split[1]}': expected register, const, address, or label`);
                         continue;
                     }
                     // dst
@@ -908,7 +908,7 @@ function parseASM(asm) {
                     if (split[1].startsWith("(") && split[1].endsWith(")")) {
                         const inner = split[1].replaceAll(/[\(\)]/g, "");
                         if (!VALID_NUMBER.test(inner) && !Object.prototype.hasOwnProperty.call(labels, inner)) {
-                            console.error(`Line ${lineNum}: JMP — indirect target '${inner}' is not a valid address or label`);
+                            console.error(`Line ${lineNum}: JMP - indirect target '${inner}' is not a valid address or label`);
                             continue;
                         }
                         // (addr)
@@ -920,7 +920,7 @@ function parseASM(asm) {
                         }
                     } else {
                         if (!VALID_NUMBER.test(split[1]) && !Object.prototype.hasOwnProperty.call(labels, split[1])) {
-                            console.error(`Line ${lineNum}: JMP — target '${split[1]}' is not a valid address or label`);
+                            console.error(`Line ${lineNum}: JMP - target '${split[1]}' is not a valid address or label`);
                             continue;
                         }
                         // const/label
@@ -939,7 +939,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: PUSH — expected register R0–R2, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: PUSH - expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00010000 | (parseInt(split[1][1]));
@@ -950,7 +950,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        console.error(`Line ${lineNum}: POP — expected register R0–R2, got '${split[1]}'`);
+                        console.error(`Line ${lineNum}: POP - expected register R0–R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00010100 | (parseInt(split[1][1]));
@@ -967,7 +967,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!isValidTarget(split[1])) {
-                        console.error(`Line ${lineNum}: ${split[0]} — target '${split[1]}' is not a valid label or number`);
+                        console.error(`Line ${lineNum}: ${split[0]} - target '${split[1]}' is not a valid label or number`);
                         continue;
                     }
                     const condBits = { JCS: 0b001, JCC: 0b101, JZS: 0b010, JZC: 0b110, JNS: 0b011, JNC: 0b111, JR: 0b000 };
@@ -981,7 +981,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!isValidTarget(split[1])) {
-                        console.error(`Line ${lineNum}: CALL — target '${split[1]}' is not a valid label or address`);
+                        console.error(`Line ${lineNum}: CALL - target '${split[1]}' is not a valid label or address`);
                         continue;
                     }
                     output[addr++] = 0b00101000;
