@@ -478,7 +478,7 @@ function parseASM(asm) {
                     }
                     const newAddr = parseASMNumber(split[1]);
                     if (isNaN(newAddr) || newAddr < 0 || newAddr > 0xFF) {
-                        addError(`Line ${lineNum}: .ORG value ${split[1]} is out of range (0–255)`);
+                        addError(`Line ${lineNum}: .ORG value ${split[1]} is out of range (0-255)`);
                         continue;
                     }
                     addr = newAddr;
@@ -512,7 +512,7 @@ function parseASM(asm) {
                             continue;
                         }
                         if (val < -128 || val > 0xFF) {
-                            addWarn(`Line ${lineNum}: .DB value ${val} is out of byte range (−128–255), truncated`);
+                            addWarn(`Line ${lineNum}: .DB value ${val} is out of byte range (−128-255), truncated`);
                         }
                         if (addr > 0xFF) {
                             addError(`Line ${lineNum}: .DB write at address 0x${addr.toString(16).toUpperCase()} exceeds memory limit`);
@@ -533,7 +533,7 @@ function parseASM(asm) {
                             continue;
                         }
                         if (val < 0 || val > 0xFFFF) {
-                            addWarn(`Line ${lineNum}: .DW value ${val} is out of word range (0–65535), truncated`);
+                            addWarn(`Line ${lineNum}: .DW value ${val} is out of word range (0-65535), truncated`);
                         }
                         if (addr + 1 > 0xFF) {
                             addError(`Line ${lineNum}: .DW write at address 0x${addr.toString(16).toUpperCase()} exceeds memory limit`);
@@ -581,7 +581,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: CLR - expected register R0–R2, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: CLR - expected register R0-R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00000100 | (parseInt(split[1][1]));
@@ -599,11 +599,11 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: ${split[0]} - expected register R0–R2 as first parameter, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: ${split[0]} - expected register R0-R2 as first parameter, got '${split[1]}'`);
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[2]))) {
-                        addError(`Line ${lineNum}: ${split[0]} - expected register R0–R2 as second parameter, got '${split[2]}'`);
+                        addError(`Line ${lineNum}: ${split[0]} - expected register R0-R2 as second parameter, got '${split[2]}'`);
                         continue;
                     }
                     switch (split[0]) {
@@ -645,7 +645,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: INC - expected register R0–R2, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: INC - expected register R0-R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01000100 | (parseInt(split[1][1]));
@@ -662,7 +662,7 @@ function parseASM(asm) {
                         output[addr++] = split[1];
                     } else {
                         // TODO: handle not addr or label
-                        addError(`Line ${lineNum}: DEC - expected register R0–R2, address, or label, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: DEC - expected register R0-R2, address, or label, got '${split[1]}'`);
                         continue;
                     }
                     break;
@@ -672,7 +672,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: NEG - expected register R0–R2, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: NEG - expected register R0-R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00110100 | (parseInt(split[1][1]));
@@ -683,7 +683,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: COM - expected register R0–R2, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: COM - expected register R0-R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00110000 | (parseInt(split[1][1]));
@@ -694,7 +694,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: LSR - expected register R0–R2, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: LSR - expected register R0-R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00111000 | (parseInt(split[1][1]));
@@ -705,7 +705,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: ASR - expected register R0–R2, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: ASR - expected register R0-R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00111100 | (parseInt(split[1][1]));
@@ -716,7 +716,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: LSL - expected register R0–R2, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: LSL - expected register R0-R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01100000 | (parseInt(split[1][1]) << 2) | (parseInt(split[1][1]));
@@ -727,7 +727,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: RRC - expected register R0–R2, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: RRC - expected register R0-R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01000000 | (parseInt(split[1][1]));
@@ -738,7 +738,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: RLC - expected register R0–R2, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: RLC - expected register R0-R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01110000 | (parseInt(split[1][1]) << 2) | (parseInt(split[1][1]));
@@ -749,7 +749,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: TST - expected register R0–R2, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: TST - expected register R0-R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b01001000 | (parseInt(split[1][1]));
@@ -943,7 +943,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: PUSH - expected register R0–R2, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: PUSH - expected register R0-R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00010000 | (parseInt(split[1][1]));
@@ -954,7 +954,7 @@ function parseASM(asm) {
                         continue;
                     }
                     if (!(/^R[0-2]$/.test(split[1]))) {
-                        addError(`Line ${lineNum}: POP - expected register R0–R2, got '${split[1]}'`);
+                        addError(`Line ${lineNum}: POP - expected register R0-R2, got '${split[1]}'`);
                         continue;
                     }
                     output[addr++] = 0b00010100 | (parseInt(split[1][1]));
