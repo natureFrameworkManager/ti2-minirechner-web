@@ -1067,7 +1067,6 @@ function parseASM(asm) {
             }
         }
     }
-    displayError(messages)
     return output.map(el => el);
 }
 
@@ -1594,6 +1593,7 @@ function reset() {
 
 function parseFromTextarea() {
     var tram = parseASM(document.querySelector("#a-con #code-input").value);
+    displayError(messages)
     for (let index = 0; index < 0xEF +1; index++) {
         if (tram[index] === undefined) {
             tram[index] = 0;
