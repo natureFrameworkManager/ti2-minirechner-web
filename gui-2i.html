@@ -7,6 +7,67 @@
         <link rel="stylesheet" href="css/css.css">
         <link rel="stylesheet" href="css/font.css" />
 
+        <!-- Bugsink Error Tracking with Sentry SDK -->
+        <script src="js/bundle.tracing.min.js"></script>
+        <script>
+            Sentry.init({
+                dsn: "http://7ec7b01388da44d59446d39cda560c79@bugsink.casparkroll.de/1",
+                sendDefaultPii: true,
+                release: "0.9.0",  
+            });
+        </script>
+        <!-- Umami Analytics -->
+        <script defer src="https://analytics.casparkroll.de/script.js" data-website-id="a12b6576-589a-40f0-9c11-8c9709d767b1" data-performance="true" data-do-not-track="true"></script>
+        <script>
+            function setUmamiTrackers() {
+                // custom event tracking
+                document.querySelectorAll("#assemble-btn").forEach(el => el.addEventListener("click", () => {
+                    const code = document.querySelector("#code-input").value;
+                    if (code === sampleProgram) {
+                        umami.track("assemble_sample_code");
+                    } else {
+                        umami.track("assemble_code");
+                    }
+                }));
+                document.querySelectorAll("#clk-switch *").forEach(el => el.addEventListener("click", () => {
+                    const isRunning = [...document.querySelectorAll("#clk-switch-on")].some(el => el.style.display !== 'none');
+                    if (isRunning && document.querySelector("#code-input").value === sampleProgram) {
+                        umami.track("run_sample_code");
+                    } else {
+                        umami.track(isRunning ? "stop_clock" : "start_clock", {interval: clkTime});
+                    }
+                }));
+                document.querySelectorAll("#step-btn *").forEach(el => el.addEventListener("click", () => {
+                    umami.track("step_clock");
+                }));
+                document.querySelectorAll("#reset-btn *").forEach(el => el.addEventListener("click", () => {
+                    umami.track("reset");
+                }));
+                document.querySelectorAll("#clear-btn *").forEach(el => el.addEventListener("click", () => {
+                    umami.track("clear_code");
+                }));
+                document.querySelectorAll("#memory-map-toggle").forEach(el => el.addEventListener("click", () => {
+                    console.log("Toggling memory map panel");
+                    umami.track("show_memory_map");
+                }));
+                document.querySelectorAll("#expansion-board-toggle").forEach(el => el.addEventListener("click", () => {
+                    umami.track("show_expansion_board");
+                }));
+                document.querySelectorAll("#uart-toggle").forEach(el => el.addEventListener("click", () => {
+                    umami.track("show_uart");
+                }));
+                document.querySelectorAll("#code-editor-toggle").forEach(el => el.addEventListener("click", () => {
+                    umami.track("show_code_editor");
+                }));
+                document.querySelectorAll("#board-select").forEach(el => el.addEventListener("click", () => {
+                    umami.track("switch_board", {board: "2a"});
+                }));
+                document.querySelectorAll("#code-input").forEach(el => el.addEventListener("input", () => {
+                    umami.track("edit_code");
+                }));
+            }
+        </script>
+
         <title>Minirechner 2i</title>
     </head>
     <body id="a-con">
@@ -367,6 +428,8 @@
                 setInterval(() => {
                     microramBCGUI.postMessage({msg: "request-state"});
                 }, 1000);
+
+                setUmamiTrackers();
             })();
         </script>
     </body>
