@@ -6,6 +6,7 @@
 
 // Connection to the memory broadcast channel
 const memBC = new BroadcastChannel("memory-channel"); 
+const mramBC = new BroadcastChannel("microram-channel"); 
 let displayOnly = false;
 
 let regs = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -55,6 +56,12 @@ memBC.onmessage = (ev) => {
     }
 }
 
+mramBC.onmessage = (ev) => {
+    if (ev.data.msg === "request-state") {
+        mramBC.postMessage({msg: "state", data: MPRAM, architecture: "i"});
+    }
+}
+
 function parseCodeInput() {
     let codeInput = document.querySelector("#code-input").value;
     codeInput = codeInput.trim().split('\n');
@@ -74,6 +81,7 @@ function parseCodeInput() {
     }
     addr = addr.map(line => line ? line.replace(/ /g, '') : "0000000000000000000000000");
     MPRAM = addr;
+    mramBC.postMessage({msg: "update", data: MPRAM, architecture: "i"});
 }
 
 

@@ -17,15 +17,17 @@
                 <div class="material-icons-round invisible" onclick="document.querySelector('#settings-overlay').style.display = ''">settings</div>
             </div>
             <div class="col-1 row-2 flex flex-col items-start gap-y-4 h-[calc(100dvh-56px-24px)]" id="left-con">
-                <div class="panel" id="memory-map-con">
+                <div class="panel hide" id="memory-map-con">
                     <div class="bg-[#2B2930] rounded-e flex flex-col h-full">
                         <div class="bg-[#2B2930] top-bar rounded-e">
                             <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#memory-map-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span class="hidden!">open_in_new</span></div>
-                            <div class="title">Memory Map</div>
+                            <div class="title"><span id="memory-map-title">Mikroprogramm Memory Map</span> <div id="swap-map" class="material-icons-round">change_circle</div></div>
                             <div class="material-icons-round" onclick="hide('memory-map')">expand_more</div>
                         </div>
                         <div class="flex-1 min-h-0 overflow-auto">
-                            <div class="grid grid-cols-[2fr_repeat(8,1fr)] gap-x-2 p-4 text-sm h-full" style="font-family: monospace;" id="memory-map-content">
+                            <div class="grid grid-cols-[2fr_repeat(8,1fr)] gap-x-2 p-4 text-sm h-full hidden" style="font-family: monospace;" id="memory-map-content">
+                            </div>
+                            <div class="grid grid-cols-[max-content_auto] gap-x-2 p-4 text-sm tracking-wide h-full" style="font-family: monospace;" id="microram-map-content">
                             </div>
                         </div>
                     </div>
@@ -47,7 +49,7 @@
                 </div>
                 <div class="@container-[size] h-full max-h-1/5 flex gap-x-2 w-full">
                     <div class="flex flex-col justify-end gap-y-2">
-                        <div class="flex flex-row-reverse panel-toggle" id="memory-map-toggle">
+                        <div class="flex flex-row-reverse panel-toggle shown" id="memory-map-toggle">
                             <div class="bg-[#2B2930] rounded text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12 material-icons-round" onclick="shown('memory-map')">map</div>
                         </div>
                         <div class="flex flex-row-reverse panel-toggle hidden!" id="expansion-board-toggle">
@@ -178,6 +180,23 @@
                 }
                 document.querySelector("#memory-map-content").innerHTML = html;
             };
+            function formatMicroramInstruction(str) {
+                // 0000001000001100010111000 -> 00 00001 00 000 1100 01 01 1100 0
+                return `${str.substring(0, 2)} ${str.substring(2, 7)} ${str.substring(7, 9)} ${str.substring(9, 12)} ${str.substring(12, 16)} ${str.substring(16, 18)} ${str.substring(18, 20)} ${str.substring(20, 24)} ${str.substring(24, 25)}`;
+            }
+            function updateMicroramMapContent(data) {
+                var html = '<span>Addr</span><span style="grid-column: 2/-1; text-align: center;">Data</span>';
+                for (let i = 0; i < data.length; i++) {
+                    html += '<span>' + i.toString(2).toUpperCase().padStart(5, '0') + ':</span>';
+                    html += '<span>' + formatMicroramInstruction(data[i].toString(2).toUpperCase().padStart(25, '0')) + '</span>';
+                }
+                document.querySelector("#microram-map-content").innerHTML = html;
+            };
+            document.querySelectorAll("#swap-map").forEach(el => el.addEventListener("click", () => {
+                document.querySelector("#memory-map-title").textContent = document.querySelector("#memory-map-title").textContent === "Memory Map" ? "Mikroprogramm Memory Map" : "Memory Map";
+                document.querySelector("#memory-map-content").classList.toggle("hidden");
+                document.querySelector("#microram-map-content").classList.toggle("hidden");
+            }));
 
             document.querySelectorAll("#code-input").forEach(el => el.addEventListener("input", (ev) => {
                 localStorage.setItem("minirechner-2i-code", ev.target.value);
@@ -332,9 +351,18 @@
                         updateMemoryMapContent(ev.data.data);
                     }
                 };
+                const microramBCGUI = new BroadcastChannel("microram-channel");
+                microramBCGUI.onmessage = (ev) => {
+                    if ((ev.data.msg === "update" || ev.data.msg == "state") && ev.data.architecture === "i") {
+                        updateMicroramMapContent(ev.data.data);
+                    }
+                };
 
                 setInterval(() => {
                     memBCGUI.postMessage({msg: "request-state"});
+                }, 1000);
+                setInterval(() => {
+                    microramBCGUI.postMessage({msg: "request-state"});
                 }, 1000);
             })();
         </script>

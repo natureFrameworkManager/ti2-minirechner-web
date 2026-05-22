@@ -5,6 +5,18 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
+::-webkit-scrollbar {
+    @apply w-1.25 h-1.25;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply rounded-[4px] bg-gray-500;
+}
+
 div.top-bar {
     @apply min-h-[56px] h-fit flex justify-between items-center gap-x-2 px-1 py-1 z-10 w-full;
 }
