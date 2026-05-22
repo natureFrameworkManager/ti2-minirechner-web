@@ -434,9 +434,16 @@ function displayCtrl() {
     document.querySelectorAll(`svg .buswr`).forEach(el => el.setAttribute("fill", (busWr ? "yellow" : "slategray")));
     document.querySelectorAll(`svg .am1`).forEach(el => el.setAttribute("fill", (getAddrMux() ? "yellow" : "slategray")));
 }
+function displayUart() {
+    document.querySelectorAll(`svg .tx`).forEach(el => el.setAttribute("fill", (uartSendBuffer !== null ? "yellow" : "slategray")));
+    document.querySelectorAll(`svg .txd`).forEach(el => el.setAttribute("fill", (uartSendShiftReg !== null ? "yellow" : "slategray")));
+    document.querySelectorAll(`svg .rx`).forEach(el => el.setAttribute("fill", (!uartRecvRead ? "yellow" : "slategray")));
+    document.querySelectorAll(`svg .rxd`).forEach(el => el.setAttribute("fill", (uartRecvShiftReg !== null ? "yellow" : "slategray")));
+}
 function display() {
     displayOnly = true;
     setUartStatus();
+    displayUart();
     displayReg();
     displayMem();
     displayAlu();
