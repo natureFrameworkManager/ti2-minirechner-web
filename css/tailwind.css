@@ -135,6 +135,6 @@ select {
     @apply bg-[#E6E0E9];
 }
 
-#step-btn, #clk-switch {
+#step-btn, #clk-switch, #ff-in-btn, #fe-in-btn, #fc-in-btn, #fd-in-btn, #faster-btn, #slower-btn, #up-btn, #down-btn {
     @apply cursor-pointer
 }
