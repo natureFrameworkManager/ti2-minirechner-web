@@ -1,8 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Bugsink Error Tracking with Sentry SDK -->
+        <script src="js/bundle.tracing.min.js"></script>
+        <script src="js/contextlines.min.js"></script>
+        <script src="js/captureconsole.min.js"></script>
+        <script>
+            Sentry.init({
+                dsn: "http://7ec7b01388da44d59446d39cda560c79@bugsink.casparkroll.de/1",
+                sendDefaultPii: false,
+                release: "0.9.0",  
+                attachStacktrace: true,
+                integrations: [Sentry.contextLinesIntegration(), Sentry.captureConsoleIntegration(['warn', 'error'])],
+            });
+        </script>
+        <!-- Umami Analytics -->
+        <script defer src="https://analytics.casparkroll.de/script.js" data-website-id="a12b6576-589a-40f0-9c11-8c9709d767b1" data-performance="true" data-do-not-track="true"></script>
+
         <title>RAM Visualizer</title>
     </head>
     <body>
