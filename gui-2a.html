@@ -355,6 +355,33 @@ MY_SUBROUTINE:
                         sendUartData();
                     }
                 }));
+
+                let selectedInput = null;
+                document.querySelectorAll("#slower-btn").forEach(el => el.addEventListener("click", () => {
+                    inputs[selectedInput] = (inputs[selectedInput] << 1) & 0xFF;
+                }));
+                document.querySelectorAll("#faster-btn").forEach(el => el.addEventListener("click", () => {
+                    inputs[selectedInput] = ((inputs[selectedInput] << 1) | 1) & 0xFF;
+                }));
+                document.querySelectorAll("#down-btn").forEach(el => el.addEventListener("click", () => {
+                    inputs[selectedInput] = (inputs[selectedInput] - 1) & 0xFF;
+                }));
+                document.querySelectorAll("#up-btn").forEach(el => el.addEventListener("click", () => {
+                    inputs[selectedInput] = (inputs[selectedInput] + 1) & 0xFF;
+                }));
+
+                ["ff", "fe", "fc", "fd"].forEach(otherInput => {
+                    document.querySelectorAll(`.${otherInput}-in-t`).forEach(el => el.setAttribute("fill", "slategray"));
+                });
+                for (const input of ["ff", "fe", "fc", "fd"]) {
+                    document.querySelectorAll(`#${input}-in-btn`).forEach(el => el.addEventListener("click", () => {
+                        ["ff", "fe", "fc", "fd"].forEach(otherInput => {
+                            document.querySelectorAll(`.${otherInput}-in-t`).forEach(el => el.setAttribute("fill", "slategray"));
+                        });
+                        document.querySelectorAll(`.${input}-in-t`).forEach(el => el.setAttribute("fill", "yellow"));
+                        selectedInput = input;
+                    }));
+                }
                 
                 const memBCGUI = new BroadcastChannel("memory-channel"); 
                 memBCGUI.onmessage = (ev) => {

@@ -6,6 +6,7 @@
 
 // Connection to the memory broadcast channel
 const memBC = new BroadcastChannel("memory-channel"); 
+let displayOnly = false;
 
 let regs = [0, 0, 0, 0, 0, 0, 0, 0];
 let mrgAddrA = 0;
@@ -32,12 +33,21 @@ let busEn = false;
 let busWr = false;
 
 let MPRAM = new Array(32).fill(new Array(25).fill(0).join('')); // 32 x 25 Bit
-MPRAM[0] = "0000000110000000010101010"; // Example Instruction
 
 let DPRAM = new Array(0xEF +1).fill("00000000"); // Data RAM (00-EF)
 
 let inputs = {"ff": 0b00000000, "fe": 0b00000000, "fd": 3, "fc": 7}; // 4 Inputs (FC-FF)
 let outputs = {"ff": 0b00000000, "fe": 0b00000000}; // 2 Outputs (FE-FF)
+
+// UART
+let uartRecvShiftReg = null; // Shift register for receiving data
+let uartRecvReg = 0b00000000; // UART Receive Register (Read to receive) (FB read)
+let uartSendBuffer = null; // UART Send Register (Write to send) (FB write)
+let uartSendShiftReg = null; // Shift register for transmitting data
+let uartStatusReg = 0b00000000; // UART Status Register (FA read) [7: TxReady, 6: TxEmpty, 5: not CTS, 4: TxD, 3: RxD, 2: not RTS, 1: RxFull, 0: RxReady]
+let uartControlReg = 0b00000000; // UART Control Register (FA write) [7: Interupt on RxReady, 6: Interupt on RxFull, 5: TxEmpty, 4: TxReady, 3: 0->CTS/1->Ignore CTS, 2: always 0, 1+0: Baudrate 00: 115200, 01: 38400, 10: 19200, 11: 9600]
+
+let uartRecvRead = true;
 
 memBC.onmessage = (ev) => {
     if (ev.data.msg === "request-state") {
@@ -161,6 +171,16 @@ function getMemBus() {
         if (getMemAddr() >= 0xFC && getMemAddr() <= 0xFF) {
             return inputs[getMemAddr().toString(16)];
         }
+        // UART 
+        if (getMemAddr() === 0xFA && !busWr) {
+            if (!displayOnly) {
+                uartRecvRead = true;
+            }
+            return uartRecvReg;
+        }
+        if (getMemAddr() === 0xFB) {
+            return uartStatusReg;
+        }
     } else {
         return 0b00000000;
     }
@@ -175,6 +195,17 @@ function setMemBus() {
         if (getMemAddr() >= 0xFE && getMemAddr() <= 0xFF) {
             if (busWr) {
                 outputs[getMemAddr().toString(16)] = (F & 0xFF);
+            }
+        }
+        // UART
+        if (getMemAddr() == 0xFA) {
+            if (CTRL.busWr) {
+                uartSendBuffer = (F & 0xFF);
+            }
+        }
+        if (getMemAddr() == 0xFB) {
+            if (CTRL.busWr) {
+                uartControlReg = (F & 0xFF);
             }
         }
     }
@@ -272,6 +303,53 @@ function alu() {
     ZO = (F_signed === 0);
     NO = (F_signed < 0);
 }
+// UART Updates
+function setUartStatus() {
+    uartStatusReg = 0b00000000;
+    uartStatusReg = 0b00000000 | 
+    (uartSendBuffer === null ? 0b10000000 : 0) | // TxReady: Ready to accept new data to send
+    (uartSendBuffer === null && uartSendShiftReg === null ? 0b01000000 : 0) | // TxEmpty: No data waiting to be sent
+    (uartSendBuffer !== null && uartSendShiftReg !== null ? 0b00100000 : 0) | // No CTS
+    (false ? 0b00010000 : 0) | // TxD: Current output value on Tx line
+    (false ? 0b00001000 : 0) | // RxD: Current input value on Rx line
+    (uartRecvShiftReg !== null ? 0b00000100 : 0) | // No RTS: UART can't accept new data to receive;
+    (!uartRecvRead && uartRecvShiftReg !== null ? 0b00000010 : 0) | // RxFULL: Data received and waiting to be read
+    (!uartRecvRead ? 0b00000001 : 0); // RxREADY: Data received and ready to be read
+
+}
+function updateUartTransmission() {
+    // Send 
+    if (uartSendShiftReg === null && uartSendBuffer !== null) {
+        uartSendShiftReg = uartSendBuffer;
+        uartSendBuffer = null;
+    }
+    // Receive
+    if (uartRecvRead && uartRecvShiftReg !== null) {
+        uartRecvReg = uartRecvShiftReg;
+        uartRecvShiftReg = null;
+        uartRecvRead = false;
+    }
+
+    // Set baudrate
+    var baudrateFlag = uartControlReg & 0x00000011;
+    let baudrate = 115200;
+    switch (baudrateFlag) {
+        case 0b00:
+            baudrate = 115200
+            break;
+        case 0b01: 
+            baudrate = 38400
+            break;
+        case 0b10: 
+            baudrate = 19200
+            break;
+        case 0b11: 
+            baudrate = 9600
+            break;
+    }
+    setTimeout(updateUartTransmission, (1000000 / (baudrate)));
+}
+updateUartTransmission()
 
 function displayReg() {
     displayMrgAddr();
@@ -349,11 +427,14 @@ function displayCtrl() {
     document.querySelectorAll(`svg .am1`).forEach(el => el.setAttribute("fill", (getAddrMux() ? "yellow" : "slategray")));
 }
 function display() {
+    displayOnly = true;
+    setUartStatus();
     displayReg();
     displayMem();
     displayAlu();
     displayCtrl();
     alu();
+    displayOnly = false;
 }
 
 function clk() {
