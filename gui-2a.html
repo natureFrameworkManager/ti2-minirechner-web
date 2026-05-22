@@ -238,6 +238,8 @@ MY_SUBROUTINE:
             document.querySelectorAll("#code-input").forEach(el => el.addEventListener("input", (ev) => {
                 localStorage.setItem("minirechner-2a-code", ev.target.value);
             }));
+
+            let clkTime = 100;
             
             (async () => {
                 let cons = [
@@ -305,7 +307,7 @@ MY_SUBROUTINE:
                 var interval = null;
                 document.querySelectorAll("#clk-switch *").forEach(el => el.addEventListener("click", () => {
                     if (interval === null) {
-                        interval = setInterval(clk, 100);
+                        interval = setInterval(clk, clkTime);
                         document.querySelectorAll("#clk-switch-on").forEach(el => el.style.display = '');
                         document.querySelectorAll("#clk-switch-off").forEach(el => el.style.display = 'none')
                     } else {

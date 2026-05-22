@@ -202,6 +202,8 @@
                 localStorage.setItem("minirechner-2i-code", ev.target.value);
             }));
 
+            let clkTime = 100;
+
             (async () => {
                 let cons = [
                     {
@@ -268,7 +270,7 @@
                 var interval = null;
                 document.querySelectorAll("#clk-switch *").forEach(el => el.addEventListener("click", () => {
                     if (interval === null) {
-                        interval = setInterval(clk, 100);
+                        interval = setInterval(clk, clkTime);
                         document.querySelectorAll("#clk-switch-on").forEach(el => el.style.display = '');
                         document.querySelectorAll("#clk-switch-off").forEach(el => el.style.display = 'none')
                     } else {
