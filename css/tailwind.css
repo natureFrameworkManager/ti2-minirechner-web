@@ -14,11 +14,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    @apply rounded-[4px] bg-gray-500;
+    @apply rounded-sm bg-gray-500;
 }
 
 div.top-bar {
-    @apply min-h-[56px] h-fit flex justify-between items-center gap-x-2 px-1 py-1 z-10 w-full;
+    @apply min-h-14 h-fit flex justify-between items-center gap-x-2 px-1 py-1 z-10 w-full;
 }
 div.top-bar a.material-icons-round, div.top-bar div.material-icons-round {
     @apply text-[24px] flex! items-center justify-center cursor-pointer w-fit min-w-12 h-12;
@@ -91,7 +91,7 @@ div.controls-con {
 
 /* Credits: https://flowbite.com/docs/forms/select/ */
 select {
-    @apply w-[140px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+    @apply w-35 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
 }
 
 /* Credit: https://tailwindflex.com/@nickgirga/material-3-switches-light */
