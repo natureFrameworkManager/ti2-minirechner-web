@@ -22,7 +22,7 @@
                         <div class="bg-[#2B2930] top-bar rounded-e">
                             <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#memory-map-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
                             <div class="title">Memory Map</div>
-                            <div class="material-icons-round" onclick="hide('memory-map')">close</div>
+                            <div class="material-icons-round" onclick="hide('memory-map')">expand_more</div>
                         </div>
                         <div class="flex-1 min-h-0 overflow-auto">
                             <div class="grid grid-cols-[2fr_repeat(8,1fr)] gap-x-2 p-4 text-sm h-full" style="font-family: monospace;" id="memory-map-content">
@@ -35,7 +35,7 @@
                         <div class="bg-[#2B2930] top-bar rounded-e">
                             <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#expansion-board-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
                             <div class="title">Erweiterungs<wbr />board</div>
-                            <div class="material-icons-round" onclick="hide('expansion-board')">close</div>
+                            <div class="material-icons-round" onclick="hide('expansion-board')">expand_more</div>
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                         <div class="bg-[#2B2930] top-bar rounded-s">
                             <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#uart-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span>open_in_new</span></div>
                             <div class="title">UART-Konsole</div>
-                            <div class="material-icons-round" onclick="hide('uart')">close</div>
+                            <div class="material-icons-round" onclick="hide('uart')">expand_more</div>
                         </div>
                         <div class="h-full">
                             <textarea id="uart-terminal" style="width: 100%; height: 100%; background: #1a1620; color: #00ff00; font-family: monospace; border: none; padding: 10px; resize: none;"></textarea>
