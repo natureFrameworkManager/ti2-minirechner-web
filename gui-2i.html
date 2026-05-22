@@ -9,11 +9,15 @@
 
         <!-- Bugsink Error Tracking with Sentry SDK -->
         <script src="js/bundle.tracing.min.js"></script>
+        <script src="js/contextlines.min.js"></script>
+        <script src="js/captureconsole.min.js"></script>
         <script>
             Sentry.init({
                 dsn: "http://7ec7b01388da44d59446d39cda560c79@bugsink.casparkroll.de/1",
                 sendDefaultPii: true,
                 release: "0.9.0",  
+                attachStacktrace: true,
+                integrations: [Sentry.contextLinesIntegration(), Sentry.captureConsoleIntegration()],
             });
         </script>
         <!-- Umami Analytics -->
