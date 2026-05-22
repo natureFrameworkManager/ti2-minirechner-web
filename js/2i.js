@@ -63,6 +63,10 @@ mramBC.onmessage = (ev) => {
 }
 
 function parseCodeInput() {
+    const messages = [];
+    function addError(...args) { messages.push({level: 'error', text: args.join('')}); }
+    function addWarn(...args) { messages.push({level: 'warn', text: args.join('')}); }
+
     let codeInput = document.querySelector("#code-input").value;
     codeInput = codeInput.trim().split('\n');
     codeInput = codeInput.map(line => line.trim().split('#')[0].trim());
@@ -70,22 +74,27 @@ function parseCodeInput() {
     codeInput = codeInput.map(line => line.split(':'));
     codeInput.forEach((line, index) => {
         if (line.length > 2) {
-            console.error("Line has two much colons at line ", index + 1, ": ", line.join(":"));
+            addError("Line has two much colons at line ", index + 1, ": ", line.join(":"));
+            return
         } else {
             if (line.length == 2 && line[0].length === 0) {
-                console.error("Line has empty address field at line ", index + 1, ": :", line[1]);
+                addError("Line has empty address field at line ", index + 1, ": :", line[1]);
+                return
             }
             if (line.length == 2 && line[1].length === 0) {
-                console.error("Line has empty data field at line ", index + 1, ": ", line[0], ":");
+                addError("Line has empty data field at line ", index + 1, ": ", line[0], ":");
+                return
             }
             if ((line.length == 2 && line[1].replace(/^0+/, '').length > 25) || (line.length == 1 && line[0].replace(/^0+/, '').length > 25)) {
-                console.error("Line has to much bits in instructions at line ", index + 1, ": ", line.join(":"));
+                addError("Line has to much bits in instructions at line ", index + 1, ": ", line.join(":"));
+                return
             } 
             if (line.length == 2 && parseInt(line[0], 2) > 0b11111) {
-                console.error("Line has invalid address at line ", index + 1, ": ", line.join(":"));
+                addError("Line has invalid address at line ", index + 1, ": ", line.join(":"));
+                return
             }
             if ((line.length == 2 && line[1].length < 25) || (line.length == 1 && line[0].length < 25)) {
-                console.warn("Line has less than 25 bits in instructions at line ", index + 1, ": ", line.join(":"));
+                addWarn("Line has less than 25 bits in instructions at line ", index + 1, ": ", line.join(":"));
             }
         }
     });
@@ -94,7 +103,7 @@ function parseCodeInput() {
     codeInput.forEach((line, index) => {
         if (line.length == 2) {
             if (addressSet.has(line[0])) {
-                console.warn("Duplicate address in code input at line", index + 1, ": ", line.join(":"));
+                addWarn("Duplicate address in code input at line", index + 1, ": ", line.join(":"));
             } else {
                 addressSet.add(line[0]);
             }
@@ -102,7 +111,7 @@ function parseCodeInput() {
     });
 
     if (codeInput.length > 32) {
-        console.error("Code input has ", codeInput.length, " entries but only 32 address slots are available, excess entries will be ignored.");
+        addWarn("Code input has ", codeInput.length, " entries but only 32 address slots are available, excess entries will be ignored.");
     }
 
     let addr = new Array(32).fill(false);
@@ -112,15 +121,39 @@ function parseCodeInput() {
         } else if (line.length == 1) {
             const freeSlot = addr.indexOf(false);
             if (freeSlot === -1) {
-                console.error("No free address slot available for implicit entry: ", line[0]);
+                addError("No free address slot available for implicit entry: ", line[0]);
+                return;
             } else {
                 addr[freeSlot] = line[0];
             }
         }
     }
+    displayError(messages);
     addr = addr.map(line => line ? line.replace(/ /g, '') : "0000000000000000000000000");
     MPRAM = addr;
     mramBC.postMessage({msg: "update", data: MPRAM, architecture: "i"});
+}
+
+function displayError(messages) {
+    const consoleEl = document.querySelector("#asm-console");
+    if (consoleEl) {
+        if (messages.length === 0) {
+            consoleEl.style.display = 'none';
+            consoleEl.innerHTML = '';
+        } else {
+            consoleEl.innerHTML = messages.map(m =>
+                `<div style="color:${m.level === 'error' ? '#f87171' : '#fbbf24'}">${m.level.toUpperCase()}: ${m.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`
+            ).join('');
+            consoleEl.style.display = '';
+            const errors = messages.filter(m => m.level === 'error');
+            const warns = messages.filter(m => m.level === 'warn');
+            if (errors.length > 0) {
+                Sentry.captureMessage(`Microcode parse errors:\n${errors.map(m => m.text).join('\n')}`, 'error');
+            } else if (warns.length > 0) {
+                Sentry.captureMessage(`Microcode parse warnings:\n${warns.map(m => m.text).join('\n')}`, 'warning');
+            }
+        }
+    }
 }
 
 
