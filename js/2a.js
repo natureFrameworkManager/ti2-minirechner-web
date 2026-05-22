@@ -421,7 +421,8 @@ function parseASM(asm) {
                     continue;
                 }
                 if (Object.prototype.hasOwnProperty.call(labels, labelName)) {
-                    console.warn(`Line ${lineNum}: Duplicate label/EQU definition '${labelName}' — previous definition overwritten`);
+                    console.error(`Line ${lineNum}: Duplicate label/EQU definition '${labelName}'`);
+                    return false;
                 }
                 labels[labelName] = parseASMNumber(split[2]);
             }
@@ -444,7 +445,8 @@ function parseASM(asm) {
                 continue;
             }
             if (Object.prototype.hasOwnProperty.call(labels, labelName)) {
-                console.warn(`Line ${lineNum}: Duplicate label definition '${labelName}' — previous definition overwritten`);
+                console.error(`Line ${lineNum}: Duplicate label definition '${labelName}'`);
+                return false;
             }
             labels[labelName] = null;
         }
