@@ -383,9 +383,17 @@ MY_SUBROUTINE:
                         document.querySelectorAll("#clk-switch-off").forEach(el => el.style.display = '')
                     }
                 }));
+                function successfulAssemble() {
+                    document.querySelector("#assemble-btn").innerHTML = '<span class="material-icons-round text-[24px]">check</span>';
+                    document.querySelector("#assemble-btn").style.backgroundColor = "green";
+                    setTimeout(() => {
+                        document.querySelector("#assemble-btn").innerHTML = '<span class="material-icons-round text-[24px]">engineering</span><span>Assemble</span>';
+                        document.querySelector("#assemble-btn").style.backgroundColor = "";
+                    }, 1000);
+                }
                 document.querySelectorAll("#step-btn *").forEach(el => el.addEventListener("click", clk))
                 document.querySelectorAll("#reset-btn *").forEach(el => el.addEventListener("click", reset))
-                document.querySelectorAll("#assemble-btn *").forEach(el => el.addEventListener("click", parseFromTextarea))
+                document.querySelectorAll("#assemble-btn").forEach(el => el.addEventListener("click", () => parseFromTextarea(successfulAssemble)))
                 document.querySelectorAll("#clear-btn *").forEach(el => el.addEventListener("click", () => {
                     console.log("Clearing code input and localStorage");
                     document.querySelectorAll("#code-input").forEach(el => el.value = '');

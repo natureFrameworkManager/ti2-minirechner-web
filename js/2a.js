@@ -53,6 +53,7 @@ let uartStatusReg = 0b00000000; // UART Status Register (FA read) [7: TxReady, 6
 let uartControlReg = 0b00000000; // UART Control Register (FA write) [7: Interupt on RxReady, 6: Interupt on RxFull, 5: TxEmpty, 4: TxReady, 3: 0->CTS/1->Ignore CTS, 2: always 0, 1+0: Baudrate 00: 115200, 01: 38400, 10: 19200, 11: 9600]
 
 let uartRecvRead = true;
+let messages = [];
 
 function fillMicrocode() {
     // Addressed in 16x 32 Bit Blocks
@@ -366,7 +367,7 @@ memBC.onmessage = (ev) => {
  * @returns 
  */
 function parseASM(asm) {
-    const messages = [];
+    messages = [];
     function addError(...args) { messages.push({level: 'error', text: args.join('')}); }
     function addWarn(...args) { messages.push({level: 'warn', text: args.join('')}); }
 
@@ -1591,9 +1592,15 @@ function reset() {
     fillMicrocode();
 }
 
-function parseFromTextarea() {
+function parseFromTextarea(onSuccess = null) {
     var tram = parseASM(document.querySelector("#a-con #code-input").value);
     displayError(messages)
+    if (messages.some(m => m.level === 'error')) {
+        return;
+    }
+    if (onSuccess !== null) {
+        onSuccess();
+    }
     for (let index = 0; index < 0xEF +1; index++) {
         if (tram[index] === undefined) {
             tram[index] = 0;

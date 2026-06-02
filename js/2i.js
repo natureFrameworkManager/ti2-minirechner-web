@@ -62,7 +62,7 @@ mramBC.onmessage = (ev) => {
     }
 }
 
-function parseCodeInput() {
+function parseCodeInput(onSuccess = null) {
     const messages = [];
     function addError(...args) { messages.push({level: 'error', text: args.join('')}); }
     function addWarn(...args) { messages.push({level: 'warn', text: args.join('')}); }
@@ -129,6 +129,12 @@ function parseCodeInput() {
         }
     }
     displayError(messages);
+    if (messages.some(m => m.level === 'error')) {
+        return;
+    } 
+    if (onSuccess !== null) {
+        onSuccess();
+    }
     addr = addr.map(line => line ? line.replace(/ /g, '') : "0000000000000000000000000");
     MPRAM = addr;
     mramBC.postMessage({msg: "update", data: MPRAM, architecture: "i"});
