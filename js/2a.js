@@ -1372,7 +1372,7 @@ function setReg() {
         regs[(CTRL.mrgWS ? mrgAddrB : mrgAddrA)] = ALUresult.f & 0xFF;
     }
     if (CTRL.mChFlg) {
-        regs[4] = 0b00000000 | (regs[4] & 0b00001000) | (ALUresult.co << 2) | (ALUresult.zo << 1) || (ALUresult << 0)
+        regs[4] = 0b00000000 | (regs[4] & 0b00001000) | (ALUresult.no << 2) | (ALUresult.zo << 1) || (ALUresult.co << 0)
     }
 }
 function setMemBus() {
@@ -1419,7 +1419,7 @@ function setCTRL() {
     CTRL.mAluIA = (instr[21] === '1'); // 1-bit ALU input A select
     CTRL.mAluIB = (instr[22] === '1'); // 1-bit ALU input B select
     CTRL.mAluS = parseInt(instr.slice(23, 27).join(''), 2); // 4-bit ALU select
-    CTRL.mChFlg = (instr[28] === '1'); // 1-bit change flags
+    CTRL.mChFlg = (instr[27] === '1'); // 1-bit change flags
 }
 function setBR() {
     if ((CTRL.mAC & 0b0001) && ((CTRL.mAC & 0b0100) >> 2)) {
