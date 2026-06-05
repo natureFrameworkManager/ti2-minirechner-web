@@ -1187,7 +1187,7 @@
             xml:space="preserve" font-family="Arial" font-size="5.8" letter-spacing="0em">
             <tspan x="0" y="5.51074">AI2</tspan>
         </text>
-        <path id="Vector_109" d="M56.7 458H64.4V453.4H56.7V458ZM56.7 458L64.2999 458V453.5H56.6999L56.7 458Z"
+        <path id="Vector_109" d="M56.7 458H64.4V453.4H56.7V458ZM56.7 458L64.2999 458V453.5H56.6999L56.7 458Z" class="ai2" fill="#FF6464"
             stroke="#131516" stroke-width="0.321" />
         <text id="D11_2" transform="matrix(0 1 -1 0 66.9 459.7)" fill="black" style="white-space: pre"
             xml:space="preserve" font-family="Arial" font-size="5.8" letter-spacing="0em">
@@ -1203,7 +1203,7 @@
             xml:space="preserve" font-family="Arial" font-size="5.8" letter-spacing="0em">
             <tspan x="0" y="5.51074">D10</tspan>
         </text>
-        <path id="Vector_110" d="M120.4 453.5H112.9V458H120.4V453.5Z" fill="#FFFF00" stroke="#131516"
+        <path id="Vector_110" d="M120.4 453.5H112.9V458H120.4V453.5Z" fill="#FFFF00" stroke="#131516" class="cp2"
             stroke-width="0.321" />
         <path id="Vector_111" d="M120.375 457.956L112.991 453.525H120.375V457.956Z" fill="#00FF00"
             stroke="black" stroke-width="0.05" />
@@ -1232,7 +1232,7 @@
             <tspan x="0" y="5.51074">D8</tspan>
         </text>
         <g id="Vector_114">
-            <path d="M171.6 457.9H163.9V453.4H171.6V457.9Z" fill="#FF6464" />
+            <path d="M171.6 457.9H163.9V453.4H171.6V457.9Z" fill="#FF6464" class="ao2" />
             <path d="M171.6 457.9H163.9V453.4H171.6V457.9Z" stroke="#131516" stroke-width="0.321" />
             <path d="M171.5 453.5H163.9V458H171.5V453.5Z" stroke="#131516" stroke-width="0.321" />
         </g>
@@ -1246,7 +1246,7 @@
             xml:space="preserve" font-family="Arial" font-size="5.8" letter-spacing="0em">
             <tspan x="0" y="5.51074">D7</tspan>
         </text>
-        <path id="Vector_115" d="M186.8 453.5L194.4 453.5V458L186.8 458V453.5H194.5V458H186.8" stroke="#131516"
+        <path id="Vector_115" d="M186.8 453.5L194.4 453.5V458L186.8 458V453.5H194.5V458H186.8" stroke="#131516" class="ao1" fill="#FF6464"
             stroke-width="0.321" />
     </g>
     <g id="D5_4">
