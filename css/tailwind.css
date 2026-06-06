@@ -52,7 +52,7 @@ div.controls-con {
 
 @media (width >= 48rem) {
     .panel, .panel.shown {
-        @apply w-[25vw] flex flex-col min-h-0 grow shrink;
+        @apply w-[25vw] flex flex-col min-h-0 flex-1 overflow-hidden;
     }
 }
 @media (width < 48rem) {
