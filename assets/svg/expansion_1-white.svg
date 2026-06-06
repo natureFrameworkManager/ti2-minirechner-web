@@ -1205,7 +1205,7 @@
         </text>
         <path id="Vector_110" d="M120.4 453.5H112.9V458H120.4V453.5Z" fill="#FFFF00" stroke="#131516" class="cp2"
             stroke-width="0.321" />
-        <path id="Vector_111" d="M120.375 457.956L112.991 453.525H120.375V457.956Z" fill="#00FF00"
+        <path id="Vector_111" d="M120.375 457.956L112.991 453.525H120.375V457.956Z" fill="#00FF00" class="cp2_arrow"
             stroke="white" stroke-width="0.05" />
     </g>
     <g id="D9">
@@ -1219,7 +1219,7 @@
         </text>
         <path id="Vector_112" d="M143.8 453.5H136.2V458H143.8V453.5Z" fill="#FFFF00" stroke="#131516" class="cp1"
             stroke-width="0.321" />
-        <path id="Vector_113" d="M143.676 457.956L136.291 453.525H143.775L143.676 457.956Z" fill="#00FF00"
+        <path id="Vector_113" d="M143.676 457.956L136.291 453.525H143.775L143.676 457.956Z" fill="#00FF00" class="cp1_arrow"
             stroke="white" stroke-width="0.05" />
     </g>
     <g id="D8">
