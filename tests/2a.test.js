@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const assembler = rewire('../js/2a.js');
 
+clearInterval(assembler.__get__('displayInterval'));
+
 // Get access to the private parseASM function
 const parseASM = assembler.__get__('parseASM');
 
