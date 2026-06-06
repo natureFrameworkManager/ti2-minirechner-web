@@ -60,13 +60,23 @@ function DAC(value) {
 function display() {
     document.querySelectorAll(`.org1`).forEach(el => el.textContent = org1.toString(2).padStart(8, "0"));
     document.querySelectorAll(`.ao1-v`).forEach(el => el.textContent = DAC(org1).toFixed(2) + "V");
-    document.querySelectorAll(`.ai1`).forEach(el => el.value = ai1.toFixed(2));
+    if (![...document.querySelectorAll(`.ai1`)].some(el => el === document.activeElement)) {
+        document.querySelectorAll(`.ai1`).forEach(el => el.value = ai1.toFixed(2));
+    }
     document.querySelectorAll(`.org2`).forEach(el => el.textContent = org2.toString(2).padStart(8, "0"));
     document.querySelectorAll(`.ao2-v`).forEach(el => el.textContent = DAC(org2).toFixed(2) + "V");
-    document.querySelectorAll(`.ai2`).forEach(el => el.value = ai2.toFixed(2));
-    document.querySelectorAll(`.temp`).forEach(el => el.value = temp.toFixed(2));
-    document.querySelectorAll(`.uio`).forEach(el => el.value = uioReg.toString(2).padStart(3, "0"));
-    document.querySelectorAll(`.irg`).forEach(el => el.value = irg.toString(2).padStart(8, "0"));
+    if (![...document.querySelectorAll(`.ai2`)].some(el => el === document.activeElement)) {
+        document.querySelectorAll(`.ai2`).forEach(el => el.value = ai2.toFixed(2));
+    }
+    if (![...document.querySelectorAll(`.temp`)].some(el => el === document.activeElement)) {
+        document.querySelectorAll(`.temp`).forEach(el => el.value = temp.toFixed(2));
+    }
+    if (![...document.querySelectorAll(`.uio`)].some(el => el === document.activeElement)) {
+        document.querySelectorAll(`.uio`).forEach(el => el.value = uioReg.toString(2).padStart(3, "0"));
+    }
+    if (![...document.querySelectorAll(`.irg`)].some(el => el === document.activeElement)) {
+        document.querySelectorAll(`.irg`).forEach(el => el.value = irg.toString(2).padStart(8, "0"));
+    }
 
     document.querySelectorAll(`svg .cp1`).forEach(el => el.setAttribute("fill", (getCP1() ? "lime" : "slategray")));
     document.querySelectorAll(`svg .cp1_arrow`).forEach(el => el.setAttribute("fill", (getCP1() ? "limegreen" : "dimgray")));

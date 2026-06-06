@@ -173,7 +173,7 @@ select {
     @apply w-8;
 }
 #expansion-board-con #expansion-board-values > span input.binary {
-    @apply w-16;
+    @apply w-14;
 }
 #expansion-board-con #expansion-board-values > span input.binary-3 {
     @apply w-8;

@@ -116,13 +116,13 @@
                                 </div>
                                 <span>ORG1: <span class="org1">0xFF</span></span>
                                 <span>DAC1: <span class="ao1-v">0.00V</span></span>
-                                <span>AI1 (V): <input class="ai1 volt" value="0.00"></span>
+                                <span>AI1: <input class="ai1 volt" value="0.00">V</span>
                                 <span>ORG2: <span class="org2">0xFF</span></span>
                                 <span>DAC2: <span class="ao2-v">0.00V</span></span>
-                                <span>AI2 (V): <input class="ai2 volt" value="0.00"></span>
-                                <span>Temp: <input class="temp volt" value="0.00"></span>
+                                <span>AI2: <input class="ai2 volt" value="0.00">V</span>
+                                <span>Temp: <input class="temp volt" value="0.00">V</span>
                                 <span>UIO: <input class="uio binary-3" type="text" value="0b000"></span>
-                                <span>DI: <input class="di binary" type="text" value="0b00000000"></span>
+                                <span>IRG: <input class="irg binary" type="text" value="0b00000000"></span>
                             </div>
                             <div id="expansion-board-content-container">
                                 <div class="" id="expansion-board-content">
@@ -333,6 +333,38 @@ MY_SUBROUTINE:
 
             document.querySelectorAll("#code-input").forEach(el => el.addEventListener("input", (ev) => {
                 localStorage.setItem("minirechner-2a-code", ev.target.value);
+            }));
+
+            // expansion board values update
+            document.querySelectorAll("input.ai1").forEach(el => el.addEventListener("input", (ev) => {
+                var value = ev.target.value;
+                value = value.replace(/[^0-9.,]/g, '');
+                value = value.replace(/,/g, '.');
+                ai1 = Math.max(0, Math.min(2.55, parseFloat(value)) || 0);
+            }));
+            document.querySelectorAll("input.ai2").forEach(el => el.addEventListener("input", (ev) => {
+                var value = ev.target.value;
+                value = value.replace(/[^0-9.,]/g, '');
+                value = value.replace(/,/g, '.');
+                ai2 = Math.max(0, Math.min(2.55, parseFloat(value)) || 0);
+            }));
+            document.querySelectorAll("input.temp").forEach(el => el.addEventListener("input", (ev) => {
+                var value = ev.target.value;
+                value = value.replace(/[^0-9.,]/g, '');
+                value = value.replace(/,/g, '.');
+                temp = Math.max(0, Math.min(2.55, parseFloat(value)) || 0);
+            }));
+            document.querySelectorAll("input.uio").forEach(el => el.addEventListener("input", (ev) => {
+                var value = ev.target.value;
+                value = value.replace(/0b/g, '');
+                value = value.replace(/[^01]/g, '');
+                uioReg = Math.floor(Math.max(0b000, Math.min(0b111, parseInt(value, 2)) || 0));
+            }));
+            document.querySelectorAll("input.irg").forEach(el => el.addEventListener("input", (ev) => {
+                var value = ev.target.value;
+                value = value.replace(/0b/g, '');
+                value = value.replace(/[^01]/g, '');
+                irg = Math.floor(Math.max(0b00000000, Math.min(0b11111111, parseInt(value, 2)) || 0));
             }));
 
             let clkTime = 100;
