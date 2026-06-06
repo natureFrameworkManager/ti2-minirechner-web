@@ -150,3 +150,33 @@ select {
 #step-btn, #clk-switch, #ff-in-btn, #fe-in-btn, #fc-in-btn, #fd-in-btn, #faster-btn, #slower-btn, #up-btn, #down-btn, #reset-btn {
     @apply cursor-pointer
 }
+
+#expansion-board-con #expansion-board-values {
+    @apply text-xs font-mono grid grid-rows-2 grid-cols-4 gap-x-1 gap-y-2;
+}
+#expansion-board-con #expansion-board-values span {
+    @apply flex text-nowrap w-min;
+}
+#expansion-board-con #expansion-board-values span input {
+    @apply bg-transparent border border-gray-500 rounded-sm text-center px-1 py-0 text-xs text-white h-fit w-fit;
+}
+#expansion-board-con #expansion-board-values span input.volt {
+    @apply w-10;
+}
+#expansion-board-con #expansion-board-values span input.binary {
+    @apply w-22;
+}
+#expansion-board-con #expansion-board-values span input.binary-3 {
+    @apply w-8;
+}
+#expansion-board-con #fan-con {
+    @apply w-15 h-15 row-span-2;
+}
+#fan-con svg #Rotor {
+    animation-play-state: paused;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

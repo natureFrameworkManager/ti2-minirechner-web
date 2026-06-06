@@ -95,12 +95,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel hidden!" id="expansion-board-con">
+                <div class="panel" id="expansion-board-con">
                     <div class="bg-[#2B2930] rounded-e h-full">
                         <div class="bg-[#2B2930] top-bar rounded-e">
                             <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#expansion-board-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span class="hidden!">open_in_new</span></div>
                             <div class="title">Erweiterungs<wbr />board</div>
                             <div class="material-icons-round" onclick="hide('expansion-board')">expand_more</div>
+                        </div>
+                        <div class="h-full flex flex-col gap-x-2">
+                            <div class="" id="expansion-board-values">
+                                <div id="fan-con">
+
+                                </div>
+                                <span>ORG1: <span class="org1">0xFF</span></span>
+                                <span>DAC1: <span class="ao1-v">0.00V</span></span>
+                                <span>AI1 (V): <input class="ai1 volt" value="0.00"></span>
+                                <span>ORG2: <span class="org2">0xFF</span></span>
+                                <span>DAC2: <span class="ao2-v">0.00V</span></span>
+                                <span>AI2 (V): <input class="ai2 volt" value="0.00"></span>
+                                <span>Temp: <input class="temp volt" value="0.00"></span>
+                                <span>UIO: <input class="uio binary-3" type="text" value="0b000"></span>
+                                <span>DI: <input class="di binary" type="text" value="0b00000000"></span>
+                            </div>
+                            <div class="" id="expansion-board-content">
+                            </div>
+                            <div class="" id="expansion-board-content-hor">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -195,6 +215,7 @@
                 </div>
             </div>
         </div>
+        <script src="js/expansion.js"></script>
         <script src="js/2a.js"></script>
         <script>
             const sampleProgram = `#! mrasm
@@ -368,6 +389,29 @@ MY_SUBROUTINE:
                         getLast(document.querySelectorAll(con.selector + ' svg')).appendChild(rect);
                     }
                 }
+
+                var fExpansion = await fetch('assets/svg/expansion_1.svg');
+                var fExpansionText = await fExpansion.text();
+                document.querySelector("#expansion-board-con #expansion-board-content").innerHTML = fExpansionText;
+                document.querySelector("#expansion-board-con #expansion-board-content svg").removeAttribute("width");
+                document.querySelector("#expansion-board-con #expansion-board-content svg").removeAttribute("height");
+                document.querySelector("#expansion-board-con #expansion-board-content svg").classList.add("w-full", "h-full");
+                
+                var fExpansion = await fetch('assets/svg/expansion_1_hor.svg');
+                var fExpansionText = await fExpansion.text();
+                document.querySelector("#expansion-board-con #expansion-board-content-hor").innerHTML = fExpansionText;
+                document.querySelector("#expansion-board-con #expansion-board-content-hor svg").removeAttribute("width");
+                document.querySelector("#expansion-board-con #expansion-board-content-hor svg").removeAttribute("height");
+                document.querySelector("#expansion-board-con #expansion-board-content-hor svg").classList.add("w-full", "h-full");
+
+                var fFan = await fetch('assets/svg/fan.svg');
+                var fFanText = await fFan.text();
+                document.querySelector("#fan-con").innerHTML = fFanText;
+                document.querySelector("#fan-con svg").removeAttribute("width");
+                document.querySelector("#fan-con svg").removeAttribute("height");
+                document.querySelector("#fan-con svg").classList.add("w-full", "h-full");
+                document.querySelector("#fan-con svg #Rotor").style.transformOrigin = "center";
+
                 parseFromTextarea();
 
                 var interval = null;

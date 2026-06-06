@@ -769,6 +769,13 @@
 <text class="ao2-v" fill="black" font-family="sans-serif" font-size="8" x="100" y="340">ao2</text>
 <text class="irg" fill="black" font-family="sans-serif" font-size="8" x="100" y="390">irg</text>
 
+<rect x="144" y="126" width="36" height="36" fill="#B4B4B4" class="cpld" />
+<rect x="142" y="220" width="27" height="47" fill="#B4B4B4" class="org2" />
+<rect x="142" y="220" width="27" height="47" fill="#B4B4B4" class="org2" />
+<rect x="142" y="302" width="27" height="47" fill="#B4B4B4" class="org1" />
+<rect x="142" y="361" width="27" height="47" fill="#B4B4B4" class="irg" />
+<path fill-rule="evenodd" clip-rule="evenodd" d="M107.6 464.6L94.7 464.6C91.2 461 91.2 455.3 94.7 451.7C98.3 448.1 104 448.1 107.6 451.7C111.2 455.3 111.2 461 107.6 464.6Z" fill="yellow" id="tempsensor"></path>
+
 <circle cx="124" cy="455" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="cp2" />
 <circle cx="148" cy="455" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="cp1" />
 <circle cx="176" cy="455" r="2" stroke="black" stroke-width="0.5" fill="yellow" class="ao2" />
