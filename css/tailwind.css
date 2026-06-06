@@ -152,25 +152,34 @@ select {
 }
 
 #expansion-board-con #expansion-board-values {
-    @apply text-xs font-mono grid grid-rows-2 grid-cols-4 gap-x-1 gap-y-2;
+    @apply text-xs font-mono grid grid-rows-4 grid-cols-4 gap-x-1 gap-y-2;
 }
-#expansion-board-con #expansion-board-values span {
+#expansion-board-con #expansion-board-values div#indicators {
+    @apply flex gap-x-3 col-span-3;
+}
+#expansion-board-con #expansion-board-values div#indicators > span {
+    @apply flex items-center gap-x-1;
+}
+#expansion-board-con #expansion-board-values div#indicators span.led {
+    @apply w-3 h-3 rounded-full block;
+}
+#expansion-board-con #expansion-board-values > span {
     @apply flex text-nowrap w-min;
 }
-#expansion-board-con #expansion-board-values span input {
+#expansion-board-con #expansion-board-values > span input {
     @apply bg-transparent border border-gray-500 rounded-sm text-center px-1 py-0 text-xs text-white h-fit w-fit;
 }
-#expansion-board-con #expansion-board-values span input.volt {
+#expansion-board-con #expansion-board-values > span input.volt {
     @apply w-10;
 }
-#expansion-board-con #expansion-board-values span input.binary {
+#expansion-board-con #expansion-board-values > span input.binary {
     @apply w-22;
 }
-#expansion-board-con #expansion-board-values span input.binary-3 {
+#expansion-board-con #expansion-board-values > span input.binary-3 {
     @apply w-8;
 }
 #expansion-board-con #fan-con {
-    @apply w-15 h-15 row-span-2;
+    @apply w-full h-full row-span-4;
 }
 #fan-con svg #Rotor {
     animation-play-state: paused;

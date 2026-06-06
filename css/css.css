@@ -718,19 +718,35 @@ select {
 #expansion-board-con #expansion-board-values {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-template-rows: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(0, 1fr));
   column-gap: calc(var(--spacing) * 1);
   row-gap: calc(var(--spacing) * 2);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   line-height: var(--tw-leading, var(--text-xs--line-height));
 }
-#expansion-board-con #expansion-board-values span {
+#expansion-board-con #expansion-board-values div#indicators {
+  grid-column: span 3 / span 3;
+  display: flex;
+  column-gap: calc(var(--spacing) * 3);
+}
+#expansion-board-con #expansion-board-values div#indicators > span {
+  display: flex;
+  align-items: center;
+  column-gap: calc(var(--spacing) * 1);
+}
+#expansion-board-con #expansion-board-values div#indicators span.led {
+  display: block;
+  height: calc(var(--spacing) * 3);
+  width: calc(var(--spacing) * 3);
+  border-radius: calc(infinity * 1px);
+}
+#expansion-board-con #expansion-board-values > span {
   display: flex;
   width: min-content;
   text-wrap: nowrap;
 }
-#expansion-board-con #expansion-board-values span input {
+#expansion-board-con #expansion-board-values > span input {
   height: fit-content;
   width: fit-content;
   border-radius: var(--radius-sm);
@@ -745,19 +761,19 @@ select {
   line-height: var(--tw-leading, var(--text-xs--line-height));
   color: var(--color-white);
 }
-#expansion-board-con #expansion-board-values span input.volt {
+#expansion-board-con #expansion-board-values > span input.volt {
   width: calc(var(--spacing) * 10);
 }
-#expansion-board-con #expansion-board-values span input.binary {
+#expansion-board-con #expansion-board-values > span input.binary {
   width: calc(var(--spacing) * 22);
 }
-#expansion-board-con #expansion-board-values span input.binary-3 {
+#expansion-board-con #expansion-board-values > span input.binary-3 {
   width: calc(var(--spacing) * 8);
 }
 #expansion-board-con #fan-con {
-  grid-row: span 2 / span 2;
-  height: calc(var(--spacing) * 15);
-  width: calc(var(--spacing) * 15);
+  grid-row: span 4 / span 4;
+  height: 100%;
+  width: 100%;
 }
 #fan-con svg #Rotor {
   animation-play-state: paused;
