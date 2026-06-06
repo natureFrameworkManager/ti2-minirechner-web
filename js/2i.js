@@ -583,4 +583,4 @@ function displayBin8bit(value) {
 
 reset();
 
-setInterval(display, 10);
+const displayInterval = setInterval(display, 10);
