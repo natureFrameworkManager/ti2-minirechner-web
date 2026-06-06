@@ -1558,6 +1558,9 @@ function clk() {
     resetBR();
     setIFF2();
     resetIFF1();
+    if (CTRL.mAC >> 3 == 0b0001) {
+        // Get OpCode of next instruction
+    }
 }
 function reset() {
     BR = 0b00000000;
@@ -1613,4 +1616,4 @@ function parseFromTextarea(onSuccess = null) {
 
 reset();
 
-setInterval(display, 10);
+const displayInterval = setInterval(display, 10);
