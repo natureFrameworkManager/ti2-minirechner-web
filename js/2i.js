@@ -258,8 +258,9 @@ function getMemBus() {
         if (getMemAddr() >= 0x00 && getMemAddr() <= 0xEF) {
             return DPRAM[getMemAddr()];
         }
-        if (getMemAddr() >= 0xFC && getMemAddr() <= 0xFF) {
-            return inputs[getMemAddr().toString(16)];
+        // Expansion Board
+        if (getMemAddr() >= 0xF0 && getMemAddr() <= 0xF3) {
+            return readMinibus(getMemAddr() - 0xF0); // Expansion board access through addresses F0-F3 mapped to 0-3 in readMinibus
         }
         // UART 
         if (getMemAddr() === 0xFA && !busWr) {
@@ -270,6 +271,9 @@ function getMemBus() {
         }
         if (getMemAddr() === 0xFB) {
             return uartStatusReg;
+        }
+        if (getMemAddr() >= 0xFC && getMemAddr() <= 0xFF) {
+            return inputs[getMemAddr().toString(16)];
         }
     } else {
         return 0b00000000;
@@ -282,20 +286,26 @@ function setMemBus() {
                 DPRAM[getMemAddr()] = (F & 0xFF);
             }
         }
-        if (getMemAddr() >= 0xFE && getMemAddr() <= 0xFF) {
+        // Expansion Board
+        if (getMemAddr() >= 0xF0 && getMemAddr() <= 0xF3) {
             if (busWr) {
-                outputs[getMemAddr().toString(16)] = (F & 0xFF);
+                writeMinibus(getMemAddr() - 0xF0, F & 0xFF); // Expansion board access through addresses F0-F3 mapped to 0-3 in writeMinibus
             }
         }
         // UART
         if (getMemAddr() == 0xFA) {
-            if (CTRL.busWr) {
+            if (busWr) {
                 uartSendBuffer = (F & 0xFF);
             }
         }
         if (getMemAddr() == 0xFB) {
-            if (CTRL.busWr) {
+            if (busWr) {
                 uartControlReg = (F & 0xFF);
+            }
+        }
+        if (getMemAddr() >= 0xFE && getMemAddr() <= 0xFF) {
+            if (busWr) {
+                outputs[getMemAddr().toString(16)] = (F & 0xFF);
             }
         }
     }
