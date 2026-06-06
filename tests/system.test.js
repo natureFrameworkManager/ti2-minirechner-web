@@ -109,6 +109,36 @@ describe('2i', () => {
             });
         }
     });
+
+    describe('multiply2.2i', () => {
+        var testCases = [
+            {"inputs": {"ff": 0, "fe": 0, "fd": 0x01, "fc": 0x02}, "output": {"ff": 0x02}}, // 1 * 2 = 2
+            {"inputs": {"ff": 0, "fe": 0, "fd": 0xFF, "fc": 0x02}, "output": {"ff": 0xFE}}, // -1 * 2 = -2
+            {"inputs": {"ff": 0, "fe": 0, "fd": 0x7F, "fc": 0x02}, "output": {"ff": 0xFE}}, // 127 * 2 = -2 (overflow)
+            {"inputs": {"ff": 0, "fe": 0, "fd": 0x80, "fc": 0x02}, "output": {"ff": 0x00}}, // -128 * 2 = 0 (underflow)
+            {"inputs": {"ff": 0, "fe": 0, "fd": 0x01, "fc": 0xFF}, "output": {"ff": 0xFF}}, // 1 * -1 = -1
+        ];
+        for (const {inputs, output} of testCases) {
+            test(`multiply2 ${bitToSignedInt(inputs.fd)} * ${bitToSignedInt(inputs.fc)}`, () => {
+                testProgram2i(minirechnerI, 'multiply2.2i', inputs, output);
+            });
+        }
+    });
+
+    describe('compare.2i', () => {
+        var testCases = [
+            {"inputs": {"ff": 0, "fe": 0, "fd": 0x01, "fc": 0x02}, "output": {"fe": 0xFF, "ff": 0x00}}, // 1 < 2
+            {"inputs": {"ff": 0, "fe": 0, "fd": 0x02, "fc": 0x01}, "output": {"fe": 0x00, "ff": 0xFF}}, // 2 > 1
+            {"inputs": {"ff": 0, "fe": 0, "fd": 0x01, "fc": 0x01}, "output": {"fe": 0xFF, "ff": 0x00}}, // 1 == 1
+            {"inputs": {"ff": 0, "fe": 0, "fd": 0xFF, "fc": 0x01}, "output": {"fe": 0xFF, "ff": 0x00}}, // -1 < 1
+            {"inputs": {"ff": 0, "fe": 0, "fd": 0x01, "fc": 0xFF}, "output": {"fe": 0x00, "ff": 0xFF}}, // 1 > -1
+        ];
+        for (const {inputs, output} of testCases) {
+            test(`compare ${bitToSignedInt(inputs.fd)} and ${bitToSignedInt(inputs.fc)}`, () => {
+                testProgram2i(minirechnerI, 'compare.2i', inputs, output);
+            });
+        }
+    });
 });
 
 describe('2a', () => {
