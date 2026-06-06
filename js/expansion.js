@@ -68,8 +68,10 @@ function display() {
     document.querySelectorAll(`.uio`).forEach(el => el.value = uioReg.toString(2).padStart(3, "0"));
     document.querySelectorAll(`.irg`).forEach(el => el.value = irg.toString(2).padStart(8, "0"));
 
-    document.querySelectorAll(`svg .cp1`).forEach(el => el.setAttribute("fill", (getCP1() ? "yellow" : "slategray")));
-    document.querySelectorAll(`svg .cp2`).forEach(el => el.setAttribute("fill", (getCP2() ? "yellow" : "slategray")));
+    document.querySelectorAll(`svg .cp1`).forEach(el => el.setAttribute("fill", (getCP1() ? "lime" : "slategray")));
+    document.querySelectorAll(`svg .cp1_arrow`).forEach(el => el.setAttribute("fill", (getCP1() ? "limegreen" : "dimgray")));
+    document.querySelectorAll(`svg .cp2`).forEach(el => el.setAttribute("fill", (getCP2() ? "lime" : "slategray")));
+    document.querySelectorAll(`svg .cp2_arrow`).forEach(el => el.setAttribute("fill", (getCP2() ? "limegreen" : "dimgray")));
     document.querySelectorAll(`svg .ao1`).forEach(el => el.setAttribute("fill", "#" + Math.round(mapBrightness(DAC(org1))).toString(16).padStart(2, "0") + "0000"));
     document.querySelectorAll(`svg .ao2`).forEach(el => el.setAttribute("fill", "#" + Math.round(mapBrightness(DAC(org2))).toString(16).padStart(2, "0") + "0000"));
     document.querySelectorAll(`svg .ai2`).forEach(el => el.setAttribute("fill", "#" + Math.round(mapBrightness(J9 ? Math.max(ai2, temp) : ai2)).toString(16).padStart(2, "0") + "0000"));

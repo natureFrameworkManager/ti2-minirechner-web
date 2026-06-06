@@ -1181,7 +1181,7 @@
             font-family="Arial" font-size="5.8" letter-spacing="0em">
             <tspan x="0" y="5.51074">AI2</tspan>
         </text>
-        <path id="Vector_109" d="M458 199.1V191.4H453.4V199.1H458ZM458 199.1L458 191.5H453.5V199.1L458 199.1Z"
+        <path id="Vector_109" d="M458 199.1V191.4H453.4V199.1H458ZM458 199.1L458 191.5H453.5V199.1L458 199.1Z" fill="#FF6464" class="ai2"
             stroke="#131516" stroke-width="0.321" />
         <text id="D11_2" transform="translate(459.7 188.9)" fill="black" style="white-space: pre" xml:space="preserve"
             font-family="Arial" font-size="5.8" letter-spacing="0em">
@@ -1197,9 +1197,9 @@
             font-family="Arial" font-size="5.8" letter-spacing="0em">
             <tspan x="0" y="5.51074">D10</tspan>
         </text>
-        <path id="Vector_110" d="M453.5 135.4V142.9H458V135.4H453.5Z" fill="#FFFF00" stroke="#131516"
+        <path id="Vector_110" d="M453.5 135.4V142.9H458V135.4H453.5Z" fill="#FFFF00" stroke="#131516" class="cp2"
             stroke-width="0.321" />
-        <path id="Vector_111" d="M457.956 135.425L453.525 142.809V135.425H457.956Z" fill="#00FF00" stroke="black"
+        <path id="Vector_111" d="M457.956 135.425L453.525 142.809V135.425H457.956Z" fill="#00FF00" stroke="black" class="cp2_arrow"
             stroke-width="0.05" />
     </g>
     <g id="D9">
@@ -1211,9 +1211,9 @@
             font-family="Arial" font-size="5.8" letter-spacing="0em">
             <tspan x="0" y="5.51074">D9</tspan>
         </text>
-        <path id="Vector_112" d="M453.5 112V119.6H458V112H453.5Z" fill="#FFFF00" stroke="#131516"
+        <path id="Vector_112" d="M453.5 112V119.6H458V112H453.5Z" fill="#FFFF00" stroke="#131516" class="cp1"
             stroke-width="0.321" />
-        <path id="Vector_113" d="M457.956 112.124L453.525 119.509V112.025L457.956 112.124Z" fill="#00FF00"
+        <path id="Vector_113" d="M457.956 112.124L453.525 119.509V112.025L457.956 112.124Z" fill="#00FF00" class="cp1_arrow"
             stroke="black" stroke-width="0.05" />
     </g>
     <g id="D8">
@@ -1226,7 +1226,7 @@
             <tspan x="0" y="5.51074">D8</tspan>
         </text>
         <g id="Vector_114">
-            <path d="M457.9 84.2V91.8999H453.4V84.2H457.9Z" fill="#FF6464" />
+            <path d="M457.9 84.2V91.8999H453.4V84.2H457.9Z" fill="#FF6464" class="ao2" />
             <path d="M457.9 84.2V91.8999H453.4V84.2H457.9Z" stroke="#131516" stroke-width="0.321" />
             <path d="M453.5 84.2999V91.8999H458V84.2999H453.5Z" stroke="#131516" stroke-width="0.321" />
         </g>
@@ -1240,7 +1240,7 @@
             font-family="Arial" font-size="5.8" letter-spacing="0em">
             <tspan x="0" y="5.51074">D7</tspan>
         </text>
-        <path id="Vector_115" d="M453.5 68.9999L453.5 61.3999H458L458 68.9999H453.5V61.2999H458V68.9999"
+        <path id="Vector_115" d="M453.5 68.9999L453.5 61.3999H458L458 68.9999H453.5V61.2999H458V68.9999" fill="#FF6464" class="ao1"
             stroke="#131516" stroke-width="0.321" />
     </g>
     <g id="D5_4">
