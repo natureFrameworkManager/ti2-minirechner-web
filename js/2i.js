@@ -62,12 +62,12 @@ mramBC.onmessage = (ev) => {
     }
 }
 
-function parseCodeInput(onSuccess = null) {
+function parseCodeInput(onSuccess = null, input = null) {
     const messages = [];
     function addError(...args) { messages.push({level: 'error', text: args.join('')}); }
     function addWarn(...args) { messages.push({level: 'warn', text: args.join('')}); }
 
-    let codeInput = document.querySelector("#code-input").value;
+    let codeInput = input !== null ? input : document.querySelector("#code-input").value;
     codeInput = codeInput.trim().split('\n');
     codeInput = codeInput.map(line => line.trim().split('#')[0].trim());
     codeInput = codeInput.map(line => line.replace(/[^(0,1,:)]/g,"")).filter(line => line.length > 0);
@@ -128,7 +128,11 @@ function parseCodeInput(onSuccess = null) {
             }
         }
     }
-    displayError(messages);
+    if (input === null) {
+        displayError(messages);
+    } else if (messages.length > 0) {
+        console.log(messages);
+    }
     if (messages.some(m => m.level === 'error')) {
         return;
     } 
