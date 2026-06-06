@@ -89,20 +89,20 @@
                             <div class="title">Memory Map</div>
                             <div class="material-icons-round" onclick="hide('memory-map')">expand_more</div>
                         </div>
-                        <div class="flex-1 min-h-0 overflow-auto">
+                        <div class="h-full overflow-auto">
                             <div class="grid grid-cols-[2fr_repeat(8,1fr)] gap-x-2 p-4 text-sm h-full" style="font-family: monospace;" id="memory-map-content">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="panel" id="expansion-board-con">
-                    <div class="bg-[#2B2930] rounded-e h-full">
+                    <div class="bg-[#2B2930] rounded-e flex flex-col h-full">
                         <div class="bg-[#2B2930] top-bar rounded-e">
                             <div class="material-icons-round flex gap-x-2"><span onclick="document.querySelector('#expansion-board-con').classList.toggle('full-screen')" class="fullscreen-toggle">fullscreen</span><span class="hidden!">open_in_new</span></div>
                             <div class="title">Erweiterungs<wbr />board</div>
                             <div class="material-icons-round" onclick="hide('expansion-board')">expand_more</div>
                         </div>
-                        <div class="h-full flex flex-col gap-x-2">
+                        <div class="flex flex-col flex-1 min-h-0">
                             <div class="" id="expansion-board-values">
                                 <div id="fan-con">
 
@@ -124,9 +124,11 @@
                                 <span>UIO: <input class="uio binary-3" type="text" value="0b000"></span>
                                 <span>DI: <input class="di binary" type="text" value="0b00000000"></span>
                             </div>
-                            <div class="hidden" id="expansion-board-content">
-                            </div>
-                            <div class="hidden" id="expansion-board-content-hor">
+                            <div id="expansion-board-content-container">
+                                <div class="" id="expansion-board-content">
+                                </div>
+                                <div class="" id="expansion-board-content-hor">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -142,7 +144,7 @@
                         <div class="flex flex-row-reverse panel-toggle" id="memory-map-toggle">
                             <div class="bg-[#2B2930] rounded text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12 material-icons-round" onclick="shown('memory-map')">map</div>
                         </div>
-                        <div class="flex flex-row-reverse panel-toggle hidden!" id="expansion-board-toggle">
+                        <div class="flex flex-row-reverse panel-toggle" id="expansion-board-toggle">
                             <div class="bg-[#2B2930] rounded text-[24px] flex! items-center justify-center cursor-pointer w-12 h-12 material-icons-round" onclick="shown('expansion-board')">sensors</div>
                         </div>
                     </div>

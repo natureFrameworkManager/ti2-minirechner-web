@@ -18,8 +18,6 @@
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
-    --text-xs: 0.75rem;
-    --text-xs--line-height: calc(1 / 0.75);
     --text-sm: 0.875rem;
     --text-sm--line-height: calc(1.25 / 0.875);
     --tracking-wide: 0.025em;
@@ -552,9 +550,9 @@ div.controls-con {
     display: flex;
     min-height: calc(var(--spacing) * 0);
     width: 25vw;
-    flex-shrink: 1;
-    flex-grow: 1;
+    flex: 1;
     flex-direction: column;
+    overflow: hidden;
   }
 }
 @media (width < 48rem) {
@@ -717,18 +715,18 @@ select {
 }
 #expansion-board-con #expansion-board-values {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 0.5fr 1fr 1fr 1fr;
   grid-template-rows: repeat(4, minmax(0, 1fr));
   column-gap: calc(var(--spacing) * 1);
-  row-gap: calc(var(--spacing) * 2);
+  row-gap: calc(var(--spacing) * 0.5);
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  line-height: var(--tw-leading, var(--text-xs--line-height));
+  font-size: 10px;
 }
 #expansion-board-con #expansion-board-values div#indicators {
   grid-column: span 3 / span 3;
   display: flex;
-  column-gap: calc(var(--spacing) * 3);
+  justify-content: space-around;
+  column-gap: calc(var(--spacing) * 1);
 }
 #expansion-board-con #expansion-board-values div#indicators > span {
   display: flex;
@@ -737,8 +735,8 @@ select {
 }
 #expansion-board-con #expansion-board-values div#indicators span.led {
   display: block;
-  height: calc(var(--spacing) * 3);
-  width: calc(var(--spacing) * 3);
+  height: calc(var(--spacing) * 2);
+  width: calc(var(--spacing) * 2);
   border-radius: calc(infinity * 1px);
 }
 #expansion-board-con #expansion-board-values > span {
@@ -754,29 +752,57 @@ select {
   border-width: 1px;
   border-color: var(--color-gray-500);
   background-color: transparent;
-  padding-inline: calc(var(--spacing) * 1);
+  padding-inline: calc(var(--spacing) * 0);
   padding-block: calc(var(--spacing) * 0);
   text-align: center;
-  font-size: var(--text-xs);
-  line-height: var(--tw-leading, var(--text-xs--line-height));
+  font-size: 10px;
   color: var(--color-white);
 }
 #expansion-board-con #expansion-board-values > span input.volt {
-  width: calc(var(--spacing) * 10);
+  width: calc(var(--spacing) * 8);
 }
 #expansion-board-con #expansion-board-values > span input.binary {
-  width: calc(var(--spacing) * 22);
+  width: calc(var(--spacing) * 16);
 }
 #expansion-board-con #expansion-board-values > span input.binary-3 {
   width: calc(var(--spacing) * 8);
 }
 #expansion-board-con #fan-con {
   grid-row: span 4 / span 4;
-  height: 100%;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 #fan-con svg #Rotor {
   animation-play-state: paused;
+}
+#expansion-board-con #expansion-board-content-container {
+  container-type: size;
+  min-height: calc(var(--spacing) * 0);
+  flex: 1;
+  overflow: hidden;
+  padding: calc(var(--spacing) * 2);
+}
+#expansion-board-con #expansion-board-content-container > div {
+  height: 100%;
+  width: 100%;
+}
+@container (aspect-ratio > 1.5/1) {
+  #expansion-board-con #expansion-board-content-hor {
+    display: block;
+  }
+  #expansion-board-con #expansion-board-content {
+    display: none;
+  }
+}
+@container (aspect-ratio <= 1.5/1) {
+  #expansion-board-con #expansion-board-content-hor {
+    display: none;
+  }
+  #expansion-board-con #expansion-board-content {
+    display: block;
+  }
 }
 @keyframes spin {
   from {
