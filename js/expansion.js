@@ -27,10 +27,19 @@ function readMinibus(addr) {
         return irg;
     } else if (addr == 0x01) {
         // Status register
+        var j1 = 0;
+        var j2 = 0;
+        var fan = 0;
+        return (j2 << 7) | (j1 << 6) | (fan << 5) | (getCP2() << 4) | (getCP1() << 3) | uioReg;
     } else if (addr == 0x02) {
         return fanCounter & 0xFF;
     } else if (addr == 0x03) {
         // ISR
+        var interruptPending = 0;
+        var interruptRequested = 0;
+        var interruptFlipFlop = 0;
+        var interruptSourceJ1J2 = 0;
+        return (interruptSourceJ1J2 << 7) | (interruptFlipFlop << 6) | (interruptRequested << 5) | (interruptPending << 4) | 0b0000;
     }
 }
 
