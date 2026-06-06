@@ -8,7 +8,16 @@ const maxCycles2a = 1000; // Maximum number of cycles to prevent infinite loops
 const maxCycles2i = 1000; // Maximum number of cycles to prevent infinite loops
 
 clearInterval(minirechnerI.__get__('displayInterval'));
+clearTimeout(minirechnerI.__get__('uartTimeout'));
 clearInterval(minirechnerA.__get__('displayInterval'));
+clearTimeout(minirechnerA.__get__('uartTimeout'));
+
+afterAll(() => {
+    minirechnerI.__get__('memBC').close(); // Close the broadcast channel to prevent interference with tests
+    minirechnerI.__get__('mramBC').close(); // Close the broadcast channel to prevent interference with tests
+    minirechnerA.__get__('memBC').close(); // Close the broadcast channel to prevent interference with tests
+    return;
+});
 
 function bitToSignedInt(bit) {
     return bit << 24 >> 24;

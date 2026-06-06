@@ -4,6 +4,12 @@ const path = require('path');
 const assembler = rewire('../js/2a.js');
 
 clearInterval(assembler.__get__('displayInterval'));
+clearTimeout(assembler.__get__('uartTimeout'));
+
+afterAll(() => {
+    assembler.__get__('memBC').close(); // Close the broadcast channel to prevent interference with tests
+    return;
+});
 
 // Get access to the private parseASM function
 const parseASM = assembler.__get__('parseASM');

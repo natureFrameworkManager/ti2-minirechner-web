@@ -1273,6 +1273,7 @@ function setUartStatus() {
     (!uartRecvRead ? 0b00000001 : 0); // RxREADY: Data received and ready to be read
 
 }
+let uartTimeout;
 function updateUartTransmission() {
     // Send 
     if (uartSendShiftReg === null && uartSendBuffer !== null) {
@@ -1303,7 +1304,8 @@ function updateUartTransmission() {
             baudrate = 9600
             break;
     }
-    setTimeout(updateUartTransmission, (1000000 / (baudrate)));
+    clearTimeout(uartTimeout);
+    uartTimeout = setTimeout(updateUartTransmission, (1000000 / (baudrate)));
 }
 updateUartTransmission()
 
