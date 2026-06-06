@@ -399,14 +399,14 @@ MY_SUBROUTINE:
                     }
                 }
 
-                var fExpansion = await fetch('assets/svg/expansion_1.svg');
+                var fExpansion = await fetch('assets/svg/expansion_1-white.svg');
                 var fExpansionText = await fExpansion.text();
                 document.querySelector("#expansion-board-con #expansion-board-content").innerHTML = fExpansionText;
                 document.querySelector("#expansion-board-con #expansion-board-content svg").removeAttribute("width");
                 document.querySelector("#expansion-board-con #expansion-board-content svg").removeAttribute("height");
                 document.querySelector("#expansion-board-con #expansion-board-content svg").classList.add("w-full", "h-full");
                 
-                var fExpansion = await fetch('assets/svg/expansion_1_hor.svg');
+                var fExpansion = await fetch('assets/svg/expansion_1_hor-white.svg');
                 var fExpansionText = await fExpansion.text();
                 document.querySelector("#expansion-board-con #expansion-board-content-hor").innerHTML = fExpansionText;
                 document.querySelector("#expansion-board-con #expansion-board-content-hor svg").removeAttribute("width");
