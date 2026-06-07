@@ -542,17 +542,15 @@ function display() {
     displayMem();
     displayAlu();
     displayCtrl();
-    // Removing of alu() may cause issues with wrong state beeing displayed
-    // Maybe use displayOnly flag to prevent state changes while displaying
     displayOnly = false;
 }
 
 function clk() {
-    alu();
     setFlags();
     setReg();
     setMemBus();
     parseNextInstr();
+    alu();
 }
 
 function reset() {
