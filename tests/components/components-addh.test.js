@@ -76,11 +76,14 @@ describe('ADDH', () => {
         for (let b = 0; b <= 0xFF; b++) {
             if (a !== 0 && b !== 0) continue;
             for (const cin of CINS) {
-                test(`a=0x${a.toString(16).padStart(2,'0')} b=0x${b.toString(16).padStart(2,'0')} cin=${cin}`, () => {
-                    const result = runALU(0b0000, a, b, cin);
-                    const f = a === 0 ? b : a;
-                    // No carry when one operand is 0; C = cin OR 0 = cin.
-                    expectBoth(result, { f, co: cin, ...NZ[f] });
+                const result = runALU(0b0000, a, b, cin);
+                const f = a === 0 ? b : a;
+                // No carry when one operand is 0; C = cin OR 0 = cin.
+                test(`2I: a=0x${a.toString(16).padStart(2,'0')} b=0x${b.toString(16).padStart(2,'0')} cin=${cin}`, () => {
+                    expect(result.i).toEqual({ f, co: cin, ...NZ[f] });
+                });
+                test(`2A: a=0x${a.toString(16).padStart(2,'0')} b=0x${b.toString(16).padStart(2,'0')} cin=${cin}`, () => {
+                    expect(result.a).toEqual({ f, co: cin, ...NZ[f] });
                 });
             }
         }

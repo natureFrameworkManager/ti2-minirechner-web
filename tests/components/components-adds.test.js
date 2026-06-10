@@ -73,10 +73,13 @@ describe('ADDS', () => {
     for (let a = 0; a <= 0xFF; a++) {
         for (let b = 0; b <= 0xFF; b++) {
             for (const cin of CINS) {
-                test(`a=0x${a.toString(16).padStart(2,'0')} b=0x${b.toString(16).padStart(2,'0')} cin=${cin}`, () => {
-                    const result = runALU(0b0101, a, b, cin);
-                    const lut = aluLookupAdd[(a << 8) | b][1]; // adder sees cin=1
-                    expectBoth(result, { f: lut.f, co: lut.c ^ 1, no: lut.n, zo: lut.z });
+                const result = runALU(0b0101, a, b, cin);
+                const lut = aluLookupAdd[(a << 8) | b][1]; // adder sees cin=1
+                test(`2I: a=0x${a.toString(16).padStart(2,'0')} b=0x${b.toString(16).padStart(2,'0')} cin=${cin}`, () => {
+                    expect(result.i).toEqual({ f: lut.f, co: lut.c ^ 1, ...NZ[lut.f] });
+                });
+                test(`2A: a=0x${a.toString(16).padStart(2,'0')} b=0x${b.toString(16).padStart(2,'0')} cin=${cin}`, () => {
+                    expect(result.a).toEqual({ f: lut.f, co: lut.c ^ 1, ...NZ[lut.f] });
                 });
             }
         }

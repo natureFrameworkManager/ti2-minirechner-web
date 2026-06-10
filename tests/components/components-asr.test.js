@@ -73,11 +73,14 @@ describe('ASR', () => {
     for (let a = 0; a <= 0xFF; a++) {
         for (const b of PROBE) {
             for (const cin of CINS) {
-                test(`a=0x${a.toString(16).padStart(2,'0')} b=0x${b.toString(16).padStart(2,'0')} cin=${cin}`, () => {
-                    const result = runALU(0b1011, a, b, cin);
-                    const f  = ((a >> 1) | (a & 0x80)) & 0xFF;
-                    const co = a & 1;
-                    expectBoth(result, { f, co, ...NZ[f] });
+                const result = runALU(0b1011, a, b, cin);
+                const f  = ((a >> 1) | (a & 0x80)) & 0xFF;
+                const co = a & 1;
+                test(`2I: a=0x${a.toString(16).padStart(2,'0')} b=0x${b.toString(16).padStart(2,'0')} cin=${cin}`, () => {
+                    expect(result.i).toEqual({ f, co, ...NZ[f] });
+                });
+                test(`2A: a=0x${a.toString(16).padStart(2,'0')} b=0x${b.toString(16).padStart(2,'0')} cin=${cin}`, () => {
+                    expect(result.a).toEqual({ f, co, ...NZ[f] });
                 });
             }
         }
