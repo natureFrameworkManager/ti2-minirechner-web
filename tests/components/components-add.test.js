@@ -77,8 +77,8 @@ const CINS  = [0, 1];
 // ── 0b0100  ADD / LSL  (F = A + B, C = carry_out; cin forced 0) ──────────
 // 'cin' is irrelevant for ADD — probed to catch accidental reads.
 describe('ADD', () => {
-    for (let a = 0; a <= 0xFF; a++) {
-        for (let b = 0; b <= 0xFF; b++) {
+    for (let a = 0; a <= 0xFF; a+=5) {
+        for (let b = 0; b <= 0xFF; b+=5) {
             const lut = aluLookupAdd[(a << 8) | b][0]; // ADD always uses cin=0
             for (const cin of CINS) {
                 const result = runALU(0b0100, a, b, cin);

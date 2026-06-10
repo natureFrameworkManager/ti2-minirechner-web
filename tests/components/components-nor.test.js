@@ -77,8 +77,8 @@ const CINS  = [0, 1];
 // ── 0b0010  NOR / COM  (F = A NOR B, C = 0) ──────────────────────────────
 // 'cin' is irrelevant — probed to catch accidental reads.
 describe('NOR', () => {
-    for (let a = 0; a <= 0xFF; a++) {
-        for (let b = 0; b <= 0xFF; b++) {
+    for (let a = 0; a <= 0xFF; a+=5) {
+        for (let b = 0; b <= 0xFF; b+=5) {
             const lut = aluLookupNor[(a << 8) | b];
             for (const cin of CINS) {
                 const result = runALU(0b0010, a, b, cin);

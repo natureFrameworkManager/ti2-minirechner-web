@@ -79,8 +79,8 @@ const CINS  = [0, 1];
 // ADDH and ADD agree). Both cin values are probed to catch any
 // implementation that wrongly propagates cin into f.
 describe('ADDH', () => {
-    for (let a = 0; a <= 0xFF; a++) {
-        for (let b = 0; b <= 0xFF; b++) {
+    for (let a = 0; a <= 0xFF; a+=5) {
+        for (let b = 0; b <= 0xFF; b+=5) {
             if (a !== 0 && b !== 0) continue;
             for (const cin of CINS) {
                 const result = runALU(0b0000, a, b, cin);

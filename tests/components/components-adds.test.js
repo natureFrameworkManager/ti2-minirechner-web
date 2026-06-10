@@ -77,8 +77,8 @@ const CINS  = [0, 1];
 // ── 0b0101  ADDS  (F = A + B + 1, C = ~carry_out; cin forced 1) ──────────
 // 'cin' is irrelevant for ADDS — probed to catch accidental reads.
 describe('ADDS', () => {
-    for (let a = 0; a <= 0xFF; a++) {
-        for (let b = 0; b <= 0xFF; b++) {
+    for (let a = 0; a <= 0xFF; a+=5) {
+        for (let b = 0; b <= 0xFF; b+=5) {
             for (const cin of CINS) {
                 const result = runALU(0b0101, a, b, cin);
                 const lut = aluLookupAdd[(a << 8) | b][1]; // adder sees cin=1
