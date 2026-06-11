@@ -35,6 +35,7 @@ function runALU(ctrl, a, b, cin) {
     minirechnerI.__set__('regs', [a, b, 0, 0, 0, 0, 0, 0]);
     minirechnerI.__set__('CF', cin);
     minirechnerI.__set__('mAluS', ctrl);
+    minirechnerI.__set__('mrgAddrB', 1) // Input B from register 1
     minirechnerI.__get__('alu')();
     const iResult = {
         f:  minirechnerI.__get__('F'),
@@ -49,6 +50,7 @@ function runALU(ctrl, a, b, cin) {
     minirechnerA.__set__('regs', [a, b, 0, 0, flagsReg, 0, 0, 0]);
     const CTRL = minirechnerA.__get__('CTRL');
     CTRL.mAluS = ctrl;
+    CTRL.mrgAB = 1; // Input B from register 1
     minirechnerA.__set__('CTRL', CTRL);
     const {f, co, zo, no} = minirechnerA.__get__('getALU')();
     const aResult = { f, co: co ? 1 : 0, zo: zo ? 1 : 0, no: no ? 1 : 0 };
