@@ -1191,15 +1191,16 @@ function getMemBusData() {
 function getALU() {
     // 8-Bit Signed Integer ALU
     // Always mask F to 8-Bit
-    var a = getAluA() << 24 >> 24; // signed 8-bit
-    var b = getAluB() << 24 >> 24; // signed 8-bit
+    // calculate with unsigned to detect carry
+    var a = getAluA(); // signed 8-bit
+    var b = getAluB(); // signed 8-bit
     var res = 0;
     var CO = false;
 
     switch (CTRL.mAluS) {
         case 0b0000: // ADDH: F = A + B, C = Cin OR Ca
             res = a + b;
-            CO = getCF() || (res > 127 || res < -128);
+            CO = getCF() || (res > 0xFF);
             break;
         case 0b0001: // A: F = A, C = 0
             res = a;
@@ -1215,19 +1216,19 @@ function getALU() {
             break;
         case 0b0100: // ADD: F = A + B, C = Ca
             res = a + b;
-            CO = (res > 127 || res < -128);
+            CO = (res > 0xFF);
             break;
         case 0b0101: // ADDS: F = A + B + 1, C = !Ca
             res = a + b + 1;
-            CO = !(res > 127 || res < -128);
+            CO = !(res > 0xFF);
             break;
         case 0b0110: // ADC: F = A + B + Cin, C = Ca
             res = a + b + (getCF() ? 1 : 0);
-            CO = (res > 127 || res < -128);
+            CO = (res > 0xFF);
             break;
         case 0b0111: // ADCS: F = A + B + !Cin, C = !Ca
             res = a + b + (getCF() ? 0 : 1);
-            CO = !(res > 127 || res < -128);
+            CO = !(res > 0xFF);
             break;
         case 0b1000: // LSR: F(n) = A(n+1), F(7)=0, C = A(0)
             res = (a >>> 1) & 0b01111111;
@@ -1264,8 +1265,8 @@ function getALU() {
     }
 
     // Interpret F als signed 8-bit für Flags
-    var F_signed = (res << 24) >> 24;
-    return {"f": res, "co": CO, "zo": (F_signed === 0), "no": (F_signed < 0)};
+    res = res & 0xFF;
+    return {"f": res, "co": CO, "zo": (res === 0), "no": (res & 0b10000000) !== 0};
 }
 // UART Updates
 function setUartStatus() {

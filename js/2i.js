@@ -324,17 +324,18 @@ function setMemBus() {
 function alu() {
     // 8-Bit Signed Integer ALU
     // Always mask F to 8-Bit
-    const a = getAluA() << 24 >> 24; // signed 8-bit
-    const b = getAluB() << 24 >> 24; // signed 8-bit
+    // calculate with unsigned to detect carry
+    const a = getAluA(); // signed 8-bit
+    const b = getAluB(); // signed 8-bit
     let res = 0;
     let carry = false;
 
     switch (mAluS) {
         case 0b0000: // ADDH: F = A + B, C = Cin OR Ca
             res = a + b;
-            carry = (res > 127 || res < -128);
+            carry = res > 0xFF;
             F = res & 0xFF;
-            CO = CO || carry;
+            CO = CF || carry;
             break;
         case 0b0001: // A: F = A, C = 0
             F = a & 0xFF;
@@ -350,25 +351,25 @@ function alu() {
             break;
         case 0b0100: // ADD: F = A + B, C = Ca
             res = a + b;
-            carry = (res > 127 || res < -128);
+            carry = res > 0xFF;
             F = res & 0xFF;
             CO = carry;
             break;
         case 0b0101: // ADDS: F = A + B + 1, C = !Ca
             res = a + b + 1;
-            carry = (res > 127 || res < -128);
+            carry = res > 0xFF;
             F = res & 0xFF;
             CO = !carry;
             break;
         case 0b0110: // ADC: F = A + B + Cin, C = Ca
-            res = a + b + (CO ? 1 : 0);
-            carry = (res > 127 || res < -128);
+            res = a + b + (CF ? 1 : 0);
+            carry = res > 0xFF;
             F = res & 0xFF;
             CO = carry;
             break;
         case 0b0111: // ADCS: F = A + B + !Cin, C = !Ca
-            res = a + b + (CO ? 0 : 1);
-            carry = (res > 127 || res < -128);
+            res = a + b + (CF ? 0 : 1);
+            carry = res > 0xFF;
             F = res & 0xFF;
             CO = !carry;
             break;
@@ -398,18 +399,18 @@ function alu() {
             break;
         case 0b1110: // BH: F = B, C = Cin
             F = b & 0xFF;
-            CO = CO;
+            CO = CF;
             break;
         case 0b1111: // INVC: F = B, C = !Cin
             F = b & 0xFF;
-            CO = !CO;
+            CO = !CF;
             break;
     }
+    F = F & 0xFF;
 
     // Interpret F als signed 8-bit für Flags
-    const F_signed = (F << 24) >> 24;
-    ZO = (F_signed === 0);
-    NO = (F_signed < 0);
+    ZO = (F === 0);
+    NO = (F & 0b10000000) !== 0;
 }
 // UART Updates
 function setUartStatus() {
