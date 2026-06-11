@@ -170,10 +170,10 @@ describe('2a', () => {
         var testCases = [
             {"inputs": {"ff": 0x01, "fe": 0x03, "fd": 0, "fc": 0}, "output": {"ff": 0x02}}, // (1 + 3) / 2 = 2
             {"inputs": {"ff": 0x01, "fe": 0x02, "fd": 0, "fc": 0}, "output": {"ff": 0x01}}, // (1 + 2) / 2 = 1
-            {"inputs": {"ff": 0xFF, "fe": 0x01, "fd": 0, "fc": 0}, "output": {"ff": 0x00}}, // (-1 + 1) / 2 = 0
+            {"inputs": {"ff": 0xFF, "fe": 0x01, "fd": 0, "fc": 0}, "output": {"ff": 0x00}}, // (-1 + 1) / 2 = 0 // Fails currently, because of the programm with value 0x80 (-128)
             {"inputs": {"ff": 0xFF, "fe": 0xFF, "fd": 0, "fc": 0}, "output": {"ff": 0xFF}}, // (-1 + -1) / 2 = -1
             {"inputs": {"ff": 0x7F, "fe": 0x01, "fd": 0, "fc": 0}, "output": {"ff": 0x40}}, // (127 + 1) / 2 = 64
-            {"inputs": {"ff": 0x80, "fe": 0xFF, "fd": 0, "fc": 0}, "output": {"ff": 0xC0}} // (-128 + -1) / 2 = -64
+            {"inputs": {"ff": 0x80, "fe": 0xFF, "fd": 0, "fc": 0}, "output": {"ff": 0xC0}} // (-128 + -1) / 2 = -64 // Fails currently, because of the programm with value 0xBF (-65)
         ];
         for (const {inputs, output} of testCases) {
             test(`average of ${bitToSignedInt(inputs.ff)} and ${bitToSignedInt(inputs.fe)}`, () => {
