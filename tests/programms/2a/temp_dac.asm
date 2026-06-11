@@ -29,14 +29,16 @@ OUTPUT:
     LD R1, (0xFE)
     ST (0xF0), R1   ; else
     ST (0xFE), R1
-    JR MAIN         ; start over
+    STOP         ; start over
 LOWER_TRESHOLD:
     LD R1, 0x0
     ST (0xF0), R1
     ST (0xFE), R1
-    JR MAIN         ; start over
+    STOP         ; start over
 UPPER_TRESHOLD:
     LD R1, (0xFF)
     ST (0xF0), R1
     ST (0xFE), R1
-    JR MAIN         ; start over
+    STOP         ; start over
+
+; For temp = 1.0V -> (0xFF) = 0b01100101
