@@ -1382,7 +1382,7 @@ function setReg() {
         regs[(CTRL.mrgWS ? mrgAddrB : mrgAddrA)] = ALUresult.f & 0xFF;
     }
     if (CTRL.mChFlg) {
-        regs[4] = 0b00000000 | (regs[4] & 0b00001000) | (ALUresult.no << 2) | (ALUresult.zo << 1) || (ALUresult.co << 0)
+        regs[4] = 0b00000000 | (regs[4] & 0b00001000) | (ALUresult.no << 2) | (ALUresult.zo << 1) | (ALUresult.co << 0);
     }
 }
 function setMemBus() {
