@@ -1167,6 +1167,10 @@ function getMemBusData() {
         }
         // Expansion board
         if (getRegA() >= 0xF0 && getRegA() <= 0xF3) {
+            if (typeof readMinibus !== "function" || typeof readMinibus === "undefined") {
+                console.warn(`Attempted to read from expansion board at address ${getRegA().toString(16)}, but no expansion board is connected`);
+                return 0;
+            }
             return readMinibus(getRegA() - 0xF0); // Expansion board access through addresses F0-F3 mapped to 0-3 in readMinibus
         }
         // UART 
@@ -1391,6 +1395,10 @@ function setMemBus() {
         // Expansion board
         if (getRegA() >= 0xF0 && getRegA() <= 0xF3) {
             if (CTRL.busWr) {
+                if (typeof writeMinibus !== "function" || typeof writeMinibus === "undefined") {
+                    console.warn(`Attempted to write to expansion board at address ${getRegA().toString(16)}, but no expansion board is connected`);
+                    return;
+                }
                 writeMinibus(getRegA() - 0xF0, getALU().f & 0xFF); // Expansion board access through addresses F0-F3 mapped to 0-3 in writeMinibus
             }
         }

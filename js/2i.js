@@ -260,6 +260,10 @@ function getMemBus() {
         }
         // Expansion Board
         if (getMemAddr() >= 0xF0 && getMemAddr() <= 0xF3) {
+            if (typeof readMinibus !== "function" || typeof readMinibus === "undefined") {
+                console.warn(`Attempted to read from expansion board at address ${getMemAddr().toString(16)}, but no expansion board is connected`);
+                return 0;
+            }
             return readMinibus(getMemAddr() - 0xF0); // Expansion board access through addresses F0-F3 mapped to 0-3 in readMinibus
         }
         // UART 
@@ -289,6 +293,10 @@ function setMemBus() {
         // Expansion Board
         if (getMemAddr() >= 0xF0 && getMemAddr() <= 0xF3) {
             if (busWr) {
+                if (typeof writeMinibus !== "function" || typeof writeMinibus === "undefined") {
+                    console.warn(`Attempted to write to expansion board at address ${getMemAddr().toString(16)}, but no expansion board is connected`);
+                    return;
+                }
                 writeMinibus(getMemAddr() - 0xF0, F & 0xFF); // Expansion board access through addresses F0-F3 mapped to 0-3 in writeMinibus
             }
         }
