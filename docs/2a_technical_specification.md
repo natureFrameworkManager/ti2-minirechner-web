@@ -1,1091 +1,1118 @@
-# 2a Architecture — Comprehensive Technical Specification
+# Technical Specification: Architecture 2a
 
 ## Table of Contents
-1. [Architectural Overview](#1-architectural-overview)
+
+1. [Overview](#1-overview)
 2. [Register File](#2-register-file)
-3. [Memory Map & Address Space](#3-memory-map--address-space)
-4. [Datapath Architecture](#4-datapath-architecture)
-5. [Arithmetic Logic Unit (ALU)](#5-arithmetic-logic-unit-alu)
-6. [Microprogrammed Control Unit (Steuerwerk)](#6-microprogrammed-control-unit-steuerwerk)
-7. [Microinstruction Format](#7-microinstruction-format)
-8. [Microcode ROM (MPRAM)](#8-microcode-rom-mpram)
-9. [Instruction Fetch & Decode (OpCode Handling)](#9-instruction-fetch--decode-opcode-handling)
-10. [Address Sequencer](#10-address-sequencer)
-011. [Clock Cycle Execution Flow](#11-clock-cycle-execution-flow)
-12. [Interrupt Subsystem](#12-interrupt-subsystem)
-13. [Stack Architecture & Calling Convention](#13-stack-architecture--calling-convention)
-14. [UART Peripheral (Memory-Mapped I/O)](#14-uart-peripheral-memory-mapped-io)
-15. [Expansion Board Interface](#15-expansion-board-interface)
-16. [General-Purpose I/O Ports](#16-general-purpose-io-ports)
-17. [Instruction Set Architecture (ISA)](#17-instruction-set-architecture-isa)
-18. [Assembler Directives & Source Format](#18-assembler-directives--source-format)
-19. [Bus & Broadcast Channel Protocol](#19-bus--broadcast-channel-protocol)
-20. [Reset & Initialization](#20-reset--initialization)
+3. [Arithmetic Logic Unit (ALU)](#3-arithmetic-logic-unit-alu)
+4. [Microinstruction Format](#4-microinstruction-format)
+5. [Microcode Memory (MPRAM)](#5-microcode-memory-mpram)
+6. [Control Unit / Address Sequencer](#6-control-unit--address-sequencer)
+7. [Instruction Register (BR) and Opcode Decoding](#7-instruction-register-br-and-opcode-decoding)
+8. [Memory Bus and Address Space](#8-memory-bus-and-address-space)
+9. [I/O System](#9-io-system)
+10. [UART Interface](#10-uart-interface)
+11. [Expansion Card Interface](#11-expansion-card-interface)
+12. [Interrupt System](#12-interrupt-system)
+13. [Stack and Stack Pointer](#13-stack-and-stack-pointer)
+14. [Instruction Set Architecture (ISA)](#14-instruction-set-architecture-isa)
+15. [Addressing Modes](#15-addressing-modes)
+16. [Clock Cycle and Execution Flow](#16-clock-cycle-and-execution-flow)
+17. [Reset Behavior](#17-reset-behavior)
+18. [Assembler Syntax (MRASM)](#18-assembler-syntax-mrasm)
+19. [Microcode Block Reference](#19-microcode-block-reference)
+20. [Control Signal Summary](#20-control-signal-summary)
 
 ---
 
-## 1. Architectural Overview
+## 1. Overview
 
-### 1.1 Core Properties
+Architecture 2a is an 8-bit microcoded processor with a Harvard-style split between microcode memory and data memory. The processor executes user-visible machine instructions (ISA level) by interpreting sequences of 28-bit microinstructions stored in microprogram memory (MPRAM). The microarchitecture is horizontally microcoded — each bit in the microinstruction directly controls one hardware signal without intermediate decoding.
+
+**Key characteristics:**
 
 | Property | Value |
-| --- | --- |
-| **Architecture Type** | Von Neumann (unified instruction/data memory) |
-| **Word Size** | 8-bit |
-| **Endianness** | Big-endian for multi-byte assembler directives (high byte stored first). No hardware-level multi-byte operations. |
-| **Address Space** | 8-bit (0x00–0xFF, 256 bytes total) |
-| **Control Model** | Microprogrammed (horizontal microcode) |
-| **Microcode ROM Size** | 512 words × 28 bits (MPRAM) |
-| **Microcode Addressing** | 9-bit (512 locations), organized in 16 blocks of 32 words each |
-| **Register Count** | 8 internal registers (8-bit each): R0–R2 general-purpose, R3/PC, R4/Flags, R5/SP, R6–R7 microcode-internal |
-| **ALU Width** | 8-bit signed integer |
-| **ALU Operations** | 16 (4-bit function select) |
-| **Stack** | Pre-decrement push, post-increment pop; downward growth |
-| **Interrupts** | Maskable, with dedicated IFF1/IFF2 flip-flops and RETI instruction |
-
-### 1.2 High-Level Block Diagram
-
-The architecture consists of four major subsystems connected by an 8-bit internal data bus:
-
-1. **Datapath** — Register file, ALU, flag storage, and operand multiplexers
-2. **Control Unit (Steuerwerk)** — Microcode ROM, address sequencer, condition evaluator, instruction register (BR)
-3. **Memory Interface** — DPRAM (Data/Program RAM) with bus transceiver (busEn, busWr)
-4. **Peripheral I/O** — UART (0xFA–0xFB), Expansion board (0xF0–0xF3), Input ports (0xFC–0xFD), Output ports (0xFE–0xFF)
+|---|---|
+| Data width | 8-bit (signed two's complement) |
+| Microinstruction width | 28 bits |
+| Microcode address space | 9 bits (512 words), organized as 16 blocks × 32 words |
+| Data RAM address space | 8 bits (00–EF = 240 bytes general purpose, F0–FF = memory-mapped I/O) |
+| General-purpose registers | 3 (R0, R1, R2) |
+| Special registers | PC, FLAGS, SP, 2× Microcode-internal registers |
+| ALU operations | 16 |
+| Flags | Carry (CF), Zero (ZF), Negative (NF), Interrupt Enable Flag (IEF) |
+| Addressing modes | Register direct, register indirect, register indirect with post-increment, indirect with pre-increment, immediate, absolute, relative |
+| I/O ports | 4× 8-bit input (FC–FF), 2× 8-bit output (FE–FF) |
+| UART | Memory-mapped at FA (status/control) and FB (data) |
+| Expansion | 4 addresses (F0–F3) for memory-mapped expansion cards |
+| Interrupts | 2 flip-flops (IFF1, IFF2) with maskable interrupt support |
+| Stack | In-memory stack, 8-bit stack pointer (SP) growing downward |
 
 ---
 
 ## 2. Register File
 
-The register file comprises eight 8-bit registers, organized as a dual-port read, single-port write structure. Register addressing is 3-bit (`000` through `111`).
+The register file contains 8 registers, each 8 bits wide, addressed by a 3-bit register address.
 
-### 2.1 Register Map
+| Index | Name | Purpose |
+|---|---|---|
+| 0 | R0 | General-purpose register 0 |
+| 1 | R1 | General-purpose register 1 |
+| 2 | R2 | General-purpose register 2 |
+| 3 | PC | Program Counter — holds address of next instruction in data RAM |
+| 4 | FLAGS | Status flags: `0000.IEF.NF.ZF.CF` |
+| 5 | SP | Stack Pointer — points to top of stack in data RAM |
+| 6 | µR6 | Microcode-internal scratch register |
+| 7 | µR7 | Microcode-internal scratch register |
 
-| Index | Name | Width | R/W | ABI Role | Description |
-| --- | --- | --- | --- | --- | --- |
-| 0 | R0 | 8-bit | R/W | Parameter 0, Return Value, Caller-saved | General-purpose register |
-| 1 | R1 | 8-bit | R/W | Parameter 1, Caller-saved | General-purpose register |
-| 2 | R2 | 8-bit | R/W | Parameter 2 / Scratch, Caller-saved | General-purpose register |
-| 3 | PC (R3) | 8-bit | R/W | Program Counter | Points to the next instruction byte in DPRAM. Writable via memory-modifying instructions (e.g., `POP`, indirect stores). |
-| 4 | Flags (R4) | 8-bit | R/W | Processor Status Word | Condition flags and interrupt mask (see §2.2) |
-| 5 | SP (R5) | 8-bit | R/W | Stack Pointer | Points to the top of the stack (pre-decrement). Grows downward. |
-| 6 | R6 | 8-bit | Internal | Microcode Temporary | Used exclusively by microcode — **not visible to the assembly programmer**. Holds intermediate values during complex addressing modes. |
-| 7 | R7 | 8-bit | Internal | Microcode Temporary | Used exclusively by microcode — **not visible to the assembly programmer**. Holds intermediate values during complex addressing modes. |
-
-### 2.2 Flags Register (R4) Layout
+### 2.1 Flag Register (Register 4) Bit Layout
 
 ```
-Bit:   7    6    5    4    3      2      1      0
-     ┌────┬────┬────┬────┬──────┬──────┬──────┬──────┐
-     │ 0  │ 0  │ 0  │ 0  │ IEF  │  NF  │  ZF  │  CF  │
-     └────┴────┴────┴────┴──────┴──────┴──────┴──────┘
+Bit:   7  6  5  4    3       2      1      0
+     [0  0  0  0] [IEF]  [NF]   [ZF]   [CF]
 ```
 
-| Bit | Name | Description | Set By | Cleared By |
-| --- | --- | --- | --- | --- |
-| 0 | **CF** (Carry Flag) | Set on arithmetic carry-out (unsigned overflow) or borrow (underflow). Holds bit shifted out on shift/rotate operations. | ALU operations with `co=1`; `SETC` | ALU operations with `co=0`; `CLR` |
-| 1 | **ZF** (Zero Flag) | Set if ALU result `F == 0`. | ALU result equals zero | ALU result non-zero |
-| 2 | **NF** (Negative Flag) | Set if ALU result MSB (bit 7) is 1. Indicates signed negative. | ALU result bit 7 == 1 | ALU result bit 7 == 0 |
-| 3 | **IEF** (Interrupt Enable Flag) | Global interrupt master switch. Only modified by `EI`, `DI`, `RETI`, `LDFR`, and `POPF`. | `EI` instruction; `RETI` restores from stack; `LDFR` | `DI` instruction; hardware clears on interrupt acknowledge; `LDFR` |
-| 7–4 | — | Reserved. Always read as 0. | — | — |
+| Bit | Name | Description |
+|---|---|---|
+| 0 | CF | Carry Flag — set by ALU carry-out |
+| 1 | ZF | Zero Flag — set when ALU result is zero |
+| 2 | NF | Negative Flag — set when ALU result has MSB=1 (negative in two's complement) |
+| 3 | IEF | Interrupt Enable Flag — set/cleared by microcode (EI/DI instructions) |
+| 7–4 | — | Reserved, always 0 |
 
-### 2.3 Register Addressing Modes
+### 2.2 Register Addressing in Microinstructions
 
-Register operands within instructions encode the register index in 2-bit fields (`rr`, `dd`, `ss`):
+The CTRL word contains two 4-bit fields for register addressing:
 
-| Encoding | Register |
-| --- | --- |
-| `00` | R0 |
-| `01` | R1 |
-| `10` | R2 |
-| `11` | (not used in direct register instructions — reserved for `(Rn+)`, `((Rn+))`, and indirect modes) |
+- **mrgAA** (4 bits): Register Address A
+  - Bits 2–0: Register number (0–7)
+  - Bit 3: If set, bits 2–0 are overridden — the register address comes from `BR[1:0]` (i.e., bits BR.1–BR.0 of the Instruction Register)
 
-Registers R3–R7 are **not directly addressable** by assembly instructions. They are accessed implicitly via control-flow operations (PC, SP), flag manipulation (Flags), or exclusively by microcode (R6, R7).
+- **mrgAB** (4 bits): Register Address B / Immediate constant
+  - Bits 2–0: Register number (0–7) or lower bits of an immediate value
+  - Bit 3: If set, bits 2–0 are overridden — the register address comes from `BR[3:2]`
 
-For **indirect and complex addressing modes**, the 2-bit field encodes the pointer register as `rr = 00/01/10` for R0/R1/R2 respectively. The addressing mode itself is encoded in bits [3:2] of the source/destination byte (see §17.5).
+This dual-addressing scheme allows the microcode to use the BR (Instruction Register) fields to dynamically select operand registers based on the current instruction's opcode.
 
 ---
 
-## 3. Memory Map & Address Space
+## 3. Arithmetic Logic Unit (ALU)
 
-The 8-bit address space (0x00–0xFF) is decoded into regions with different access semantics.
+The ALU is an 8-bit signed integer ALU that computes `F = f(A, B, Cin)` and produces three result flags: Carry Out (CO), Zero Out (ZO), and Negative Out (NO).
 
-### 3.1 Memory Map Table
+### 3.1 ALU Inputs
 
-| Address Range | Size | R/W | Region | Description |
-| --- | --- | --- | --- | --- |
-| 0x00–0xEF | 240 bytes | R/W | **DPRAM** (Data/Program RAM) | Unified memory for both instructions and data. Programs are loaded here and executed in-place. Byte-addressable. |
-| 0xF0–0xF3 | 4 bytes | R/W | **Expansion Board Interface** | Memory-mapped I/O for expansion cards. Read/write accesses are forwarded to external `readMinibus()` / `writeMinibus()` handlers. Mapped to expansion board addresses 0–3. |
-| 0xF4–0xF9 | 6 bytes | R/W | **DAC / Reserved I/O** | Digital-to-Analog Converters and reserved peripheral space. |
-| 0xFA | 1 byte | See below | **UART Data Register** | **Read:** Receive Buffer Register (RxD) — returns the last fully received byte. Reading this register clears the RxReady/RxFull status bits. **Write:** Transmit Buffer Register (TxD) — queues a byte for transmission. |
-| 0xFB | 1 byte | See below | **UART Status/Control Register** | **Read:** Returns `uartStatusReg` — bitfield with TxReady, TxEmpty, CTS, TxD, RxD, RTS, RxFull, RxReady flags. **Write:** Sets `uartControlReg` — configures interrupts, baudrate, and CTS behavior. |
-| 0xFC | 1 byte | R-only | **General-Purpose Input Port 0** | Read-only input port. Values are externally driven. |
-| 0xFD | 1 byte | R-only | **General-Purpose Input Port 1** | Read-only input port. Values are externally driven. |
-| 0xFE | 1 byte | R/W | **Output Indicator Register 0** | **Write:** Sets output port 0 (e.g., LEDs, indicators). **Read:** Returns current output state (if implemented). |
-| 0xFF | 1 byte | R/W | **Output Indicator Register 1** | **Write:** Sets output port 1. **Read:** Returns current output state. Also used as the shared input port 2 (read path multiplexed). |
+| Input | Source | Width |
+|---|---|---|
+| A | Register File (via mrgAA) or Memory Bus Data (selectable by mAluIA) | 8-bit |
+| B | Register File (via mrgAB) or Immediate constant from mrgAB field (selectable by mAluIB) | 8-bit |
+| Cin | Carry Flag (CF from FLAGS register) | 1-bit |
 
-### 3.2 Memory Access Protocol
+### 3.2 ALU Control Signals
 
-Memory accesses are controlled by two signals from the microinstruction:
-- **`busEn`** (Bus Enable): When asserted (1), the memory bus is active. When deasserted (0), the bus is tri-stated and no read/write occurs.
-- **`busWr`** (Bus Write): When `busEn=1` and `busWr=1`, a write is performed to the address on the bus. When `busEn=1` and `busWr=0`, a read is performed.
+The 4-bit **mAluS** field selects the ALU operation:
 
-The **address** for all memory operations is always the value of the A-side register selected by `mrgAA` (i.e., `getRegA()`). The **data** for writes comes from the ALU output `F`.
+| mAluS | Mnemonic | Function | CO (Carry Out) |
+|---|---|---|---|
+| 0000 | ADDH | F = A + B | `Cin ∨ Ca` (OR of input carry and adder carry) |
+| 0001 | A | F = A | `0` |
+| 0010 | NOR | F = ¬(A ∨ B) | `0` |
+| 0011 | 0 | F = 0 | `0` |
+| 0100 | ADD | F = A + B | `Ca` (adder carry) |
+| 0101 | ADDS | F = A + B + 1 | `¬Ca` (inverted adder carry, for subtraction) |
+| 0110 | ADC | F = A + B + Cin | `Ca` |
+| 0111 | ADCS | F = A + B + ¬Cin | `¬Ca` |
+| 1000 | LSR | F(n) = A(n+1), F(7)=0 | `A(0)` |
+| 1001 | RR | F(n) = A(n+1), F(7)=A(0) | `A(0)` |
+| 1010 | RRC | F(n) = A(n+1), F(7)=Cin | `A(0)` |
+| 1011 | ASR | F(n) = A(n+1), F(7)=A(7) | `A(0)` |
+| 1100 | B | F = B | `0` |
+| 1101 | SETC | F = B | `1` |
+| 1110 | BH | F = B | `Cin` (hold carry) |
+| 1111 | INVC | F = B | `¬Cin` (invert carry) |
 
-### 3.3 Memory Broadcast Channel
+Where:
+- **Ca** = carry out from the 8-bit adder (true when unsigned sum > 0xFF)
+- **A(0)** = bit 0 (LSB) of input A
+- **Cin** = input carry from FLAGS.CF
+- All results F are masked to 8 bits (`F & 0xFF`)
 
-The DPRAM state is broadcast to external observers (e.g., memory visualization tools) via a `BroadcastChannel` named `"memory-channel"` using the message format:
-```json
-{ "msg": "update", "data": <DPRAM array>, "architecture": "a" }
-```
-The channel also handles a `"request-state"` message, responding with the current DPRAM contents.
+### 3.3 ALU Outputs
 
----
+| Output | Width | Description |
+|---|---|---|
+| F | 8-bit | Result of the selected operation |
+| CO | 1-bit | Carry Out (becomes new CF when mChFlg=1) |
+| ZO | 1-bit | Zero Out — `1` if F === 0 |
+| NO | 1-bit | Negative Out — `1` if F[7] === 1 |
 
-## 4. Datapath Architecture
+### 3.4 ALU Operations with B = A (compound instructions)
 
-### 4.1 Data Flow Overview
+When the same register is used for both A and B inputs, several ALU operations produce useful single-operand instructions:
 
-```
-Register File (8×8-bit)
-    │
-    ├─ Read Port A: Selected by mrgAA (4-bit) ──► RegA ──► MuxA ──► ALU Input A
-    │                                                  (mAluIA select:
-    │                                                  0=RegA, 1=MEMData)
-    │
-    ├─ Read Port B: Selected by mrgAB (4-bit) ──► RegB ──► MuxB ──► ALU Input B
-    │                                                  (mAluIB select:
-    │                                                  0=RegB, 1=Constant)
-    │
-    ├─ Write Port:  Selected by mrgWS (mux select)
-    │               Data = ALU Output F (8-bit)
-    │               Write Enable = mrgWE
-    │
-Memory Bus ◄── RegA (address) ──► DPRAM / I/O
-    │
-    └── MEMData ──► Internal Bus ──► MuxA / BR Load
-```
-
-### 4.2 Register Read Multiplexers
-
-The register file read address ports are 4-bit wide but interpreted with a special mode bit:
-
-**Port A (`mrgAA`):**
-- `mrgAA[3] == 0`: Address is `mrgAA[2:0]` — selects register R0–R7 directly from microinstruction.
-- `mrgAA[3] == 1`: Address is `{0, BR[1:0]}` — selects register based on **OpCode bits 1-0** (mapped to R0–R2). This allows microcode to operate on the register encoded in the instruction.
-
-**Port B (`mrgAB`):**
-- `mrgAB[3] == 0`: Address is `mrgAB[2:0]` — selects register R0–R7 directly from microinstruction.
-- `mrgAB[3] == 1`: Address is `{0, BR[3:2]}` — selects register based on **OpCode bits 3-2** (mapped to R0–R2). Also provides the low 4 bits as a constant (`mrgAB[3:0]`) when `mAluIB=1` (sign-extended to 8-bit: bits [3:0] with bit 3 replicated to bits [7:4]).
-
-### 4.3 Register Write Path
-
-When `mrgWE == 1`:
-- If `mrgWS == 0`: Write ALU result to register selected by Port A address (`mrgAA`).
-- If `mrgWS == 1`: Write ALU result to register selected by Port B address (`mrgAB`).
-
-### 4.4 Flag Update
-
-When `mChFlg == 1`, the Flags register (R4) is updated:
-- `CF` ← ALU carry-out (`co`)
-- `ZF` ← ALU zero (`zo`)
-- `NF` ← ALU negative (`no`)
-- `IEF` bit is **preserved** (not modified by `mChFlg`).
-
-When `mChFlg == 0`, flags retain their previous values regardless of ALU output.
+| ALU Operation | With B=A | ISA Instruction | Description |
+|---|---|---|---|
+| ADD (0100) | F = A + A = 2·A | LSL | Logical Shift Left |
+| ADDH (0000) | F = A + A, C = Cin ∨ Ca | LSLH | LSL + Hold Carry |
+| ADDS (0101) | F = A + A + 1 | (SL1) | Shift left, insert 1 at LSB |
+| ADC (0110) | F = A + A + Cin | RLC | Rotate Left through Carry |
+| NOR (0010) | F = ¬(A ∨ A) = ¬A | COM | Complement (bitwise NOT) |
+| B (1100) | F = B = A | CLC | Pass through, clear carry |
 
 ---
 
-## 5. Arithmetic Logic Unit (ALU)
+## 4. Microinstruction Format
 
-### 5.1 Overview
+Each microinstruction is 28 bits wide. The bits control hardware signals directly without intermediate decoding (horizontal microcode).
 
-The ALU is an 8-bit signed integer unit with a 4-bit function select input (`mAluS[3:0]`), two 8-bit data inputs (A and B), and 1-bit carry-in (Cin = CF). It produces:
-- **F**: 8-bit result (always bit-masked to `0xFF`)
-- **co**: Carry-out (boolean)
-- **zo**: Zero detect (boolean): `F == 0`
-- **no**: Negative detect (boolean): `F[7] == 1`
-
-All arithmetic is performed using **unsigned 8-bit intermediate values** to correctly detect carry/borrow conditions. Inputs are interpreted as 8-bit bit patterns; signed/unsigned semantics are determined by instruction context.
-
-### 5.2 ALU Function Table
-
-| `mAluS[3:0]` | Mnemonic | Operation (Pseudocode) | Carry-out (co) | Notes |
-| --- | --- | --- | --- | --- |
-| `0000` | **ADDH** | `F = A + B` | `CF \|\| (A+B > 0xFF)` | Add and hold carry: OR of incoming CF and new carry |
-| `0001` | **A** | `F = A` | `0` | Pass-through A; B and Cin ignored |
-| `0010` | **NOR** | `F = ~(A \| B)` | `0` | Bitwise NOR; when B = A: complement (COM) |
-| `0011` | **ZERO** | `F = 0` | `0` | Constant zero output; ZF always set |
-| `0100` | **ADD** | `F = A + B` | `A+B > 0xFF` | Standard addition; when B = A: logical shift left (LSL) |
-| `0101` | **ADDS** | `F = A + B + 1` | `!(A+B+1 > 0xFF)` | Add for subtraction (two's complement); inverted carry |
-| `0110` | **ADC** | `F = A + B + Cin` | `A+B+Cin > 0xFF` | Add with carry; when B = A: rotate left through carry (RLC) |
-| `0111` | **ADCS** | `F = A + B + !Cin` | `!(A+B+!Cin > 0xFF)` | ADC for subtraction; inverted carry |
-| `1000` | **LSR** | `F[n] = A[n+1]`; `F[7] = 0` | `A[0]` | Logical shift right; 0 shifted into MSB |
-| `1001` | **RR** | `F[n] = A[n+1]`; `F[7] = A[0]` | `A[0]` | Rotate right (no carry involvement) |
-| `1010` | **RRC** | `F[n] = A[n+1]`; `F[7] = Cin` | `A[0]` | Rotate right through carry |
-| `1011` | **ASR** | `F[n] = A[n+1]`; `F[7] = A[7]` | `A[0]` | Arithmetic shift right; sign bit preserved in MSB |
-| `1100` | **B** | `F = B` | `0` | Pass-through B (clear carry) |
-| `1101` | **SETC** | `F = B` | `1` | Pass-through B (set carry) |
-| `1110` | **BH** | `F = B` | `Cin` | B and hold carry (carry unchanged) |
-| `1111` | **INVC** | `F = B` | `!Cin` | B and invert carry |
-
-### 5.3 Flag Generation
-
-After every ALU evaluation:
-- **Zero Flag (ZF)**: `zo = (F == 0)`
-- **Negative Flag (NF)**: `no = (F[7] == 1)`
-- **Carry Flag (CF)**: Set to `co` only when `mChFlg == 1`
-
-### 5.4 ALU Input Multiplexers
-
-- **Input A** (`mAluIA`): `0` → Register A output; `1` → Memory bus data (MEMDI)
-- **Input B** (`mAluIB`): `0` → Register B output; `1` → Constant from `mrgAB[3:0]` sign-extended to 8 bits
-
-This dual-multiplexer arrangement enables the ALU to operate on register-register, register-memory, register-immediate, and memory-immediate combinations at the microcode level.
-
----
-
-## 6. Microprogrammed Control Unit (Steuerwerk)
-
-### 6.1 Overview
-
-The 2a architecture uses a **horizontal microprogrammed control unit** — every control signal in the datapath is driven directly by a bit in the current microinstruction. This is in contrast to vertical microcode where fields are encoded and decoded.
-
-The control unit consists of:
-- **MPRAM**: 512 × 28-bit microcode ROM (see §8)
-- **µPC (Microprogram Counter)**: 9-bit address register (`currentAddr`)
-- **Address Sequencer**: Logic that computes the next microinstruction address based on current microinstruction fields, condition codes, and opcode bits
-- **BR (Befehlsregister / Instruction Register)**: 8-bit latch that captures the current instruction opcode from the memory bus at the appropriate microcode step
-- **IFF1/IFF2**: Interrupt flip-flops for interrupt synchronization
-
-### 6.2 BR — Instruction Register
-
-The BR is an 8-bit register loaded from the memory data bus (`MEMDI`) under specific microcode control conditions. It splits conceptually into two fields:
+### 4.1 CTRL Word Bit Layout
 
 ```
-BR[7:4] — NextAddress[8:5] (upper bits of the next microcode address)
-BR[3:0] — OpCode[3:0] (instruction-specific opcode bits)
+Bit:   27      26..23    22      21      20      19      18..15    14..11    10      9       8..4       3..0
+     [mChFlg] [mAluS] [mAluIB] [mAluIA] [mrgWE] [mrgWS] [mrgAB]  [mrgAA]  [busEn] [busWr] [nextAddr] [mAC]
 ```
 
-**Bits used for register selection within microcode:**
-- `BR[1:0]` — Select register for Port A when `mrgAA[3] == 1` (destination register or single-operand register)
-- `BR[3:2]` — Select register for Port B when `mrgAB[3] == 1` (source register for two-operand instructions)
-- `BR[3]` (OP10) and `BR[2]` (OP01/OP10) — Used in address sequencing for condition multiplexing
+### 4.2 Field Descriptions
 
-**Bits used for branch condition selection:**
-- `BR[1:0]` — Select which flag to evaluate: `00` → always (JR), `01` → CF, `10` → ZF, `11` → NF
-- `BR[2]` — Invert sense: `0` → branch if set (JCS/JZS/JNS), `1` → branch if clear (JCC/JZC/JNC)
-- `BR[3]` — Used as part of AM2 computation
+| Bits | Field | Width | Description |
+|---|---|---|---|
+| 3–0 | **mAC** | 4 | Microprogram Address Control — determines how the next microinstruction address is computed (see §6) |
+| 8–4 | **nextAddr** | 5 | Next Address field — supplies bits 4–0 (or part thereof) of the next microinstruction address |
+| 9 | **busWr** | 1 | Bus Write — `1` = write to memory bus, `0` = read from memory bus |
+| 10 | **busEn** | 1 | Bus Enable — `1` = enable memory bus access, `0` = disable |
+| 14–11 | **mrgAA** | 4 | Register Address A — selects register for ALU input A and memory address (see §2.2) |
+| 18–15 | **mrgAB** | 4 | Register Address B / Immediate — selects register for ALU input B or provides a 4-bit immediate constant (see §2.2) |
+| 19 | **mrgWS** | 1 | Register Write Select — `0` = write to register addressed by mrgAA, `1` = write to register addressed by mrgAB |
+| 20 | **mrgWE** | 1 | Register Write Enable — `1` = write ALU result F to the selected register |
+| 21 | **mAluIA** | 1 | ALU Input A Select — `0` = register data from mrgAA address, `1` = memory bus data |
+| 22 | **mAluIB** | 1 | ALU Input B Select — `0` = register data from mrgAB address, `1` = immediate constant from mrgAB field (sign-extended to 8-bit: `mrgAB[3] ? 0xF8 | mrgAB : mrgAB`) |
+| 26–23 | **mAluS** | 4 | ALU Function Select — selects one of 16 ALU operations (see §3.2) |
+| 27 | **mChFlg** | 1 | Change Flags — `1` = update FLAGS register (NF, ZF, CF) from ALU outputs NO, ZO, CO |
 
-**Loading condition:**
-BR is loaded from the memory bus when **both** `mAC[0] == 1` AND `mAC[2] == 1` (i.e., `mAC[0] & (mAC[2] >> 2)` are true). This typically occurs at the end of the instruction fetch sequence.
+### 4.3 Encoding Format in MPRAM
 
-**Resetting condition:**
-BR is reset to `0x00` when **both** `mAC[1] == 1` AND `mAC[2] == 1`. This clears the instruction register for the next fetch cycle.
-
-### 6.3 CTRL — Current Microinstruction Register
-
-The CTRL object holds the decoded fields of the current 28-bit microinstruction. Its structure is defined in §7.
-
----
-
-## 7. Microinstruction Format
-
-Each microinstruction is 28 bits wide, organized as follows:
-
-### 7.1 Bit Layout
+Microinstructions are stored in MPRAM as 28-character strings of `'0'` and `'1'` characters. The bit order in storage matches the CTRL word layout:
 
 ```
-Bit:  27       26    25    24    23    22    21    20    19    18    17    16    15    14    13    12    11    10     9     8     7     6     5     4     3     2     1     0
-     ┌───────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┐
-     │mChFlg │mAluS3│mAluS2│mAluS1│mAluS0│mAluIB│mAluIA│mrgWE │mrgWS │mrgAB3│mrgAB2│mrgAB1│mrgAB0│mrgAA3│mrgAA2│mrgAA1│mrgAA0│busEn │busWr │ nA4  │ nA3  │ nA2  │ nA1  │ nA0  │ mAC3 │ mAC2 │ mAC1 │ mAC0 │
-     └───────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┴──────┘
+Position:  0..3     4..8      9       10       11..14   15..18   19       20       21       22       23..26   27
+Field:     mAC      nextAddr  busWr   busEn    mrgAA    mrgAB    mrgWS    mrgWE    mAluIA   mAluIB   mAluS    mChFlg
 ```
 
-### 7.2 Field Descriptions (MSB to LSB, index 27→0)
+So `MPRAM[addr][0]` = mAC[3] (MSB), `MPRAM[addr][3]` = mAC[0] (LSB), `MPRAM[addr][27]` = mChFlg.
 
-| Bit(s) | Field | Width | Description |
-| --- | --- | --- | --- |
-| 27 | **mChFlg** | 1 | **Change Flags.** When 1, update CF, ZF, NF from ALU outputs. When 0, flags are preserved. |
-| 26–23 | **mAluS[3:0]** | 4 | **ALU Function Select.** Selects one of 16 ALU operations (see §5.2). |
-| 22 | **mAluIB** | 1 | **ALU Input B Select.** `0` = Register B output; `1` = Constant from `mrgAB[3:0]` (sign-extended). |
-| 21 | **mAluIA** | 1 | **ALU Input A Select.** `0` = Register A output; `1` = Memory bus data (MEMDI). |
-| 20 | **mrgWE** | 1 | **Register Write Enable.** When 1, write ALU result `F` to the register file at the selected write address. |
-| 19 | **mrgWS** | 1 | **Register Write Select.** `0` = Write to Port A address (`mrgAA`); `1` = Write to Port B address (`mrgAB`). |
-| 18–15 | **mrgAB[3:0]** | 4 | **Register Address B / Immediate Constant.** Bits [2:0]: Register B address (when `mrgAB[3]==0`) or OpCode-based selection (when `mrgAB[3]==1`). Bit 3: Mode selector. When `mAluIB==1`, bits [3:0] provide an immediate constant (sign-extended to 8 bits). |
-| 14–11 | **mrgAA[3:0]** | 4 | **Register Address A.** Bits [2:0]: Register A address (when `mrgAA[3]==0`) or OpCode-based selection (when `mrgAA[3]==1`). Bit 3: Mode selector. Also serves as the memory address for bus operations. |
-| 10 | **busEn** | 1 | **Bus Enable.** When 1, the memory bus is active. Enables read/write to DPRAM, peripherals, and I/O. |
-| 9 | **busWr** | 1 | **Bus Write.** When 1 (and `busEn==1`), write ALU result `F` to the address specified by Register A. When 0, read from memory. |
-| 8–4 | **nextAddr[4:0]** | 5 | **Next Address (low bits).** Lower 5 bits of the next microcode address. Combined with BR bits and condition logic to form the complete 9-bit µPC. |
-| 3–0 | **mAC[3:0]** | 4 | **Microcode Address Control.** Controls the address sequencer, BR load/reset, and condition multiplexer selection. |
-
-### 7.3 Microinstruction String Representation
-
-In the JavaScript implementation, each microinstruction is stored as a 28-character string without spaces:
-
+The human-readable form commonly uses spaces for readability:
 ```
-"0011 00111 0 0 0000 0000 0 0 0 0 1100 0"  →  "00110011100000000000000011000"
-  │    │    │ │ │    │    │ │ │ │ │    │
-  │    │    │ │ │    │    │ │ │ │ │    └─ mChFlg
-  │    │    │ │ │    │    │ │ │ │ └────── mAluS[3:0]
-  │    │    │ │ │    │    │ │ │ └──────── mAluIB
-  │    │    │ │ │    │    │ │ └────────── mAluIA
-  │    │    │ │ │    │    │ └──────────── mrgWE
-  │    │    │ │ │    │    └────────────── mrgWS
-  │    │    │ │ │    └─────────────────── mrgAB[3:0]
-  │    │    │ │ └──────────────────────── mrgAA[3:0]
-  │    │    │ └────────────────────────── busEn
-  │    │    └──────────────────────────── busWr
-  │    └───────────────────────────────── nextAddr[4:0]
-  └────────────────────────────────────── mAC[3:0]
+mAC nextAddr busWr busEn mrgAA mrgAB mrgWS mrgWE mAluIA mAluIB mAluS mChFlg
+0011 00111   0     0     0000  0000  0     0     0      0      1100  0
 ```
 
 ---
 
-## 8. Microcode ROM (MPRAM)
+## 5. Microcode Memory (MPRAM)
 
-### 8.1 Organization
+MPRAM is a 512 × 28-bit memory, addressed by a 9-bit address.
 
-The MPRAM contains 512 words (addresses `0x000` to `0x1FF`, 9-bit addressing). It is conceptually organized into **16 blocks** of 32 words each, selected by the upper 4 bits (`nextAddr[8:5]`, derived from `BR[7:4]`).
+### 5.1 Address Organization
 
-### 8.2 Block Assignment Map
-
-| Block | Address Range | Instruction Class / Function |
-| --- | --- | --- |
-| **0** (0x0) | 0x000–0x01F | **Instruction Fetch (RESET sequence).** Loads BR, decodes opcode, dispatches to instruction-specific blocks. |
-| **1** (0x1) | 0x020–0x03F | **CLR, INC, DEC, NEG, COM, LSR, ASR, TST** — Single-operand register instructions (opcodes `000001rr` through `010010rr`). |
-| **2** (0x2) | 0x040–0x05F | **MOV, LD, ST** — Complex addressing mode load/store operations. Decodes destination byte and source byte. |
-| **3** (0x3) | 0x060–0x07F | **ADD, ADC, SUB** — Two-operand arithmetic instructions (opcodes `0110ssdd`, `0111ssdd`, `1000ssdd`). |
-| **4** (0x4) | 0x080–0x09F | **AND, OR, XOR** — Two-operand logic instructions (opcodes `1001ssdd`, `1010ssdd`, `1101ssdd`). Includes `EI`, `DI`, `RET`, `RETI`, `PUSHF`, `POPF`, `STOP`, `NOP`. |
-| **5** (0x5) | 0x0A0–0x0BF | **CMP** — Compare instruction class (opcode class `0x20`). |
-| **6** (0x6) | 0x0C0–0x0DF | **BITT** (Bit Test) — Bit-test class (opcode class `0x30`). |
-| **7** (0x7) | 0x0E0–0x0FF | **BITS** (Bit Set) — Bit-set class (opcode class `0x50`). |
-| **8** (0x8) | 0x100–0x11F | **BITC** (Bit Clear, Part 1) — Bit-clear class (opcode class `0x60`). |
-| **9** (0x9) | 0x120–0x13F | **BITC** (Bit Clear, Part 2) — Continuation of bit-clear operations. |
-| **10** (0xA) | 0x140–0x15F | **Conditional Branches (JCS, JCC, JZS, JZC, JNS, JNC, JR)** — Relative branch evaluation and PC update. |
-| **11** (0xB) | 0x160–0x17F | **CALL** — Subroutine call: push return address and jump to target. |
-| **12** (0xC) | 0x180–0x19F | **RET** — Subroutine return: pop return address into PC. |
-| **13** (0xD) | 0x1A0–0x1BF | **RETI** — Return from interrupt: pop Flags and PC. |
-| **14** (0xE) | 0x1C0–0x1DF | **Interrupt Handler / HALT state.** Handles interrupt acknowledge sequence and STOP condition. |
-| **15** (0xF) | 0x1E0–0x1FF | **MUL, DIV** — Multiply and divide operations (opcodes `1011ssdd`, `1100ssdd`). |
-
-### 8.3 Microcode Execution Flow
-
-1. **Reset:** µPC forced to address `0x000` (Block 0). The reset sequence initializes the datapath and begins instruction fetch.
-2. **Instruction Fetch:** Microcode in Block 0 loads the next opcode byte from DPRAM (addressed by PC) into BR.
-3. **Dispatching:** The upper 4 bits of the 9-bit next address come from `BR[7:4]`, effectively using the opcode's upper nibble to select the microcode block. The lower 5 bits come from `nextAddr[4:0]` and condition logic.
-4. **Execution:** The selected block sequences through its microinstructions, performing register operations, ALU computations, memory accesses, and flag updates.
-5. **Next Instruction:** The block concludes by returning control to the fetch sequence (Block 0).
-
----
-
-## 9. Instruction Fetch & Decode (OpCode Handling)
-
-### 9.1 Fetch Sequence (Block 0)
-
-The reset and fetch sequence (addresses 0x000–0x01F) performs:
-
-1. **Microinstruction 0x000:** Set up initial conditions. `mrgAA` targets PC (R3). `busEn=1`, `busWr=0` — read from DPRAM at PC address. `mAC=0b1100` — enables BR load condition (`mAC[0] & mAC[2]`).
-2. **Microinstruction 0x001:** Continue fetch. ALU function `ADDH` (0x0) computes `PC + 0`. Memory data is available on the bus. BR is loaded with the opcode byte.
-3. **Subsequent cycles:** The microcode sequences through additional steps depending on the opcode class. For simple single-byte instructions, execution completes within Block 0. For multi-byte instructions (addressing modes, branches, calls), the sequencer dispatches to the appropriate block via the next-address mechanism.
-
-### 9.2 OpCode Decoding
-
-The BR register splits the fetched byte into:
-
-- **`BR[7:4]`** → Next microcode address bits `[8:5]`. These 4 bits select which of the 16 microcode blocks to execute.
-- **`BR[3:0]`** → Specific opcode within the class. These bits are used:
-  - As register selectors (`BR[1:0]` for destination register, `BR[3:2]` for source register)
-  - As condition selectors for branches (`BR[1:0]` = flag select, `BR[2]` = invert/sense)
-  - As sub-function selectors within a microcode block (via condition multiplexing on `nextAddr[4:0]`)
-
-### 9.3 OpCode → Block Mapping
-
-The upper nibble of the instruction's first byte determines the microcode block:
-
-| `BR[7:4]` | Block | Instruction Class |
-| --- | --- | --- |
-| `0000` | 0 | STOP (0x01), NOP (0x02), EI (0x08), DI (0x0C), PUSH (0x1x), POP (0x1x), RET (0x17), PUSHF (0x18), POPF (0x1C), CLR (0x04–0x07) |
-| `0001` | 1 | CLR (partial), INC (0x44–0x47), DEC (0x50–0x53), NEG (0x34–0x37), COM (0x30–0x33), LSR (0x38–0x3B), ASR (0x3C–0x3F), TST (0x48–0x4B) |
-| `0010` | 2 | MOV/LD/ST (class 0x10), CMP (class 0x20), BITT (class 0x30), Conditional Branches (0x20–0x27) |
-| `0011` | — | (see below) |
-| ... | ... | ... |
-
-*Note: The exact mapping depends on how `BR[7:4]` feeds into `nextAddr[8:5]` via the address sequencer.*
-
----
-
-## 10. Address Sequencer
-
-### 10.1 Next Address Generation
-
-The 9-bit next microcode address is computed as:
+The 9-bit microcode address is decomposed as:
 
 ```
-NextAddr[8:0] = {
-    NextAddr[8]:    BR[7]  (via BR[7:4] << 1)
-    NextAddr[7]:    BR[6]
-    NextAddr[6]:    BR[5]
-    NextAddr[5]:    BR[4]
-    NextAddr[4:2]:  nextAddr[4:2]  (from microinstruction)
-    NextAddr[1]:    (mAC[3]==0) ? nextAddr[1] : BR[3]
-    NextAddr[0]:    (mAC[3]==0) ? AM1 : BR[2]
+Bit:   8  7  6  5    4  3  2  1  0
+     [ Block (4 bits) ][ Word (5 bits) ]
+```
+
+- **Block** (bits 8–5): Selects one of 16 blocks (0–15)
+- **Word** (bits 4–0): Selects one of 32 microinstructions within the block
+
+### 5.2 Block Assignment
+
+Each block contains the microcode for a group of related ISA instructions or control sequences:
+
+| Block | Range (Binary) | Purpose |
+|---|---|---|
+| 0 | `0000_00000` – `0000_11111` | RESET sequence, instruction fetch (FETCH), opcode dispatch |
+| 1 | `0001_00000` – `0001_11111` | Data transfer instructions: MOV, LD, ST, PUSH, POP, PUSHF, POPF, LDSP, LDFR |
+| 2 | `0010_00000` – `0010_11111` | ALU operations: ADD, ADC, SUB, AND, OR, XOR, CMP, BITT, conditional branches |
+| 3 | `0011_00000` – `0011_11111` | Shift/rotate group 1: LSR, ASR, RRC, RLC (continued from block 1/2) |
+| 4 | `0100_00000` – `0100_11111` | Shift/rotate group 2: LSL, COM, NEG, INC, DEC, TST, BITS, BITC |
+| 5 | `0101_00000` – `0101_11111` | MUL, DIV instructions |
+| 6 | `0110_00000` – `0110_11111` | JMP, JCS, JCC, JZS, JZC, JNS, JNC, JR, CALL |
+| 7 | `0111_00000` – `0111_11111` | Conditional jump evaluation (continued from block 6) |
+| 8 | `1000_00000` – `1000_11111` | RET, RETI, EI, DI, STOP, NOP |
+| 9 | `1001_00000` – `1001_11111` | Extended operations |
+| 10 | `1010_00000` – `1010_11111` | Additional control flow |
+| 11 | `1011_00000` – `1011_11111` | Memory indirect / indexed operations |
+| 12 | `1100_00000` – `1100_11111` | Complex addressing modes |
+| 13 | `1101_00000` – `1101_11111` | Extended ALU and memory operations |
+| 14 | `1110_00000` – `1110_11111` | Interrupt acknowledge sequence |
+| 15 | `1111_00000` – `1111_11111` | FETCH helpers, PC increment, operand load |
+
+### 5.3 FETCH Sequence
+
+The instruction fetch cycle is the heart of the microcode sequencer. It resides primarily in Block 0 and Block 15:
+
+1. **Microaddress `0000_0000` (Block 0, Word 0):** Reset / Init entry point
+   - Loads PC value, prepares to read instruction from memory
+   
+2. **Microaddress `0000_0110`:** FETCH complete
+   - When `mAC[3:0] = 1101` and conditions are met, the BR is loaded with the instruction byte from memory
+   - The next microaddress is formed using bits from the fetched instruction
+   
+3. **Block selection via BR:** After FETCH, the upper 4 bits of BR (`BR[7:4]`) — called the "Next Address 8–5" or `na8to5` — are used to select which block's microcode to execute, providing a 16-way branch (one block per major opcode group)
+
+The FETCH sequence also increments PC (stored in Register 3) to point to the next instruction byte.
+
+---
+
+## 6. Control Unit / Address Sequencer
+
+The Control Unit computes the next microinstruction address each clock cycle. The 4-bit **mAC** field (Microprogram Address Control) determines the addressing mode.
+
+### 6.1 mAC Field Encoding
+
+```
+mAC[3] mAC[2] mAC[1] mAC[0]
+  |      |      |      |
+  |      |      |      +-- BL1: Load BR from memory bus (when mAC[3]=1)
+  |      |      +--------- BL3: Reset BR to 0x00 (when mAC[3]=1)
+  |      +---------------- (Condition bit used in AM1 logic)
+  +----------------------- Block Mode: 0 = standard, 1 = use BR for address bits
+```
+
+**Detailed bit functions:**
+
+| mAC Bit | Name | Function |
+|---|---|---|
+| mAC[0] | BL1 (BR Load 1) | When **both** mAC[3]=1 AND mAC[0]=1: Load BR from memory bus data |
+| mAC[1] | BL3 (BR Reset) | When **both** mAC[3]=1 AND mAC[1]=1: Reset BR to 0x00 |
+| mAC[2] | — | Used as a condition select bit in AM1 multiplexer (see §6.3) |
+| mAC[3] | Block Mode | `0` = next address computed from `nextAddr` field + AM1 logic, `1` = next address partially derived from BR (instruction-driven branching) |
+
+### 6.2 Next Address Computation
+
+The 9-bit next address is composed as follows:
+
+```
+na[8] na[7] na[6] na[5] na[4] na[3] na[2] na[1] na[0]
+  |     |     |     |     |     |     |     |     |
+  |     |     |     |     |     |     |     |     +-- na0: see AM1 logic (§6.3)
+  |     |     |     |     |     |     |     +-------- na1: (block mode? BR[3] : nextAddr[1])
+  |     |     |     |     |     |     +-------------- na2: nextAddr[2] (always from field)
+  |     |     |     |     |     +-------------------- na3: nextAddr[3] (always from field)
+  |     |     |     |     +-------------------------- na4: nextAddr[4] (always from field)
+  |     |     |     +-------------------------------- na5: BR[4] << 1 (upper BR bits)
+  |     |     +-------------------------------------- na6: BR[5] << 1
+  |     +-------------------------------------------- na7: BR[6] << 1
+  +-------------------------------------------------- na8: BR[7] << 1
+```
+
+**In mathematical form:**
+
+```
+if (mAC[3] == 0) {
+    // Standard mode
+    na[8:5] = BR[7:4]             // Block selection from instruction
+    na[4:2] = nextAddr[4:2]       // From microinstruction field
+    na[1]   = nextAddr[1]         // From microinstruction field
+    na[0]   = AM1()               // Computed by AM1 logic
+} else {
+    // Block mode (BR-driven)
+    na[8:5] = BR[7:4]             // Block selection from instruction
+    na[4:2] = nextAddr[4:2]       // From microinstruction field
+    na[1]   = BR[3]               // From instruction bit 3
+    na[0]   = BR[2]               // From instruction bit 2
 }
 ```
 
-- When `mAC[3] == 0`: The sequencer uses **sequential** mode. `nextAddr[1:0]` comes from the microinstruction, with `nextAddr[0]` potentially modified by AM1.
-- When `mAC[3] == 1`: The sequencer uses **dispatch** mode. `nextAddr[1:0]` are controlled by BR bits, enabling multi-way branches within a microcode block based on opcode bits.
+This scheme means:
+- **Bits 8–5** always come from BR[7:4] — the fetched opcode selects the microcode block
+- **Bits 4–2** always come from the `nextAddr` field in the microinstruction
+- **Bit 1** comes from `nextAddr[1]` (standard) or `BR[3]` (block mode)
+- **Bit 0** comes from AM1 logic (standard) or `BR[2]` (block mode)
 
-### 10.2 AM1 — Address Multiplexer 1 (Condition on `nextAddr[0]`)
+### 6.3 AM1 — Address Modifier 1
 
-`AM1` is a 1-bit signal computed from condition codes, used to modify the least significant bit of the next address. It implements conditional sequencing.
-
-```
-AM1 = f( mAC[1:0], nextAddr[0], CF, ZF, NF, IEF, IFF1, INTL, AM2 )
-
-Mapping (mAC[1:0] << 1 | nextAddr[0]):
-  0b000: 0                              (always 0 — unconditional)
-  0b001: 1                              (always 1 — unconditional)
-  0b010: BR[2] XOR AM2                  (conditional on BR[2] and AM2)
-  0b011: CF                             (conditional on Carry Flag)
-  0b100: ALU.co                         (conditional on ALU carry-out)
-  0b101: ALU.zo                         (conditional on ALU zero)
-  0b110: ALU.no                         (conditional on ALU negative)
-  0b111: IEF & (INTL | IFF1)            (interrupt pending and enabled)
-```
-
-### 10.3 AM2 — Second-Level Condition Mux
-
-`AM2` selects one of the processor flags based on `BR[1:0]`:
+AM1 computes the least significant bit of the next microaddress. It is a multiplexer controlled by `mAC[2:1]` and `nextAddr[0]`:
 
 ```
-AM2 = f(BR[1:0]):
-  00: 1           (always true — unconditional)
-  01: CF          (Carry Flag)
-  10: ZF          (Zero Flag)
-  11: NF          (Negative Flag)
+AM1 = MUX(select = {mAC[2], mAC[1], nextAddr[0]}, inputs = {
+  0b000: 0                    // Always 0
+  0b001: 1                    // Always 1
+  0b010: BR[2] ⊕ AM2()        // XOR of instruction bit 2 and AM2 result
+  0b011: CF                   // Current Carry Flag
+  0b100: ALU.CO               // ALU Carry Out
+  0b101: ALU.ZO               // ALU Zero Out
+  0b110: ALU.NO               // ALU Negative Out
+  0b111: IEF ∧ (INTL ∨ IFF1)  // Interrupt condition: IEF AND (interrupt line OR IFF1)
+})
 ```
 
-This is used in conjunction with `AM1` mode `0b010` (condition `BR[2] XOR AM2`) to implement conditional branches:
-- `BR[2] == 0`: Branch if condition **set** (JCS, JZS, JNS)
-- `BR[2] == 1`: Branch if condition **clear** (JCC, JZC, JNC)
+### 6.4 AM2 — Address Modifier 2
 
-### 10.4 Complete Addressing Modes
+AM2 provides a condition bit derived from the FLAGS register, selected by `BR[1:0]`:
 
-The `mAC[3:0]` field encodes the sequencer operating mode:
+```
+AM2 = MUX(select = BR[1:0], inputs = {
+  0b00: 1                     // Always true (unconditional)
+  0b01: CF                    // Carry Flag
+  0b10: ZF                    // Zero Flag
+  0b11: NF                    // Negative Flag
+})
+```
 
-| `mAC[3:0]` | Mode Description |
-| --- | --- |
-| `0000` | Sequential execution, AM1=0 (unconditional next) |
-| `0001` | Sequential execution, AM1=1 (unconditional next+1) |
-| `0010` | Sequential with condition (AM1 from lookup, `nextAddr[0]` used) |
-| `0011` | Sequential with CF condition |
-| `0100` | Sequential with ALU.co condition |
-| `0101` | Sequential with ALU.zo condition |
-| `0110` | Sequential with ALU.no condition |
-| `0111` | Sequential with interrupt condition |
-| `1000`–`1011` | Dispatch mode (BR bits control `nextAddr[1:0]`) + BR load enable |
-| `1100` | Dispatch mode + BR load + BR reset conditions |
-| `1101` | Special: memory address output mode |
-| `1110` | Special: PC increment mode |
-| `1111` | HALT / end-of-instruction |
+This allows the microcode to perform conditional branching based on the instruction's condition code field (typically BR[1:0]).
 
-*Note: The exact encoding is inferred from the JavaScript implementation. `mAC[0]` and `mAC[2]` together control BR loading (`mAC[0] & (mAC[2]>>2)`). `mAC[1]` and `mAC[2]` together control BR reset. `mAC[3]` controls dispatch vs sequential mode.* 
+### 6.5 IEF Control (Set/Reset)
+
+The Interrupt Enable Flag (IEF, bit 3 of FLAGS register) is managed by microcode:
+
+- **SET IEF:** When `mAC[0] = 1` AND `mAC[1] = 0` AND `mAC[3] = 0` AND `nextAddr[0] = 1` — sets IFF2 = IFF1
+- **RESET IFF1:** When IFF2 is true, IFF1 is cleared on the next cycle
+
+The `getIEF()` function returns bit 3 of the FLAGS register directly; it is set by microcode through register write operations.
+
+### 6.6 Interrupt Flip-Flops
+
+```
+IFF2 = IFF1 ∧ mAC[1]' ∧ mAC[0] ∧ (nextAddr[0])
+IFF1_reset = IFF2 (clears IFF1 when IFF2 is active)
+```
+
+This implements a two-stage interrupt synchronization mechanism:
+1. **IFF1** is the primary interrupt enable flip-flop
+2. **IFF2** is set one cycle after IFF1 when specific microcode conditions are met
+3. When IFF2 becomes active, IFF1 is cleared (one-cycle pulse generation)
 
 ---
 
-## 11. Clock Cycle Execution Flow
+## 7. Instruction Register (BR) and Opcode Decoding
 
-Each clock cycle executes the following sequence of operations in order:
+The **Befehlsregister (BR)** is an 8-bit instruction register that holds the currently executing machine instruction.
 
-### 11.1 `clk()` Function — Per-Cycle Operations
-
-```
-1. setReg()       — Write ALU result to register file (if mrgWE=1)
-2. setMemBus()    — Perform memory read/write (if busEn=1)
-3. setCTRL()      — Load next microinstruction from MPRAM into CTRL
-4. setBR()        — Load BR from memory bus (if mAC conditions met)
-5. resetBR()      — Reset BR to 0x00 (if mAC conditions met)
-6. setIFF2()      — Update IFF2 based on IFF1 and timing signals
-7. resetIFF1()    — Clear IFF1 if IFF2 was set
-8. [OpCode detection] — If mAC[3]==1, notify that next instruction opcode is available
-```
-
-### 11.2 Detailed Sub-Step Description
-
-#### setReg()
-- Computes `getALU()` with current ALU inputs and function select.
-- If `mrgWE == 1`: writes `F & 0xFF` to the target register (selected by `mrgWS`: 0→Port A address, 1→Port B address).
-- If `mChFlg == 1`: writes CF, ZF, NF to R4 (IEF is preserved).
-
-#### setMemBus()
-- If `busEn == 1`:
-  - **Read** (`busWr == 0`): Data from the addressed memory/peripheral is available on the bus for the *next* cycle's ALU input.
-  - **Write** (`busWr == 1`): The ALU output value is written to:
-    - DPRAM[addr] if `0x00 ≤ addr ≤ 0xEF`
-    - Expansion board if `0xF0 ≤ addr ≤ 0xF3` (via `writeMinibus(addr-0xF0, data)`)
-    - UART TX buffer if `addr == 0xFA`
-    - UART control register if `addr == 0xFB`
-    - Output ports if `0xFE ≤ addr ≤ 0xFF`
-- After a write, the DPRAM state is broadcast via `BroadcastChannel("memory-channel")`.
-
-#### setCTRL()
-- Computes `nextAddr = getNextAddr()` (the 9-bit µPC for the next cycle).
-- Fetches the 28-bit microinstruction string from `MPRAM[nextAddr]`.
-- Parses each field into the `CTRL` object.
-
-#### setBR()
-- If `mAC[0] == 1` AND `(mAC[2] >> 2) == 1` (i.e., `mAC[0] & mAC[2]`): loads BR from the memory bus data (`getMemBusData()`).
-
-#### resetBR()
-- If `mAC[1] == 1` AND `(mAC[2] >> 2) == 1`: resets BR to `0x00`.
-
-#### setIFF2()
-- `IFF2 = IFF1 && mAC[1] && mAC[0] && nextAddr[0]`
-- This captures the interrupt synchronization state.
-
-#### resetIFF1()
-- If `IFF2 == true`: clears `IFF1 = false`.
-
-### 11.3 Cycle Timing Diagram (Conceptual)
+### 7.1 BR Bit Layout
 
 ```
-         ┌──────┐     ┌──────┐     ┌──────┐
-CLK  ────┘      └─────┘      └─────┘      └───
-         ───────┐     ┌─────────────┐     ┌──
-setReg    write │─────│   (idle)    │─────│
-         ───────┘     └─────────────┘     └──
-                ┌─────┐           ┌─────┐
-setMemBus       │ R/W │───────────│ R/W │
-                └─────┘           └─────┘
-                      ┌───────────┐
-setCTRL               │ load µPC  │
-                      └───────────┘
-                            ┌─────┐
-setBR/setIFF2               │ upd │
-                            └─────┘
+BR[7] BR[6] BR[5] BR[4]  BR[3] BR[2] BR[1] BR[0]
+  |     |     |     |       |     |     |     |
+  |     |     |     |       |     |     |     +-- Opcode bit 0 / condition select 0
+  |     |     |     |       |     |     +-------- Opcode bit 1 / condition select 1
+  |     |     |     |       |     +-------------- Opcode bit 2 / operand select
+  |     |     |     |       +-------------------- Opcode bit 3 / operand select
+  |     |     |     +---------------------------- Opcode bit 4 (= Next Address bit 5)
+  |     |     +---------------------------------- Opcode bit 5 (= Next Address bit 6)
+  |     +---------------------------------------- Opcode bit 6 (= Next Address bit 7)
+  +---------------------------------------------- Opcode bit 7 (= Next Address bit 8)
+```
+
+### 7.2 BR Usage in Addressing
+
+- **BR[7:4]:** Select the microcode block (na[8:5]), providing 16-way dispatch
+- **BR[3:2]:** In block mode (mAC[3]=1), these directly drive na[1:0]; also used for register selection when mrgAA[3]=1 or mrgAB[3]=1
+- **BR[1:0]:** Select the condition for AM2, used in conditional branch evaluation; also used for register destination selection
+
+### 7.3 BR Loading
+
+BR is loaded from the memory bus when:
+```
+mAC[3] = 1  AND  mAC[0] = 1
+```
+At this point, `BR = getMemBusData()` — the byte at the memory address currently on the bus.
+
+### 7.4 BR Reset
+
+BR is reset to `0x00` when:
+```
+mAC[3] = 1  AND  mAC[1] = 1
 ```
 
 ---
 
-## 12. Interrupt Subsystem
+## 8. Memory Bus and Address Space
+
+### 8.1 Address Space Map
+
+| Range | Size | Purpose | Access |
+|---|---|---|---|
+| `0x00` – `0xEF` | 240 bytes | General-purpose Data RAM (DPRAM) | Read/Write |
+| `0xF0` – `0xF3` | 4 bytes | Expansion Card Interface | Read/Write |
+| `0xF4` – `0xF9` | 6 bytes | Reserved | — |
+| `0xFA` | 1 byte | UART Status/Control Register | Read = Status, Write = Control |
+| `0xFB` | 1 byte | UART Data Register | Read = Receive, Write = Send |
+| `0xFC` | 1 byte | Input Port FC | Read-only |
+| `0xFD` | 1 byte | Input Port FD | Read-only |
+| `0xFE` | 1 byte | Input Port FE / Output Port FE | Read = Input, Write = Output |
+| `0xFF` | 1 byte | Input Port FF / Output Port FF | Read = Input, Write = Output |
+
+### 8.2 Memory Bus Control
+
+Memory access is controlled by two CTRL signals:
+
+| busEn | busWr | Operation |
+|---|---|---|
+| 0 | X | No memory access |
+| 1 | 0 | Read from memory at address = Register A |
+| 1 | 1 | Write ALU result F to memory at address = Register A |
+
+**Memory Address:** The memory address is always taken from **Register A** (the register selected by mrgAA). This means before any memory access, the target address must be loaded into a register and that register must be selected as Register A.
+
+### 8.3 Write Behavior
+
+After a memory write (`busEn=1, busWr=1`), the implementation broadcasts the updated DPRAM array via `BroadcastChannel("memory-channel")` with message `{msg: "update", data: DPRAM, architecture: "a"}`. This allows other components (like the GUI) to stay synchronized.
+
+---
+
+## 9. I/O System
+
+The processor has 4 input ports and 2 output ports, memory-mapped at addresses FC–FF.
+
+### 9.1 Input Ports
+
+| Address | Name | Description |
+|---|---|---|
+| `0xFC` | IN0 | General-purpose input 0 |
+| `0xFD` | IN1 | General-purpose input 1 |
+| `0xFE` | IN2 | General-purpose input 2 |
+| `0xFF` | IN3 | General-purpose input 3 |
+
+Input ports are read-only from the processor's perspective. Reads return the 8-bit value currently present on the input.
+
+### 9.2 Output Ports
+
+| Address | Name | Description |
+|---|---|---|
+| `0xFE` | OUT0 | General-purpose output 0 |
+| `0xFF` | OUT1 | General-purpose output 1 |
+
+Output ports are write-only. Writing to `0xFE` or `0xFF` with `busWr=1` stores the ALU result F to the corresponding output.
+
+### 9.3 Implementation Note
+
+Addresses `0xFE` and `0xFF` serve dual purposes:
+- **Read:** Return the value from the `inputs` object
+- **Write:** Store the value to the `outputs` object
+
+The `outputs` and `inputs` objects are separate, so reading back a written output value will return the input value, not the previously written output.
+
+---
+
+## 10. UART Interface
+
+The UART is memory-mapped at addresses `0xFA` and `0xFB`.
+
+### 10.1 UART Status Register (FA — Read)
+
+```
+Bit:   7        6        5          4      3      2        1        0
+     [TxReady] [TxEmpty] [not CTS] [TxD] [RxD] [not RTS] [RxFull] [RxReady]
+```
+
+| Bit | Name | Description |
+|---|---|---|
+| 0 | RxReady | Data received and ready to be read (cleared when read) |
+| 1 | RxFull | Receive buffer full — data waiting and not yet read |
+| 2 | not RTS | UART cannot accept new data (RTS inactive) — set when receiving |
+| 3 | RxD | Current input value on Rx line |
+| 4 | TxD | Current output value on Tx line |
+| 5 | not CTS | Clear To Send inactive — transmitter waiting |
+| 6 | TxEmpty | No data waiting to be sent (both buffer and shift register empty) |
+| 7 | TxReady | Ready to accept new data to send (transmit buffer available) |
+
+### 10.2 UART Control Register (FA — Write)
+
+```
+Bit:   7              6              5         4         3                    2        1..0
+     [Int on RxReady] [Int on RxFull] [TxEmpty] [TxReady] [0=use CTS / 1=ignore] [always 0] [Baudrate]
+```
+
+| Bits | Name | Description |
+|---|---|---|
+| 1–0 | Baudrate | `00` = 115200, `01` = 38400, `10` = 19200, `11` = 9600 |
+| 2 | — | Always 0 |
+| 3 | CTS Mode | `0` = honor CTS, `1` = ignore CTS |
+| 4 | TxReady IE | Interrupt enable on TxReady |
+| 5 | TxEmpty IE | Interrupt enable on TxEmpty |
+| 6 | RxFull IE | Interrupt enable on RxFull |
+| 7 | RxReady IE | Interrupt enable on RxReady |
+
+### 10.3 UART Data Register (FB)
+
+- **Read (FB):** Returns the received data byte (`uartRecvReg`). The receive buffer is marked as read.
+- **Write (FB):** Queues a byte for transmission (`uartSendBuffer`).
+
+### 10.4 UART Internal Operation
+
+The UART uses a software-timed transmission scheme:
+- A timeout-driven state machine runs at the configured baudrate
+- **Transmit:** Data moves from `uartSendBuffer` → `uartSendShiftReg` → transmitted
+- **Receive:** Incoming data moves to `uartRecvShiftReg` → `uartRecvReg` (when read by processor)
+- The status flags update automatically via `setUartStatus()`
+
+---
+
+## 11. Expansion Card Interface
+
+Four memory-mapped addresses (`0xF0`–`0xF3`) provide an interface to external expansion cards.
+
+### 11.1 Address Mapping
+
+| Address | Read | Write |
+|---|---|---|
+| `0xF0` | Read Interrupt Register (IRG) | Write DAC Reference Value 1 (ORG1) |
+| `0xF1` | Read Status Register | Write DAC Reference Value 2 (ORG2) |
+| `0xF2` | Read Fan Counter | Write UIO Register / Direction / ICR |
+| `0xF3` | Read Interrupt Status Register | Reset Interrupt Flip-Flop |
+
+### 11.2 Status Register (F1 — Read)
+
+```
+Bit:   7    6    5     4       3       2..0
+     [J2] [J1] [Fan] [CP2] [CP1] [UIO state]
+```
+
+| Bit | Name | Description |
+|---|---|---|
+| 2–0 | UIO | User I/O pin states (3 bits) |
+| 3 | CP1 | Comparator 1 output (`AI1 > DAC(ORG1)` → 1) |
+| 4 | CP2 | Comparator 2 output (`max(AI2, temp) > DAC(ORG2)` → 1, if J9; else `temp > DAC(ORG2)`) |
+| 5 | Fan | Fan status |
+| 6 | J1 | Jumper 1 state |
+| 7 | J2 | Jumper 2 state |
+
+### 11.3 Interrupt Register (F0 — Read)
+
+Returns the 8-bit IRG (Interrupt Register) value reflecting pending interrupt sources.
+
+### 11.4 Fan Counter (F2 — Read)
+
+Returns an 8-bit free-running counter incremented every 275 ms, used for fan speed measurement.
+
+### 11.5 DAC Outputs
+
+Two 8-bit DACs with 2.55V reference:
+- **DAC1 (ORG1):** `Vout = 2.55V × (ORG1 / 256)`, written via F0
+- **DAC2 (ORG2):** `Vout = 2.55V × (ORG2 / 256)`, written via F1
+
+### 11.6 Comparators
+
+- **CP1:** Compares analog input AI1 against DAC1 output
+- **CP2:** Compares `max(AI2, temperature sensor)` (when J9 jumper is set) or just temperature sensor against DAC2 output
+
+---
+
+## 12. Interrupt System
 
 ### 12.1 Interrupt Flip-Flops
 
-The interrupt system uses two flip-flops for synchronization:
+The interrupt system uses two cascaded flip-flops:
 
-| Signal | Type | Description |
-| --- | --- | --- |
-| **IFF1** | Internal flip-flop | Set by external interrupt request. Captures the interrupt condition. |
-| **IFF2** | Internal flip-flop | Temporary storage. Set at specific microcode timing: `IFF2 = IFF1 && mAC[1] && mAC[0] && nextAddr[0]`. Used to gate IFF1 clearing. |
-| **INTL** | External signal | Interrupt request line (active high). Current implementation returns `false` (TODO). |
-| **INTE** | External signal | Interrupt enable from external logic. Current implementation returns `false` (TODO). |
+| Flip-Flop | Description |
+|---|---|
+| IFF1 | Primary interrupt enable flip-flop — set by EI instruction, cleared by DI or interrupt acknowledge |
+| IFF2 | Secondary flip-flop — delayed version of IFF1, used for edge-triggered interrupt entry |
 
-### 12.2 Interrupt Acknowledge Sequence
+### 12.2 Interrupt Condition
 
-When an interrupt is pending (`IEF == 1` AND `(INTL | IFF1) == 1`) and the microcode evaluates the interrupt condition (`AM1` mode `0b111`), the hardware:
+The interrupt condition signal is:
 
-1. **Enters the interrupt microcode block** (Block 14, addresses 0x1C0–0x1DF).
-2. **Saves processor state to the stack:**
-   - Decrements SP (R5) and pushes the current PC (R3) onto the stack.
-   - Decrements SP and pushes the Flags register (R4) onto the stack.
-3. **Clears IEF** to disable further interrupts during ISR execution.
-4. **Vectors to the ISR address** (determined by the interrupt handling microcode — current implementation uses a fixed or externally provided vector).
-5. **ISR executes** as normal code.
-6. **`RETI` instruction** (opcode `0x2C`, Block 13):
-   - Pops Flags register from stack (restoring IEF to its pre-interrupt state).
-   - Pops PC from stack (returning to the interrupted instruction).
-   - Execution resumes at the return address.
-
-### 12.3 Interrupt Timing
-
-The interrupt condition is only sampled when the microcode's AM1 logic evaluates `0b111`. This typically occurs at the end of an instruction's execution (or at specific poll points within long instructions). The use of IFF1/IFF2 provides edge-triggered behavior — an interrupt request is latched in IFF1 and acknowledged at the next sampling point.
-
----
-
-## 13. Stack Architecture & Calling Convention
-
-### 13.1 Stack Pointer (SP = R5)
-
-- **Direction:** Downward (stack grows toward lower addresses)
-- **Operation:**
-  - **PUSH / CALL:** `SP = SP - 1; Memory[SP] = value` (pre-decrement)
-  - **POP / RET:** `value = Memory[SP]; SP = SP + 1` (post-increment)
-- **Initial Value:** Not architecturally defined. Must be initialized by software before any stack operations (`PUSH`, `POP`, `CALL`, `RET`, `RETI`, `PUSHF`, `POPF`).
-- **Range:** 0x00 to 0xEF (within DPRAM). Stack wrapping or overflow is not detected in hardware.
-
-### 13.2 Calling Convention (ABI)
-
-| Aspect | Convention |
-| --- | --- |
-| **Argument Passing** | First argument in R0, second in R1, third in R2. Additional arguments (if any) passed on the stack (caller cleans up). |
-| **Return Value** | Returned in R0. |
-| **Caller-Saved Registers** | R0, R1, R2 — callee may modify freely. Caller must save before call if values needed after. |
-| **Callee-Saved Registers** | None defined at hardware level. All user registers (R0–R2) are considered caller-saved. |
-| **Stack Alignment** | 1 byte (natural byte alignment). |
-| **Frame Pointer** | Not defined in hardware. Software conventions may use a register as frame pointer. |
-
-### 13.3 CALL Instruction Sequence (Microcode Block 11)
-
-1. Compute target address (from operand byte following CALL opcode).
-2. Decrement SP.
-3. Write incremented PC (return address) to `DPRAM[SP]`.
-4. Load target address into PC.
-5. Fetch next instruction from the new PC location.
-
-### 13.4 RET Instruction Sequence (Microcode Block 12)
-
-1. Read `DPRAM[SP]` into temporary register.
-2. Increment SP.
-3. Load the read value into PC.
-4. Fetch next instruction from the restored PC location.
-
-### 13.5 RETI Instruction Sequence (Microcode Block 13)
-
-1. Read `DPRAM[SP]` into temporary (Flags value).
-2. Increment SP.
-3. Write popped value to Flags register (R4) — restores IEF, CF, ZF, NF.
-4. Read `DPRAM[SP]` into temporary (return address).
-5. Increment SP.
-6. Write popped value to PC (R3).
-7. Fetch next instruction from the restored PC location.
-
----
-
-## 14. UART Peripheral (Memory-Mapped I/O)
-
-The UART is mapped to two addresses in the I/O space and provides asynchronous serial communication.
-
-### 14.1 Register Map
-
-| Address | Direction | Register | Width | Description |
-| --- | --- | --- | --- | --- |
-| 0xFA | Read | **RxD (Receive Data Register)** | 8-bit | Contains the last fully received byte. Reading this register clears the RxReady and RxFull status bits and allows reception of the next byte. |
-| 0xFA | Write | **TxD (Transmit Data Register)** | 8-bit | Writing to this register queues a byte for serial transmission. If a transmission is already in progress, the byte is buffered. |
-| 0xFB | Read | **UART Status Register** | 8-bit | Returns current UART status flags (see §14.3). |
-| 0xFB | Write | **UART Control Register** | 8-bit | Configures UART behavior: interrupt enables, baudrate, and CTS handling (see §14.4). |
-
-### 14.2 Internal UART State
-
-| State Variable | Type | Description |
-| --- | --- | --- |
-| `uartRecvReg` | 8-bit | Holding register for the last completely received byte. |
-| `uartRecvShiftReg` | 8-bit or null | Shift register for receiving data. Non-null when a byte is being received. |
-| `uartRecvRead` | Boolean | True when the CPU has read the last received byte (ready for new data). False when unread data is pending. |
-| `uartSendBuffer` | 8-bit or null | Buffer holding the next byte to transmit. Cleared when transmission begins. |
-| `uartSendShiftReg` | 8-bit or null | Shift register for transmitting data. Non-null when a byte is being transmitted. |
-| `uartStatusReg` | 8-bit | Computed status register (see §14.3). |
-| `uartControlReg` | 8-bit | Configuration register (see §14.4). |
-
-### 14.3 UART Status Register (Read 0xFB)
-
-| Bit | Name | Description |
-| --- | --- | --- |
-| 7 | **TxReady** | `1` when the transmitter is ready to accept a new byte for transmission (`uartSendBuffer == null`). |
-| 6 | **TxEmpty** | `1` when both the transmit buffer and shift register are empty (no data waiting or in transit). |
-| 5 | **!CTS** | Clear-to-Send negation. `1` when CTS is not asserted (transmitter is not clear to send). |
-| 4 | **TxD** | Current output level on the Tx line (0 or 1). |
-| 3 | **RxD** | Current input level on the Rx line (0 or 1). |
-| 2 | **!RTS** | Request-to-Send negation. `1` when UART cannot accept new data (`uartRecvShiftReg != null`). |
-| 1 | **RxFull** | `1` when a complete byte has been received and is waiting to be read (`!uartRecvRead && uartRecvShiftReg != null`). |
-| 0 | **RxReady** | `1` when received data is ready to be read by the CPU (`!uartRecvRead`). |
-
-### 14.4 UART Control Register (Write 0xFB)
-
-| Bit(s) | Name | Description |
-| --- | --- | --- |
-| 7 | **IRRxR** | Interrupt on RxReady. When `1`, generates an interrupt when RxReady becomes active. |
-| 6 | **IRRxF** | Interrupt on RxFull. When `1`, generates an interrupt when RxFull becomes active. |
-| 5 | **TxEmpty** | (Write effect unknown/implementation-specific) |
-| 4 | **TxReady** | (Write effect unknown/implementation-specific) |
-| 3 | **!CTS_IGN** | CTS Ignore. `0` = honor CTS signal; `1` = ignore CTS and transmit regardless. |
-| 2 | **(reserved)** | Always write 0. |
-| 1–0 | **Baudrate[1:0]** | Selects baudrate: `00` = 115200, `01` = 38400, `10` = 19200, `11` = 9600. |
-
-### 14.5 UART Timing
-
-The UART transmission update function runs on a timer with period `1,000,000 / baudrate` microseconds (1 bit time). On each tick:
-
-1. **Transmit side:** If `uartSendShiftReg == null` and `uartSendBuffer != null`, move the buffer byte to the shift register and clear the buffer.
-2. **Receive side:** If `uartRecvRead == true` and `uartRecvShiftReg != null`, move the shift register content to `uartRecvReg`, clear the shift register, and set `uartRecvRead = false` (data available).
-3. The timer is re-armed with the appropriate baudrate period.
-
-### 14.6 UART Interrupts
-
-When enabled via control register bits 7–6, the UART can assert the interrupt line (INTL) when:
-- A byte has been received and is ready to read (RxReady)
-- The receive buffer becomes full (RxFull)
-
-The interrupt handling follows the standard interrupt sequence described in §12.
-
----
-
-## 15. Expansion Board Interface
-
-Addresses 0xF0–0xF3 are reserved for external expansion boards. Memory accesses to these addresses are forwarded to external JavaScript functions:
-
-### 15.1 Read Access
-```javascript
-if (addr >= 0xF0 && addr <= 0xF3) {
-    return readMinibus(addr - 0xF0);  // Expansion board address 0-3
-}
 ```
-If `readMinibus` is not available, a warning is logged and `0` is returned.
-
-### 15.2 Write Access
-```javascript
-if (addr >= 0xF0 && addr <= 0xF3) {
-    writeMinibus(addr - 0xF0, data);  // Expansion board address 0-3
-}
+INT_COND = IEF ∧ (INTL ∨ IFF1)
 ```
-If `writeMinibus` is not available, a warning is logged and the write is discarded.
+
+Where:
+- **IEF** = Interrupt Enable Flag (bit 3 of FLAGS register)
+- **INTL** = Interrupt line from external sources (currently always `false` — not yet implemented)
+- **IFF1** = Primary interrupt flip-flop
+
+This signal feeds into AM1 select `0b111`, allowing the microcode sequencer to branch to the interrupt handler when interrupts are enabled and pending.
+
+### 12.3 EI / DI Instructions
+
+- **EI (Enable Interrupts):** Sets IFF1 and IEF, enabling the interrupt system
+- **DI (Disable Interrupts):** Clears IFF1 (and through it, the interrupt path)
+
+### 12.4 Interrupt Acknowledge Sequence
+
+When an interrupt is accepted (AM1 condition `0b111` returns true):
+1. The sequencer branches to the interrupt handler microcode (Block 14, `0xE`)
+2. The current PC is saved (pushed to stack)
+3. IFF1 is cleared to prevent re-entrant interrupts
+4. The interrupt vector is fetched
+5. The handler executes
+6. **RETI** restores PC, FLAGS, and re-enables interrupts (sets IFF1)
 
 ---
 
-## 16. General-Purpose I/O Ports
+## 13. Stack and Stack Pointer
 
-### 16.1 Input Ports (Read-Only)
+### 13.1 Stack Pointer (SP)
 
-| Address | Name | Description |
-| --- | --- | --- |
-| 0xFC | Input Port 0 | 8-bit general-purpose digital input. Externally driven. |
-| 0xFD | Input Port 1 | 8-bit general-purpose digital input. Externally driven. |
-| 0xFE | Input Port 2 (read path) | 8-bit general-purpose digital input (shared with Output Port 0 address). |
-| 0xFF | Input Port 3 (read path) | 8-bit general-purpose digital input (shared with Output Port 1 address). |
+The Stack Pointer is Register 5 in the register file. It is an 8-bit pointer into data RAM.
 
-Inputs are stored in the `inputs` object: `{ ff: value, fe: value, fd: value, fc: value }`.
+### 13.2 Stack Operation
 
-### 16.2 Output Ports (Read/Write)
+- **PUSH:** Register data is written to memory at the address in SP, then SP is decremented
+- **POP:** SP is incremented, then data is read from memory at the new SP address
+- **CALL:** PC is pushed to stack, then PC is loaded with the call target address
+- **RET:** PC is popped from stack
+- **PUSHF:** FLAGS register is pushed to stack
+- **POPF:** FLAGS register is popped from stack
 
-| Address | Name | Description |
-| --- | --- | --- |
-| 0xFE | Output Register 0 | 8-bit output port. Writing sets the output value. Reading returns the current output state. |
-| 0xFF | Output Register 1 | 8-bit output port. Writing sets the output value. Reading returns the current output state. |
+### 13.3 Stack Growth Direction
 
-Outputs are stored in the `outputs` object: `{ ff: value, fe: value }`.
+The stack grows **downward** (from higher addresses to lower addresses). The initial SP value should be set to the highest desired stack address (typically near `0xEF` or at a user-defined boundary).
 
 ---
 
-## 17. Instruction Set Architecture (ISA)
+## 14. Instruction Set Architecture (ISA)
 
-### 17.1 Instruction Encoding Overview
+### 14.1 Instruction Encoding Overview
 
-Instructions are encoded in one to four bytes, depending on the addressing modes used:
+All instructions are 1 to 3 bytes long. The first byte is the opcode, which encodes both the operation and (for register instructions) operand registers. Additional bytes provide immediate values, addresses, or branch offsets.
 
-- **1-byte instructions:** Single-operand register operations, control instructions (STOP, NOP, EI, DI, RET, RETI, PUSHF, POPF).
-- **2-byte instructions:** Branch instructions (opcode + signed offset), PUSH/POP register, CLR/INC/DEC/NEG/COM/LSR/ASR/RRC/TST register.
-- **2–4 byte instructions:** Instructions using complex addressing modes (MOV, LD, ST, CMP, BITT, BITS, BITC, LDSP, LDFR, JMP).
+### 14.2 Opcode Map
 
-### 17.2 Zero-Operand & Simple Control Instructions
+#### Arithmetic and Logic (Block 2: `0010_xxxx`)
 
-| Mnemonic | Opcode (Hex) | Opcode (Binary) | Operation | Flags Affected | Bytes |
-| --- | --- | --- | --- | --- | --- |
-| `STOP` | `0x01` | `00000001` | Halt execution (enters Block 14 idle state) | None | 1 |
-| `NOP` | `0x02` | `00000010` | No operation (1 cycle) | None | 1 |
-| `EI` | `0x08` | `00001000` | Enable Interrupts: `IEF = 1` | IEF | 1 |
-| `DI` | `0x0C` | `00001100` | Disable Interrupts: `IEF = 0` | IEF | 1 |
-| `RET` | `0x17` | `00010111` | Return from Subroutine: `PC = Pop()` | None | 1 |
-| `RETI` | `0x2C` | `00101100` | Return from Interrupt: `Flags = Pop(); PC = Pop()` | C, N, Z, IEF | 1 |
-| `PUSHF` | `0x18` | `00011000` | Push Flags register to stack: `Push(Flags)` | None | 1 |
-| `POPF` | `0x1C` | `00011100` | Pop Flags register from stack: `Flags = Pop()` | C, N, Z, IEF | 1 |
+| Instruction | Encoding | Bytes | Description |
+|---|---|---|---|
+| ADD Rd, Rs | `0110_0dds` | 1 | Rd = Rd + Rs (d, s = register number, 0–2) |
+| ADC Rd, Rs | `0111_0dds` | 1 | Rd = Rd + Rs + CF |
+| SUB Rd, Rs | `1000_0dds` | 1 | Rd = Rd - Rs |
+| AND Rd, Rs | `1001_0dds` | 1 | Rd = Rd ∧ Rs |
+| OR Rd, Rs  | `1010_0dds` | 1 | Rd = Rd ∨ Rs |
+| XOR Rd, Rs | `1101_0dds` | 1 | Rd = Rd ⊕ Rs |
+| MUL Rd, Rs | `1011_0dds` | 1 | Rd = Rd × Rs (signed) |
+| DIV Rd, Rs | `1100_0dds` | 1 | Rd = Rd ÷ Rs (signed) |
 
-### 17.3 Register-Only Instructions (Single-Operand)
+**Encoding detail for ALU reg-reg instructions:**
+```
+Bits: 7 6 5 4  3  2  1  0
+     [opcode group] [Rs][Rd]
+```
+Where `dd` and `ss` are 2-bit register selectors (R0=00, R1=01, R2=10).
 
-**Encoding format:** Upper 6 bits are opcode; lower 2 bits (`rr`) encode destination register (R0=00, R1=01, R2=10).
+#### Shift and Rotate (Blocks 3, 4: `0011_xxxx`, `0100_xxxx`)
 
-| Mnemonic | Opcode (Binary) | Syntax | Operation | Flags Affected | ALU Function Used |
-| --- | --- | --- | --- | --- | --- |
-| `CLR` | `000001rr` | `CLR Rn` | `Rn = 0` | C=0, N=0, Z=1 | ZERO (0x3) |
-| `INC` | `010001rr` | `INC Rn` | `Rn = Rn + 1` | C, N, Z | ADDS (0x5) with B=0 |
-| `DEC` | `010100rr` | `DEC Rn` | `Rn = Rn - 1` | C, N, Z | ADD (0x4) with B=0xFF? |
-| `NEG` | `001101rr` | `NEG Rn` | `Rn = -Rn` (two's complement) | C, N, Z | Via ALU subtraction |
-| `COM` | `001100rr` | `COM Rn` | `Rn = ~Rn` (bitwise NOT) | C=0, N, Z | NOR (0x2) with B=Rn |
-| `LSR` | `001110rr` | `LSR Rn` | `C = Rn[0]; Rn = Rn >>> 1` | C, N, Z | LSR (0x8) |
-| `ASR` | `001111rr` | `ASR Rn` | `C = Rn[0]; Rn = Rn >> 1` (sign-extended) | C, N, Z | ASR (0xB) |
-| `LSL` | `0110ssdd` (ss=dd) | `LSL Rn` | `Rn = Rn << 1` (encoded as `ADD Rn, Rn`) | C, N, Z | ADD (0x4) |
-| `RRC` | `010000rr` | `RRC Rn` | `temp = Rn[0]; Rn = (CF<<7) \| (Rn>>>1); CF = temp` | C, N, Z | RRC (0xA) |
-| `RLC` | `0111ssdd` (ss=dd) | `RLC Rn` | Rotate left through carry (encoded as `ADC Rn, Rn`) | C, N, Z | ADC (0x6) |
-| `TST` | `010010rr` | `TST Rn` | Evaluate `Rn - 0` to set flags; Rn unchanged | C, N, Z | ADD (0x4) with no write-back |
+| Instruction | Encoding | Bytes | Description |
+|---|---|---|---|
+| LSR Rd | `0011_10dd` | 1 | Logical Shift Right Rd |
+| ASR Rd | `0011_11dd` | 1 | Arithmetic Shift Right Rd |
+| RRC Rd | `0100_00dd` | 1 | Rotate Right through Carry Rd |
+| RLC Rd | `0111_00dd` | 1 | Rotate Left through Carry Rd (encoding: same as ADC with Rs=Rd) |
+| LSL Rd | `0110_00dd` | 1 | Logical Shift Left Rd (ADD Rd,Rd) |
+| COM Rd | `0011_00dd` | 1 | Complement (bitwise NOT) Rd |
+| NEG Rd | `0011_01dd` | 1 | Negate (two's complement) Rd |
 
-### 17.4 Register-Only Instructions (Two-Operand)
+#### Unary Register Operations (Block 4: `0100_xxxx`)
 
-**Encoding format:** `OOOOssdd` where `OOOO` = 4-bit opcode class, `ss` = source register, `dd` = destination register. Both `ss` and `dd` use 2-bit encoding (R0=00, R1=01, R2=10).
+| Instruction | Encoding | Bytes | Description |
+|---|---|---|---|
+| INC Rd | `0100_01dd` | 1 | Rd = Rd + 1 |
+| DEC Rd | `0101_00dd` | 1 | Rd = Rd - 1 |
+| TST Rd | `0100_10dd` | 1 | Test Rd (set flags based on Rd) |
+| CLR Rd | `0000_01dd` | 1 | Rd = 0 |
+| BITS Rd | `0101_00dd` | 1 | Bit set? (uses ALU to test) |
+| BITC Rd | `0110_00dd` | 1 | Bit clear? (uses ALU to test) |
 
-| Mnemonic | Opcode (Binary) | Syntax | Operation | Flags Affected | ALU Function |
-| --- | --- | --- | --- | --- | --- |
-| `ADD` | `0110ssdd` | `ADD Rd, Rs` | `Rd = Rd + Rs` | C, N, Z | ADD (0x4) |
-| `ADC` | `0111ssdd` | `ADC Rd, Rs` | `Rd = Rd + Rs + CF` | C, N, Z | ADC (0x6) |
-| `SUB` | `1000ssdd` | `SUB Rd, Rs` | `Rd = Rd - Rs` | C, N, Z | ADD (via ADDS 0x5) |
-| `AND` | `1001ssdd` | `AND Rd, Rs` | `Rd = Rd & Rs` | C=0, N, Z | Via NOR + COM |
-| `OR` | `1010ssdd` | `OR Rd, Rs` | `Rd = Rd \| Rs` | C=0, N, Z | Via NOR + COM |
-| `MUL` | `1011ssdd` | `MUL Rd, Rs` | `Rd = Rd * Rs` (signed 8-bit) | C, N, Z | Via iterative ALU seq. |
-| `DIV` | `1100ssdd` | `DIV Rd, Rs` | `Rd = Rd / Rs` (signed 8-bit) | C, N, Z | Via iterative ALU seq. |
-| `XOR` | `1101ssdd` | `XOR Rd, Rs` | `Rd = Rd ^ Rs` | C=0, N, Z | Via NOR + COM seq. |
+#### Data Transfer (Block 1: `0001_xxxx`)
 
-### 17.5 Complex Addressing-Mode Instructions
+| Instruction | Encoding | Bytes | Description |
+|---|---|---|---|
+| MOV dst, src | `0001_00dd` + src encoding | 2–3 | Move data from src to dst |
+| LD dst, src  | `0001_00dd` + src encoding | 2–3 | Load dst from src (synonym for MOV) |
+| ST dst, src  | `0001_00dd` + src encoding | 2–3 | Store src to dst (reverse MOV) |
 
-These instructions (`MOV`, `LD`, `ST`, `CMP`, `BITT`, `BITS`, `BITC`, `LDSP`, `LDFR`, `JMP`) use a multi-byte encoding:
+**MOV/LD/ST operand encoding:**
 
-**Byte 1:** Destination addressing mode specifier.  
-**Byte 2:** Instruction class + source addressing mode specifier.  
-**Optional Bytes 3–4:** Immediate constants or absolute addresses.
+The first byte `0001_00dd` encodes the destination using bits 1–0 (dd):
+- `00` = R0, `01` = R1, `10` = R2
+- For register-indirect modes, additional encoding bytes follow
 
-#### 17.5.1 Destination Byte Encodings
+The second byte encodes the source and its addressing mode:
 
-| Syntax | Encoding (Byte 1) | Description |
-| --- | --- | --- |
-| `Rn` | `111100rr` (`0xF0` \| rr) | Direct register (R0–R2) |
-| `(Rn)` | `111101rr` (`0xF4` \| rr) | Indirect through register |
-| `(Rn+)` | `111110rr` (`0xF8` \| rr) | Indirect with post-increment |
-| `((Rn+))` | `111111rr` (`0xFC` \| rr) | Double indirect with post-increment |
-| `const` / `label` | `0xFB` followed by 8-bit immediate | Immediate constant (encoded as `(PC+)` — PC-relative load) |
-| `(addr)` / `(label)` | `0xFF` followed by 8-bit address | Absolute direct address (encoded as `((PC+))` — double-indirect via PC) |
+| Source | Byte 2 Encoding |
+|---|---|
+| Rn | `0001_00ss` |
+| (Rn) | `0001_01ss` |
+| (Rn+) | `0001_10ss` |
+| ((Rn+)) | `0001_11ss` |
+| Immediate #n | `1111_1011` + byte 3 = value |
+| (addr) | `0001_1111` + byte 3 = address |
 
-The `rr` field encodes the pointer register: R0=`00`, R1=`01`, R2=`10`.
+The destination encoding (first byte bits 1–0 extended):
 
-#### 17.5.2 Instruction/Source Byte Encodings
+| Destination | First Byte Modifier |
+|---|---|
+| Rn | `0001_00dd` where dd = register |
+| (Rn) | `1111_01dd` |
+| (Rn+) | `1111_10dd` |
+| ((Rn+)) | `1111_11dd` |
+| (addr) | `1111_1111` + address byte follows |
+| Immediate (as dst) | (not applicable — stores must have memory/register dst) |
 
-The source byte has the format: `CCCC MM rr` where `CCCC` = 4-bit class prefix, `MM` = 2-bit mode, `rr` = 2-bit register.
+#### Special Register Transfers
 
-**Class Prefixes (`CCCC`):**
+| Instruction | Encoding | Bytes | Description |
+|---|---|---|---|
+| LDSP src | dst_encoding + `0100_0000` | 2–3 | Load SP from src |
+| LDFR src | dst_encoding + `0100_0100` | 2–3 | Load FLAGS from src |
+| PUSH Rs  | `0001_00ss` (ss = reg) | 1 | Push Rs onto stack |
+| POP Rd   | `0001_11dd` (dd = reg) | 1 | Pop from stack into Rd |
+| PUSHF    | `0001_1000` | 1 | Push FLAGS onto stack |
+| POPF     | `0001_1100` | 1 | Pop FLAGS from stack |
 
-| Class | Prefix (Hex) | Prefix (Binary) | Instructions |
-| --- | --- | --- | --- |
-| Load/Store/Move | `0x10` | `0001` | `MOV`, `LD`, `ST` |
-| Compare | `0x20` | `0010` | `CMP` |
-| Bit Test | `0x30` | `0011` | `BITT` |
-| Bit Set | `0x50` | `0101` | `BITS` |
-| Bit Clear | `0x60` | `0110` | `BITC` |
+#### Control Flow (Blocks 6, 7: `0110_xxxx`, `0111_xxxx`)
 
-**Source Mode (`MM`):**
+| Instruction | Encoding | Bytes | Description |
+|---|---|---|---|
+| JMP target | `1111_1011` + addr + `0001_0011` | 3 | Unconditional jump to target |
+| JMP (addr) | `1111_1111` + addr + `0001_0011` | 3 | Indirect jump via address |
+| JCS offset | `0010_0001` + offset | 2 | Jump if Carry Set (relative) |
+| JCC offset | `0010_0101` + offset | 2 | Jump if Carry Clear (relative) |
+| JZS offset | `0010_0010` + offset | 2 | Jump if Zero Set (relative) |
+| JZC offset | `0010_0110` + offset | 2 | Jump if Zero Clear (relative) |
+| JNS offset | `0010_0011` + offset | 2 | Jump if Negative Set (relative) |
+| JNC offset | `0010_0111` + offset | 2 | Jump if Negative Clear (relative) |
+| JR offset  | `0010_0000` + offset | 2 | Jump Relative (unconditional, 8-bit signed offset) |
+| CALL addr  | `0010_1000` + addr | 2 | Call subroutine at addr |
+| RET        | `0001_0111` | 1 | Return from subroutine |
+| RETI       | `0010_1100` | 1 | Return from interrupt |
 
-| MM | Mode | Encoding | Description |
-| --- | --- | --- | --- |
-| `00` | Direct register `Rn` | `prefix \| 00 \| rr` | Value from register Rn |
-| `01` | Indirect `(Rn)` | `prefix \| 01 \| rr` | Value from memory at address in Rn |
-| `10` | Indirect post-increment `(Rn+)` | `prefix \| 10 \| rr` | Value from memory at address in Rn, then Rn++ |
-| `11` | Double indirect `((Rn+))` | `prefix \| 11 \| rr` | Value from memory at address stored in memory at Rn, then Rn++ |
+**Conditional branch encoding (`0010_0ccc`):**
+```
+Bits: 7 6 5 4  3  2  1  0
+     0 0 1 0  [cond] 0/1
+```
+Where `ccc` selects the condition:
+- `000` = always (JR)
+- `001` = CF=1 (JCS)
+- `010` = ZF=1 (JZS)
+- `011` = NF=1 (JNS)
+- `101` = CF=0 (JCC)
+- `110` = ZF=0 (JZC)
+- `111` = NF=0 (JNC)
 
-**Special Source Encodings:**
+The second byte is an 8-bit signed relative offset from the **byte after the offset** (i.e., `target = (current_PC + 1) + offset`). Offset is sign-extended: values 0x80–0xFF represent −128 to −1.
 
-| Class | Encoding | Description |
-| --- | --- | --- |
-| `ST` (store to absolute address) | `0x1F` followed by 8-bit addr | Source is the ALU result stored to absolute address `addr` |
-| Other (load from absolute address) | `prefix \| 0x0F` followed by 8-bit addr | Source is memory at absolute address `addr` (encoded as `(PC+)`) |
+#### System Control (Block 8: `1000_xxxx`)
 
-#### 17.5.3 Special Instructions Using Addressing-Mode Format
+| Instruction | Encoding | Bytes | Description |
+|---|---|---|---|
+| STOP | `0000_0001` | 1 | Halt execution |
+| NOP  | `0000_0010` | 1 | No operation |
+| EI   | `0000_1000` | 1 | Enable interrupts |
+| DI   | `0000_1100` | 1 | Disable interrupts |
 
-| Mnemonic | Byte Sequence | Syntax | Operation | Flags |
-| --- | --- | --- | --- | --- |
-| `LDSP` | `[Dst Byte] 0x40` | `LDSP operand` | `SP = operand` (load stack pointer) | None |
-| `LDFR` | `[Dst Byte] 0x44` | `LDFR operand` | `Flags = operand` (load flags register) | C, N, Z, IEF |
-| `JMP` | `[Dst Byte] 0x13` | `JMP [operand]` | `PC = operand` (unconditional jump) | None |
+#### DEC with Immediate/Address
 
-Where `[Dst Byte]` is:
-- `0xFB` + 8-bit value for direct jump (`JMP target`)
-- `0xFF` + 8-bit addr for indirect jump (`JMP (target)`)
-
-#### 17.5.4 Memory-Direct DEC
-
-| Mnemonic | Opcode | Syntax | Operation | Flags |
-| --- | --- | --- | --- | --- |
-| `DEC (addr)` | `0x5F` followed by 8-bit `addr` | `DEC (address)` | Decrements the byte in memory at `addr` | C, N, Z |
-
-### 17.6 Branch & Subroutine Call Instructions
-
-All branch instructions are **2 bytes**: opcode byte + 8-bit signed offset.
-
-**Offset calculation:** `offset = target_address - (branch_instruction_address + 2)`. The offset is a signed 8-bit value (`-128` to `+127`).
-
-| Mnemonic | Opcode (Hex) | Opcode (Binary) | Condition | Operation |
-| --- | --- | --- | --- | --- |
-| `JR` | `0x20` | `00100000` | Always | `PC = PC + offset` |
-| `JCS` | `0x21` | `00100001` | CF == 1 | `if (CF) PC = PC + offset` |
-| `JZS` | `0x22` | `00100010` | ZF == 1 | `if (ZF) PC = PC + offset` |
-| `JNS` | `0x23` | `00100011` | NF == 1 | `if (NF) PC = PC + offset` |
-| `JCC` | `0x25` | `00100101` | CF == 0 | `if (!CF) PC = PC + offset` |
-| `JZC` | `0x26` | `00100110` | ZF == 0 | `if (!ZF) PC = PC + offset` |
-| `JNC` | `0x27` | `00100111` | NF == 0 | `if (!NF) PC = PC + offset` |
-
-**Branch opcode bit mapping:**
-- `BR[1:0]`: Condition flag select (`00`=always, `01`=CF, `10`=ZF, `11`=NF)
-- `BR[2]`: Sense (`0` = branch-if-set, `1` = branch-if-clear)
-
-| Mnemonic | `CALL` | `0x28` | 2 | `Push(PC); PC = target` | None |
-
-### 17.7 Stack Instructions
-
-| Mnemonic | Opcode (Binary) | Syntax | Operation | Flags |
-| --- | --- | --- | --- | --- |
-| `PUSH` | `000100rr` | `PUSH Rn` | `SP--; DPRAM[SP] = Rn` | None |
-| `POP` | `000101rr` | `POP Rn` | `Rn = DPRAM[SP]; SP++` | None |
-
-Where `rr` = register index (R0=00, R1=01, R2=10).
+| Instruction | Encoding | Bytes | Description |
+|---|---|---|---|
+| DEC Rd  | `0101_00dd` | 1 | Decrement register |
+| DEC #n   | `0101_1111` + n | 2 | Decrement immediate value (encoded as special form) |
+| DEC (addr) | `0101_1111` + addr | 2 | Decrement value at address |
 
 ---
 
-## 18. Assembler Directives & Source Format
+## 15. Addressing Modes
+
+### 15.1 Source Addressing Modes
+
+| Syntax | Encoding (in src byte) | Description |
+|---|---|---|
+| Rn | `xxxx_00ss` | Register direct — value in register Rn |
+| (Rn) | `xxxx_01ss` | Register indirect — value at memory address in Rn |
+| (Rn+) | `xxxx_10ss` | Register indirect with post-increment — value at memory address in Rn, then Rn++ |
+| ((Rn+)) | `xxxx_11ss` | Indirect with pre-increment — Rn++, then value at memory address pointed to by value at new Rn |
+| #n | `1111_1011` + byte | Immediate — the literal byte n |
+| (addr) | `xxxx_1111` + addr | Absolute/PC-relative indirect — value at memory address addr (loaded via PC increment) |
+
+### 15.2 Destination Addressing Modes
+
+| Syntax | Encoding (in dst byte) | Description |
+|---|---|---|
+| Rn | `1111_00dd` | Register direct — store to register Rn |
+| (Rn) | `1111_01dd` | Register indirect — store to memory address in Rn |
+| (Rn+) | `1111_10dd` | Register indirect with post-increment — store to memory address in Rn, then Rn++ |
+| ((Rn+)) | `1111_11dd` | Indirect with pre-increment — Rn++, then store to memory address pointed to by value at new Rn |
+| (addr) | `1111_1111` + addr | Absolute indirect — store to memory address addr |
+
+### 15.3 JMP Addressing Modes
+
+| Syntax | Encoding | Description |
+|---|---|---|
+| JMP addr | `1111_1011` + addr + `0001_0011` | Jump to absolute address addr |
+| JMP (addr) | `1111_1111` + addr + `0001_0011` | Indirect jump — jump to address stored at addr |
+
+### 15.4 LDSP / LDFR Addressing Modes
+
+These instructions use the same source encoding as MOV/LD:
+
+| Syntax | Bytes | Description |
+|---|---|---|
+| LDSP Rn | 2 | SP = Rn |
+| LDSP (Rn) | 2 | SP = [Rn] |
+| LDSP #n | 3 | SP = n (immediate) |
+| LDSP (addr) | 3 | SP = [addr] |
+| LDFR Rn | 2 | FLAGS = Rn |
+| LDFR #n | 3 | FLAGS = n |
+
+---
+
+## 16. Clock Cycle and Execution Flow
+
+### 16.1 Clock Cycle Sequence
+
+Each clock cycle (`clk()`) executes the following operations in order:
+
+1. **setReg()** — Write ALU result to register file (if mrgWE=1)
+2. **setMemBus()** — Perform memory read/write (if busEn=1)
+3. **setCTRL()** — Compute next address and load new microinstruction into CTRL register
+4. **setBR()** — Load BR from memory bus (if mAC[3]=1 and mAC[0]=1)
+5. **resetBR()** — Reset BR to 0x00 (if mAC[3]=1 and mAC[1]=1)
+6. **setIFF2()** — Update IFF2 based on IFF1 and microcode conditions
+7. **resetIFF1()** — Clear IFF1 if IFF2 is set
+
+### 16.2 Instruction Execution Phases
+
+A typical instruction goes through these phases:
+
+1. **FETCH:** Read instruction byte from memory at PC, load into BR, increment PC
+2. **DECODE:** BR[7:4] selects the microcode block; BR[3:0] provides operand/condition selects
+3. **OPERAND FETCH:** If the instruction has additional bytes (immediate, address, offset), load them via PC increment
+4. **EXECUTE:** Perform the operation (ALU, memory access, branch)
+5. **WRITE-BACK:** Store results to registers or memory
+6. **NEXT FETCH:** Return to FETCH for the next instruction
+
+### 16.3 STOP Condition
+
+Execution halts when the opcode at the current PC is `0x01` (STOP) or `0x00`. The `runUntilStop2a()` function checks:
+```javascript
+while (CTRL.mAC >> 3 == 0 ? count < max : (opcode != 0x01 && opcode != 0x00))
+```
+This means: while in Block 0 (FETCH), keep running. Once in another block, check if the current opcode is STOP or 0x00; if so, halt.
+
+---
+
+## 17. Reset Behavior
+
+### 17.1 Reset Sequence
+
+When `reset()` is called:
+
+1. **BR** = `0x00`
+2. **CTRL** is set to all zeros:
+   - mAC = 0, nextAddr = 0, busWr = 0, busEn = 0
+   - mrgAA = 0, mrgAB = 0, mrgWS = 0, mrgWE = 0
+   - mAluIA = 0, mAluIB = 0, mAluS = 0 (ADDH)
+   - mChFlg = false
+3. **IFF1** = false
+4. **All registers** = 0x00 (R0–R3, FLAGS, SP, µR6, µR7)
+5. **Outputs** = `{ff: 0x00, fe: 0x00}`
+6. **Microcode** is reloaded into MPRAM via `fillMicrocode()`
+
+### 17.2 Initial Microaddress
+
+After reset, the first microinstruction executed is at address `0b000000000` (Block 0, Word 0), which is the start of the FETCH sequence.
+
+---
+
+## 18. Assembler Syntax (MRASM)
 
 ### 18.1 File Format
 
-- **First line** must be exactly: `#! mrasm`
-- Comment character: `;` (rest of line ignored)
-- Case-insensitive parsing (all input normalized to uppercase)
-- Labels end with `:` and must be on their own line (no other tokens allowed)
-- Labels must match: `/^[A-Z_][A-Z0-9_]*$/`
-- Labels cannot conflict with register names (`R0`, `R1`, `R2`, `PC`) or instruction mnemonics
+Assembly files must start with the identifier:
+```
+#! mrasm
+```
 
-### 18.2 Directive Reference
+### 18.2 Comments
+
+- Line comments start with `;`
+- Full-line comments and end-of-line comments are supported
+- Empty lines are ignored
+
+### 18.3 Labels
+
+Labels are defined by appending `:` to a name on its own line:
+```asm
+LOOP:
+    ADD R0, R1
+    JR LOOP
+```
+
+Label naming rules:
+- Must match regex: `^[A-Z_][A-Z0-9_]*$`
+- Must not conflict with register names (R0, R1, R2, PC) or instruction mnemonics
+- Each label must be defined exactly once
+
+### 18.4 Equates
+
+Symbolic constants can be defined with `.EQU`:
+```asm
+.EQU MAX_VALUE, 0xFF
+.EQU PORT_A, 0xFE
+```
+
+### 18.5 Directives
 
 | Directive | Syntax | Description |
-| --- | --- | --- |
-| `.ORG` | `.ORG address` | Set the assembly address pointer to `address` (0–255). |
-| `.BYTE` | `.BYTE count` | Reserve `count` bytes of uninitialized memory. Advances address pointer by `count`. |
-| `.DB` | `.DB val1, val2, ...` | Define byte constants. Values clamped to `-128` to `255`. Each value occupies 1 byte. |
-| `.DW` | `.DW val1, val2, ...` | Define 16-bit word constants. Stored **big-endian** (high byte first). Values clamped to `0` to `65535`. Each value occupies 2 bytes. |
-| `.EQU` | `.EQU symbol value` | Assign a numeric constant to a symbol. Symbol can be used anywhere a number is valid. |
+|---|---|---|
+| `.ORG n` | `.ORG 0x10` | Set origin address for subsequent code/data |
+| `.BYTE n` | `.BYTE 4` | Reserve n bytes (advances address) |
+| `.DB v1, v2, ...` | `.DB 0x41, 0x42, 0x00` | Emit literal byte values |
+| `.DW v1, v2, ...` | `.DW 0x1234` | Emit 16-bit word values (big-endian, high byte first) |
+| `.EQU name, value` | `.EQU BUFSIZE, 64` | Define a symbolic constant |
 
-### 18.3 Number Formats
+### 18.6 Number Formats
 
 | Format | Example | Description |
-| --- | --- | --- |
-| Decimal | `42` | Standard decimal integer |
-| Binary | `0B10101010` | Binary literal (prefix `0B`) |
-| Hexadecimal | `0xFF` | Hexadecimal literal (prefix `0X`) |
+|---|---|---|
+| Decimal | `42` | Standard decimal |
+| Binary | `0B10101010` | Binary literal |
+| Hexadecimal | `0xFF`, `0xAB` | Hex literal |
+
+### 18.7 Operand Syntax
+
+| Syntax | Example | Meaning |
+|---|---|---|
+| Rn | `R0`, `R1`, `R2` | Register direct |
+| (Rn) | `(R0)` | Register indirect |
+| (Rn+) | `(R1+)` | Register indirect with post-increment |
+| ((Rn+)) | `((R2+))` | Indirect with pre-increment |
+| (addr) | `(0xFF)`, `(BUFFER)` | Absolute address indirect |
+| #n | (implied by bare number) | Immediate value |
 
 ---
 
-## 19. Bus & Broadcast Channel Protocol
+## 19. Microcode Block Reference
 
-### 19.1 Internal Bus
+### Block 0 (RESET / FETCH)
 
-The internal 8-bit data bus connects:
-- **Register File** (via Port A and Port B)
-- **ALU** (inputs A and B, output F)
-- **Memory (DPRAM)** — read/write data
-- **Peripherals** — UART, Expansion board, I/O ports
-- **BR (Instruction Register)** — load path
+| Address | Description |
+|---|---|
+| `0x000` | RESET entry: Initialize, prepare instruction fetch |
+| `0x001` | Load PC to memory address register |
+| `0x002`–`0x005` | Memory read setup, PC increment preparation |
+| `0x006` | FETCH complete: `mAC=1101`, load BR from memory, dispatch to opcode block |
+| `0x007` | Post-FETCH cleanup |
 
-The bus is controlled by `busEn` (enable) and `busWr` (direction). When `busEn=0`, the bus is effectively tri-stated.
+### Block 1 (Data Transfer)
 
-### 19.2 BroadcastChannel Protocol
+Microcode for MOV, LD, ST, PUSH, POP, PUSHF, POPF, LDSP, LDFR. Handles register indirect addressing modes including:
+- (Rn) — indirect
+- (Rn+) — indirect with post-increment
+- ((Rn+)) — indirect with pre-increment
+- (PC+) — immediate / absolute addressing via PC increment
 
-For inter-component communication, a `BroadcastChannel` named `"memory-channel"` is used.
+### Block 2 (ALU Operations)
 
-**Message types:**
+Microcode for ADD, ADC, SUB, AND, OR, XOR, CMP, BITT, and conditional branch evaluation.
 
-#### `request-state`
-Requests the current DPRAM contents from the emulator.
-```json
-{ "msg": "request-state" }
-```
+### Block 3 (Shift/Rotate Group 1)
 
-#### `state` (response)
-Responds with the current DPRAM contents.
-```json
-{ "msg": "state", "data": <DPRAM Uint8Array (240 bytes)>, "architecture": "a" }
-```
+Microcode for LSR, ASR, RRC, RLC and related single-operand shift instructions.
 
-#### `update`
-Broadcast by the emulator after every memory write (when `busEn=1` and `busWr=1`).
-```json
-{ "msg": "update", "data": <DPRAM Uint8Array (240 bytes)>, "architecture": "a" }
-```
+### Block 4 (Shift/Rotate Group 2)
 
----
+Microcode for LSL, COM, NEG, INC, DEC, TST, BITS, BITC.
 
-## 20. Reset & Initialization
+### Block 5 (Multiply / Divide)
 
-### 20.1 Reset Sequence
+Microcode for MUL (signed multiplication) and DIV (signed division) using iterative algorithms.
 
-When `reset()` is called, the system initializes to:
+### Block 6 (Jumps and Calls — Setup)
 
-| Component | Reset State |
-| --- | --- |
-| **BR** | `0x00` |
-| **CTRL** | All fields zeroed (`mChFlg=false, mAluS=0, mAluIA=false, mAluIB=false, mrgWE=false, mrgWS=false, mrgAA=0, mrgAB=0, busEn=false, busWr=false, nextAddr=0, mAC=0`) |
-| **IFF1** | `false` |
-| **IFF2** | (not explicitly reset; will be recomputed) |
-| **Registers R0–R7** | All `0x00` |
-| **Outputs** | `{ ff: 0x00, fe: 0x00 }` |
-| **MPRAM** | Reloaded from `fillMicrocode()` function |
+Microcode for JMP, JCS/JCC/JZS/JZC/JNS/JNC, JR, CALL — preparing target addresses and conditions.
 
-### 20.2 Initial Fetch
+### Block 7 (Jumps and Calls — Evaluation)
 
-On the first `clk()` after reset:
-- µPC = `getNextAddr()` with CTRL all zero → addresses Block 0, offset 0 (0x000)
-- Block 0 begins the instruction fetch sequence
-- PC (R3) = 0x00, so the first instruction is fetched from DPRAM address 0x00
+Continuation of Block 6: condition evaluation, PC modification for taken/not-taken branches.
 
-### 20.3 Program Loading
+### Block 8 (System Control)
 
-Programs are loaded by:
-1. Assembling source code via `parseASM()` → returns byte array
-2. Writing the assembled bytes into DPRAM starting at the appropriate address (default: 0x00, or as specified by `.ORG`)
-3. Calling `reset()` to initialize the processor state
-4. Clocking via `clk()` to begin execution
+Microcode for RET, RETI, EI, DI, STOP, NOP.
+
+### Blocks 9–13 (Extended Operations)
+
+Additional microcode for complex addressing modes, memory-mapped I/O operations, and extended arithmetic.
+
+### Block 14 (Interrupt Acknowledge)
+
+Microcode for interrupt entry: save PC and FLAGS, clear IFF1, fetch interrupt vector.
+
+### Block 15 (FETCH Helpers)
+
+Microcode helpers for PC increment, operand byte fetch, and return to FETCH sequence.
 
 ---
 
-## Appendix A: ALU Function Quick Reference
+## 20. Control Signal Summary
+
+| Signal | Width | When Active | Effect |
+|---|---|---|---|
+| **mrgWE** | 1 | `1` | Write ALU result F to register file |
+| **mrgWS** | 1 | `0` = reg A, `1` = reg B | Selects which register address is the write destination |
+| **mrgAA[3:0]** | 4 | Always | Register address for ALU input A and memory address |
+| **mrgAB[3:0]** | 4 | Always | Register address for ALU input B, or 4-bit immediate (when mAluIB=1) |
+| **mAluIA** | 1 | `0` = reg file, `1` = mem bus | Selects ALU input A source |
+| **mAluIB** | 1 | `0` = reg file, `1` = immediate | Selects ALU input B source |
+| **mAluS[3:0]** | 4 | Always | Selects ALU operation (0–15) |
+| **mChFlg** | 1 | `1` | Update NF, ZF, CF from ALU outputs NO, ZO, CO |
+| **busEn** | 1 | `1` | Enable memory bus access |
+| **busWr** | 1 | `1` = write, `0` = read | Memory bus direction |
+| **nextAddr[4:0]** | 5 | Always | Next microaddress bits 4–0 (partial) |
+| **mAC[3:0]** | 4 | Always | Microaddress control mode |
+
+---
+
+## Appendix A: ALU Quick Reference
 
 ```
-mAluS | Mnemonic | F =               | co =                | Used For
-------|----------|-------------------|---------------------|------------------
- 0000 | ADDH     | A + B             | CF || (A+B > 0xFF)   | PC increment (with carry hold)
- 0001 | A        | A                 | 0                   | Pass-through, MOV
- 0010 | NOR      | ~(A | B)          | 0                   | COM (when B=A), AND/OR building block
- 0011 | ZERO     | 0                 | 0                   | CLR
- 0100 | ADD      | A + B             | A+B > 0xFF          | ADD, LSL (B=A), SUB building block
- 0101 | ADDS     | A + B + 1         | !(A+B+1 > 0xFF)    | SUB (ADDS with B=~Rs), INC
- 0110 | ADC      | A + B + Cin       | A+B+Cin > 0xFF      | ADC, RLC (B=A)
- 0111 | ADCS     | A + B + !Cin      | !(A+B+!Cin > 0xFF)  | SBC building block
- 1000 | LSR      | A >>> 1 (0→MSB)   | A[0]                | LSR
- 1001 | RR       | A >>> 1 (A[0]→MSB)| A[0]                | ROR (rotate right)
- 1010 | RRC      | A >>> 1 (Cin→MSB) | A[0]                | RRC
- 1011 | ASR      | A >> 1 (A[7]→MSB) | A[0]                | ASR
- 1100 | B        | B                 | 0                   | MOV, clear carry
- 1101 | SETC     | B                 | 1                   | Set carry flag
- 1110 | BH       | B                 | Cin                 | MOV, hold carry
- 1111 | INVC     | B                 | !Cin                | Invert carry flag
+mAluS  Mnemonic   F = f(A,B)         CO
+0x0    ADDH       A + B              Cin ∨ Ca
+0x1    A          A                  0
+0x2    NOR        ¬(A ∨ B)           0
+0x3    0          0                  0
+0x4    ADD        A + B              Ca
+0x5    ADDS       A + B + 1          ¬Ca
+0x6    ADC        A + B + Cin        Ca
+0x7    ADCS       A + B + ¬Cin       ¬Ca
+0x8    LSR        A >> 1 (0←7)       A(0)
+0x9    RR         A >> 1 (A(0)←7)    A(0)
+0xA    RRC        A >> 1 (Cin←7)     A(0)
+0xB    ASR        A >> 1 (A(7)←7)    A(0)
+0xC    B          B                  0
+0xD    SETC       B                  1
+0xE    BH         B                  Cin
+0xF    INVC       B                  ¬Cin
 ```
 
-## Appendix B: Microcode Block Quick Reference
+## Appendix B: Flag Register Quick Reference
 
-| Block | Address Range | Primary Instructions |
-| --- | --- | --- |
-| 0 | 0x000–0x01F | RESET, Instruction Fetch, STOP, NOP, EI, DI, PUSH, POP, RET, PUSHF, POPF |
-| 1 | 0x020–0x03F | CLR, INC, DEC, NEG, COM, LSR, ASR, TST |
-| 2 | 0x040–0x05F | MOV, LD, ST (addressing mode dispatch) |
-| 3 | 0x060–0x07F | ADD, ADC, SUB |
-| 4 | 0x080–0x09F | AND, OR, XOR, EI, DI, RET, RETI, PUSHF, POPF, STOP, NOP |
-| 5 | 0x0A0–0x0BF | CMP (compare class) |
-| 6 | 0x0C0–0x0DF | BITT (bit test class) |
-| 7 | 0x0E0–0x0FF | BITS (bit set class) |
-| 8 | 0x100–0x11F | BITC Part 1 (bit clear class) |
-| 9 | 0x120–0x13F | BITC Part 2 |
-| 10 | 0x140–0x15F | JCS, JCC, JZS, JZC, JNS, JNC, JR (conditional branches) |
-| 11 | 0x160–0x17F | CALL |
-| 12 | 0x180–0x19F | RET |
-| 13 | 0x1A0–0x1BF | RETI |
-| 14 | 0x1C0–0x1DF | Interrupt handler, HALT/STOP state |
-| 15 | 0x1E0–0x1FF | MUL, DIV |
+```
+Bit 7-4: Reserved (always 0)
+Bit 3:   IEF — Interrupt Enable Flag
+Bit 2:   NF  — Negative Flag (result bit 7)
+Bit 1:   ZF  — Zero Flag (result == 0)
+Bit 0:   CF  — Carry Flag
+```
 
 ## Appendix C: Memory Map Quick Reference
 
-| Address | Read | Write |
-| --- | --- | --- |
-| 0x00–0xEF | DPRAM (instruction/data) | DPRAM (instruction/data) |
-| 0xF0–0xF3 | Expansion board (`readMinibus(0-3)`) | Expansion board (`writeMinibus(0-3, data)`) |
-| 0xF4–0xF9 | Reserved / DAC | Reserved / DAC |
-| 0xFA | UART Rx Data Register | UART Tx Buffer |
-| 0xFB | UART Status Register | UART Control Register |
-| 0xFC | Input Port 0 | (no effect) |
-| 0xFD | Input Port 1 | (no effect) |
-| 0xFE | Output Register 0 (read-back) | Output Register 0 (set) |
-| 0xFF | Output Register 1 (read-back) | Output Register 1 (set) |
+```
+0x00–0xEF: Data RAM (240 bytes)
+0xF0–0xF3: Expansion Card
+0xF4–0xF9: Reserved
+0xFA:      UART Status (R) / Control (W)
+0xFB:      UART Data (R/W)
+0xFC:      Input Port 0
+0xFD:      Input Port 1
+0xFE:      Input Port 2 / Output Port 0
+0xFF:      Input Port 3 / Output Port 1
+```
 
----
+## Appendix D: Microinstruction Field Quick Reference
 
-*Document Version: 2.0*  
-*Last Updated: 2026-07-26*  
-*Based on: JavaScript emulator implementation (`js/2a.js`), ALU component tests, system integration tests, SVG datapath diagrams, and original specification v1.0.*
+```
+Bit:   27      26..23   22      21      20      19      18..15  14..11  10     9      8..4      3..0
+      [mChFlg][mAluS] [mAluIB][mAluIA][mrgWE] [mrgWS] [mrgAB] [mrgAA] [busEn][busWr][nextAddr][mAC]
